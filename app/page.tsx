@@ -9,11 +9,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="mb-16">
         <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
-          Building with AI
+          Building Systems, Not Just Tools
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-6">
-          Exploring how AI tools, workflows, and agents can augment professional
-          work and accelerate learning.
+          I work at the intersection of engineering, infrastructure, and
+          intelligent systems. This site documents how I experiment with AI to
+          improve decision-making, workflows, and real-world problem solving.
         </p>
         <div className="flex gap-4">
           <Link
@@ -34,12 +35,18 @@ export default function Home() {
       {/* Current Work Section */}
       <section className="mb-16">
         <h2 className="text-2xl font-semibold mb-4">What I'm currently building</h2>
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-6 border border-zinc-200 dark:border-zinc-800">
+        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-6 border border-zinc-200 dark:border-zinc-800 space-y-4">
           <p className="text-zinc-700 dark:text-zinc-300">
-            I'm focused on building reliable AI agents that can handle
-            multi-step workflows, creating RAG systems for knowledge bases, and
-            documenting the practical aspects of working with AI tools in
-            professional contexts.
+            Most people treat AI as a novelty or shortcut. I treat it as a lever.
+          </p>
+          <p className="text-zinc-700 dark:text-zinc-300">
+            I'm interested in what happens when intelligent tools are applied to
+            real constraints — engineering tradeoffs, operational decisions,
+            complex systems. Not demos. Not theory. Practice.
+          </p>
+          <p className="text-zinc-700 dark:text-zinc-300">
+            This site is a public log of that process: what I build, what works,
+            what fails, and what I learn along the way.
           </p>
         </div>
       </section>
