@@ -2,8 +2,8 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata = {
-  title: "Posts - Josh AI",
-  description: "All posts about AI tools, workflows, and building with AI.",
+  title: "Notebook - Josh",
+  description: "Entries from a public lab notebook: experiments and thinking on leverage and intelligent systems.",
 };
 
 export default function PostsPage() {
@@ -15,7 +15,7 @@ export default function PostsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <h1 className="text-4xl font-bold mb-10 text-zinc-900 dark:text-zinc-100">
-        All Posts
+        Notebook
       </h1>
 
       {allTags.length > 0 && (

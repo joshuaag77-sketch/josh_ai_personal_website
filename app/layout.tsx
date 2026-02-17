@@ -16,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Josh AI - Building with AI",
-  description: "Personal site documenting my journey building with AI tools, workflows, and agents.",
+  title: "Josh",
+  description:
+    "Chemical engineer. Public lab notebook on leverage, decision-making, and intelligent systems.",
 };
 
 export default function RootLayout({

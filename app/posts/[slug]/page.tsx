@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${post.title} - Josh AI`,
+    title: `${post.title} - Josh`,
     description: post.summary,
   };
 }
@@ -51,7 +51,7 @@ export default async function PostPage({ params }: Props) {
           href="/posts"
           className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors mb-5 inline-block"
         >
-          ← Back to posts
+          ← Back to notebook
         </Link>
         <h1 className="text-4xl font-bold mb-5 text-zinc-900 dark:text-zinc-100 leading-tight">
           {post.title}

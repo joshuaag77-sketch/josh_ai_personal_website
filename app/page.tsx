@@ -9,25 +9,25 @@ export default function Home() {
       {/* Hero Section */}
       <section className="mb-20">
         <h1 className="text-4xl sm:text-5xl font-bold mb-5 text-zinc-900 dark:text-zinc-100">
-          Building Systems, Not Just Tools
+          Experiments in leverage and decision-making
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
-          I work at the intersection of engineering, infrastructure, and
-          intelligent systems. This site documents how I experiment with AI to
-          improve decision-making, workflows, and real-world problem solving.
+          Chemical engineer in energy and infrastructure. This site is a public
+          lab notebook: experiments with intelligent systems, what I learn, and
+          how I think about tradeoffs and constraints.
         </p>
         <div className="flex gap-4">
           <Link
             href="/posts"
             className="px-6 py-3 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black rounded-md font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
           >
-            Read Posts
+            Notebook
           </Link>
           <Link
             href="/about"
             className="px-6 py-3 border border-zinc-300 dark:border-zinc-700 rounded-md font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors"
           >
-            Learn More
+            About
           </Link>
         </div>
       </section>
@@ -35,20 +35,20 @@ export default function Home() {
       {/* Current Work Section */}
       <section className="mb-20">
         <h2 className="text-2xl font-semibold mb-6 text-zinc-900 dark:text-zinc-100">
-          What I'm currently building
+          What this is
         </h2>
         <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-6 sm:p-8 border border-zinc-200 dark:border-zinc-800 space-y-5">
           <p className="text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed">
             Most people treat AI as a novelty or shortcut. I treat it as a lever.
           </p>
           <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-            I'm interested in what happens when intelligent tools are applied to
-            real constraints — engineering tradeoffs, operational decisions,
-            complex systems. Not demos. Not theory. Practice.
+            I'm interested in what happens when intelligent tools meet real
+            constraints — engineering tradeoffs, operational decisions, complex
+            systems. Not demos. Not theory. Practice.
           </p>
           <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-            This site is a public log of that process: what I build, what works,
-            what fails, and what I learn along the way.
+            This site is a public lab notebook for that: what I try, what works,
+            what fails, and what I learn.
           </p>
         </div>
       </section>
@@ -57,13 +57,13 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
-            Latest Posts
+            Recent entries
           </h2>
           <Link
             href="/posts"
             className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
           >
-            View all →
+            All entries →
           </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

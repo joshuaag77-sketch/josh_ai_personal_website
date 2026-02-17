@@ -1,6 +1,7 @@
 export const metadata = {
-  title: "About - Josh AI",
-  description: "Learn about my journey building with AI tools and workflows.",
+  title: "About - Josh",
+  description:
+    "Chemical engineer. Public lab notebook on leverage, decision-making, and intelligent systems.",
 };
 
 export default function AboutPage() {
@@ -13,36 +14,37 @@ export default function AboutPage() {
       <div className="prose prose-zinc dark:prose-invert max-w-none space-y-10">
         <section>
           <h2 className="text-2xl font-semibold mb-5 text-zinc-900 dark:text-zinc-100">
-            My Story
+            Background
           </h2>
           <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-            I'm a professional exploring how AI tools can augment and enhance
-            the way we work, learn, and build. This site documents my journey
-            experimenting with AI agents, workflows, and tools in practical,
-            real-world contexts.
+            I'm a chemical engineer working in energy and infrastructure.
+            Operator mindset: real systems, real constraints, real
+            accountability. This site isn't a portfolio or a blog. It's a
+            public lab notebook — experiments with intelligent systems, notes
+            on leverage and decision-making, and what I learn when things work
+            or don't.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-5 text-zinc-900 dark:text-zinc-100">
-            Goals
+            Intent
           </h2>
           <ul className="list-disc list-inside space-y-3 text-zinc-700 dark:text-zinc-300 leading-relaxed">
             <li>
-              Build reliable, autonomous agents that can handle complex
-              multi-step workflows
+              Understand where intelligent systems create leverage and where they
+              don't
             </li>
             <li>
-              Create knowledge systems that can answer questions about my work
-              and processes
+              Run experiments in the open and capture what works, what fails,
+              and why
             </li>
             <li>
-              Document what works, what doesn't, and why—sharing learnings along
-              the way
+              Improve decision-making and clarity in constrained, real-world
+              systems
             </li>
             <li>
-              Focus on practical applications that actually improve productivity
-              and outcomes
+              Keep the notebook high-signal: no hype, no filler
             </li>
           </ul>
         </section>
@@ -57,19 +59,20 @@ export default function AboutPage() {
                 What's your background?
               </h3>
               <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                I work at the intersection of software development and AI,
-                focusing on building tools and workflows that leverage AI
-                capabilities effectively.
+                Chemical engineer. I work in energy and infrastructure — real
+                systems with tradeoffs, constraints, and accountability. I study
+                leverage and decision-making through intelligent systems; I'm
+                not an AI influencer or a generic developer.
               </p>
             </div>
             <div>
               <h3 className="font-semibold mb-2 text-zinc-900 dark:text-zinc-100">
-                What projects are you working on?
+                What are you working on?
               </h3>
               <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                Currently focused on agent development, RAG systems, and workflow
-                optimization. Check out my posts for more details on specific
-                projects and experiments.
+                Experiments and writing live in the notebook (the posts). No
+                single "project" — it's a running log of what I'm testing and
+                thinking about.
               </p>
             </div>
             <div>
@@ -77,18 +80,17 @@ export default function AboutPage() {
                 How can I get in touch?
               </h3>
               <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                You can find me on GitHub and LinkedIn (links in the footer), or
-                reach out through the contact form (coming soon).
+                GitHub and LinkedIn are in the footer. No contact form for now.
               </p>
             </div>
             <div>
               <h3 className="font-semibold mb-2 text-zinc-900 dark:text-zinc-100">
-                What skills do you have?
+                What do you do?
               </h3>
               <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                Software development, AI/ML tooling, workflow automation, and
-                building systems that integrate AI capabilities into professional
-                contexts.
+                Chemical engineering. Operations. Systems thinking. I use
+                intelligent systems as a lever in that context — not as a
+                standalone specialty.
               </p>
             </div>
           </div>
