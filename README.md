@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Josh AI Personal Website
+
+A personal site built with Next.js, documenting my journey building with AI tools, workflows, and agents. Content is stored as Markdown in `content/posts/` and exposed via the site and a JSON API for future RAG/chatbot integration.
+
+## Stack
+
+- **Framework**: Next.js 16 (App Router) with TypeScript
+- **Styling**: Tailwind CSS v4 + `@tailwindcss/typography` for post content
+- **Content**: Markdown files with frontmatter (gray-matter + remark)
+- **Theme**: Dark/light mode via `next-themes`
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Creating a New Post
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Add a new `.md` file under `content/posts/`, e.g. `content/posts/my-new-post.md`.
+2. Use this frontmatter shape:
 
-## Learn More
+```yaml
+---
+title: "Your Post Title"
+date: "2026-02-17"
+tags: ["agents", "workflows", "learning-log"]
+summary: "Short description for cards and SEO."
+status: "published"
+---
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. Write your content in Markdown below the frontmatter.
+4. Commit and push; the site will rebuild (or run `npm run build` locally to verify).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Tags** used across the site: `agents`, `workflows`, `productivity`, `learning-log`, `experiments`, `meta`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Routes
+
+- **`GET /api/posts`** – Returns JSON array of all published posts (title, slug, date, tags, summary). Use this for future embedding/RAG pipelines.
+- **`/api/chat`** – Placeholder for a future chatbot endpoint (not implemented yet).
+
+## Project Structure
+
+- `app/` – Next.js App Router pages (home, posts, about, API)
+- `components/` – Header, Footer, ThemeProvider, ThemeToggle
+- `content/posts/` – Markdown blog posts
+- `lib/` – `posts.ts` (content loading), `types.ts` (TypeScript types)
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub (or connect your existing repo).
+2. In [Vercel](https://vercel.com), import the project and set build command to `next build` and output to `.next`.
+3. Add a custom domain in Vercel and point your DNS (A/CNAME) as per Vercel’s instructions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Future: Chatbot / RAG
+
+The content and `/api/posts` are designed so you can later:
+
+- Fetch posts via `/api/posts` (or read from `content/posts`).
+- Chunk content, generate embeddings, and store in a vector DB (e.g. Pinecone, Supabase pgvector).
+- Implement `/api/chat` to query the vector DB and call an LLM with your content as context.
+
+A placeholder `/api/chat` route can be added when you’re ready to implement this.
