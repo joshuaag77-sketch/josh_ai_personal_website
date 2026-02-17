@@ -13,11 +13,13 @@ export default function PostsPage() {
   ).sort();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold mb-8">All Posts</h1>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h1 className="text-4xl font-bold mb-10 text-zinc-900 dark:text-zinc-100">
+        All Posts
+      </h1>
 
       {allTags.length > 0 && (
-        <div className="mb-8">
+        <div className="mb-10">
           <h2 className="text-sm font-medium mb-3 text-zinc-600 dark:text-zinc-400">
             Filter by tag
           </h2>
@@ -34,21 +36,21 @@ export default function PostsPage() {
         </div>
       )}
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {posts.length > 0 ? (
           posts.map((post) => (
             <article
               key={post.slug}
-              className="border-b border-zinc-200 dark:border-zinc-800 pb-6 last:border-0"
+              className="border-b border-zinc-200 dark:border-zinc-800 pb-8 last:border-0 last:pb-0"
             >
               <Link
                 href={`/posts/${post.slug}`}
                 className="block group"
               >
-                <h2 className="text-2xl font-semibold mb-2 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">
+                <h2 className="text-2xl font-semibold mb-3 text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">
                   {post.title}
                 </h2>
-                <p className="text-zinc-600 dark:text-zinc-400 mb-3">
+                <p className="text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
                   {post.summary}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-500">

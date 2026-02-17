@@ -7,11 +7,11 @@ export default function Home() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Hero Section */}
-      <section className="mb-16">
-        <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
+      <section className="mb-20">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-5 text-zinc-900 dark:text-zinc-100">
           Building Systems, Not Just Tools
         </h1>
-        <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-6">
+        <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
           I work at the intersection of engineering, infrastructure, and
           intelligent systems. This site documents how I experiment with AI to
           improve decision-making, workflows, and real-world problem solving.
@@ -33,18 +33,20 @@ export default function Home() {
       </section>
 
       {/* Current Work Section */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-semibold mb-4">What I'm currently building</h2>
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-6 border border-zinc-200 dark:border-zinc-800 space-y-4">
-          <p className="text-zinc-700 dark:text-zinc-300">
+      <section className="mb-20">
+        <h2 className="text-2xl font-semibold mb-6 text-zinc-900 dark:text-zinc-100">
+          What I'm currently building
+        </h2>
+        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-6 sm:p-8 border border-zinc-200 dark:border-zinc-800 space-y-5">
+          <p className="text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed">
             Most people treat AI as a novelty or shortcut. I treat it as a lever.
           </p>
-          <p className="text-zinc-700 dark:text-zinc-300">
+          <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
             I'm interested in what happens when intelligent tools are applied to
             real constraints — engineering tradeoffs, operational decisions,
             complex systems. Not demos. Not theory. Practice.
           </p>
-          <p className="text-zinc-700 dark:text-zinc-300">
+          <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
             This site is a public log of that process: what I build, what works,
             what fails, and what I learn along the way.
           </p>
@@ -53,8 +55,10 @@ export default function Home() {
 
       {/* Latest Posts */}
       <section>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold">Latest Posts</h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
+            Latest Posts
+          </h2>
           <Link
             href="/posts"
             className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
@@ -68,10 +72,12 @@ export default function Home() {
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="block p-6 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+                className="block p-6 sm:p-7 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
               >
-                <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
+                <h3 className="text-lg font-semibold mb-3 text-zinc-900 dark:text-zinc-100">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
                   {post.summary}
                 </p>
                 <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-500">

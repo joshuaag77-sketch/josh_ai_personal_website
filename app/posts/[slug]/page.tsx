@@ -45,16 +45,18 @@ export default async function PostPage({ params }: Props) {
     currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
   return (
-    <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <header className="mb-8">
+    <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <header className="mb-10">
         <Link
           href="/posts"
-          className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors mb-4 inline-block"
+          className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors mb-5 inline-block"
         >
           ← Back to posts
         </Link>
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+        <h1 className="text-4xl font-bold mb-5 text-zinc-900 dark:text-zinc-100 leading-tight">
+          {post.title}
+        </h1>
+        <div className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400 mb-6">
           <time>{new Date(post.date).toLocaleDateString()}</time>
           {post.tags.length > 0 && (
             <div className="flex gap-2">
@@ -70,18 +72,18 @@ export default async function PostPage({ params }: Props) {
           )}
         </div>
         {post.summary && (
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
             {post.summary}
           </p>
         )}
       </header>
 
       <div
-        className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-zinc-900 dark:prose-a:text-zinc-100 prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-zinc-600 dark:hover:prose-a:text-zinc-400"
+        className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100 prose-p:leading-relaxed prose-a:text-zinc-900 dark:prose-a:text-zinc-100 prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-zinc-600 dark:hover:prose-a:text-zinc-400"
         dangerouslySetInnerHTML={{ __html: post.contentHtml || "" }}
       />
 
-      <nav className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex justify-between">
+      <nav className="mt-14 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex justify-between">
         {prevPost ? (
           <Link
             href={`/posts/${prevPost.slug}`}
