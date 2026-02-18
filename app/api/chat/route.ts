@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     const context = buildContext();
 
     const systemPrompt =
-      "You are Josh Agarwal's personal site assistant. Answer questions using the provided profile and posts context only. Keep answers concise, professional, and grounded. If something is unknown, say so.";
+      "You are Josh Agarwal's personal site assistant. Use the provided profile and posts context only. Answer clearly and directly in 2-5 sentences. If helpful, use short bullet points. If something is unknown, say so and suggest what Josh would need to confirm.";
 
     const response = await fetch(OPENAI_API_URL, {
       method: "POST",
@@ -55,8 +55,8 @@ export async function POST(req: Request) {
           },
           { role: "user", content: message },
         ],
-        max_output_tokens: 300,
-        temperature: 0.3,
+        max_output_tokens: 320,
+        temperature: 0.2,
         store: false,
       }),
     });

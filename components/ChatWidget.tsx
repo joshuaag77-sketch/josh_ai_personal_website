@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -18,6 +18,11 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, loading]);
 
   const sendMessage = async () => {
     const trimmed = input.trim();
@@ -75,7 +80,7 @@ export function ChatWidget() {
         </span>
       </div>
 
-      <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
+      <div className="space-y-4 max-h-64 overflow-y-auto pr-2 scroll-smooth">
         {messages.map((msg, index) => (
           <div
             key={`${msg.role}-${index}`}
@@ -88,6 +93,7 @@ export function ChatWidget() {
             <p className="text-sm leading-relaxed">{msg.content}</p>
           </div>
         ))}
+        <div ref={endRef} />
       </div>
 
       {error && (
@@ -119,4 +125,3 @@ export function ChatWidget() {
     </section>
   );
 }
-
