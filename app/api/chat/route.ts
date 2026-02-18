@@ -3,6 +3,7 @@ import { getAllPosts } from "@/lib/posts";
 import { getProfileMarkdown } from "@/lib/profile";
 
 const OPENAI_API_URL = "https://api.openai.com/v1/responses";
+export const runtime = "nodejs";
 
 function buildContext() {
   const profile = getProfileMarkdown();
@@ -62,6 +63,7 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error("OpenAI request failed:", errorText);
       return NextResponse.json(
         { error: errorText || "OpenAI request failed" },
         { status: 500 }
@@ -94,4 +96,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
