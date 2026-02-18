@@ -37,6 +37,10 @@ I never really had a reason to apply that idea before. Now I do.
 
 So I built a small site where I can write things down as I learn them. Not as a portfolio or a brand thing. Just a place to keep track of what I'm trying, what works, what doesn't, and what I change my mind about. Writing forces you to think more clearly, and having it organized makes it easier to notice patterns later.
 
+The build itself was part of the experiment. I used a simple Next.js setup, kept the design minimal, and pushed it to Vercel so I could iterate fast without overthinking hosting. I also added a small personal chatbot on the homepage that answers questions about my work and focus areas. It's early and a little rough around the edges, but it already forces me to be clearer about what I do and how I think.
+
+That chatbot is just version one. I'm improving the prompt, expanding the context, and tightening how it answers questions. The goal is for it to be a living resume -- something that updates as I do.
+
 It's nothing fancy. But it already feels useful, which is usually a good sign.
 
 Mostly I just didn't want to wait until all of this was obvious before I started paying attention.
