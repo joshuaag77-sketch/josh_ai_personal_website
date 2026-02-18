@@ -2,8 +2,16 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f9ff;
+  --foreground: #0f172a;
+  --page-bg: #f6f9ff;
+  --page-bg-secondary: #eef4ff;
+  --page-bg-dark: #0b1120;
+  --page-bg-secondary-dark: #0f172a;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
+  --accent-strong: #1d4ed8;
+  --ring: rgba(37, 99, 235, 0.18);
 }
 
 @theme inline {
@@ -11,17 +19,56 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-editorial);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1120;
+    --foreground: #e2e8f0;
   }
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(
+      circle at top left,
+      var(--page-bg-secondary),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(59, 130, 246, 0.08),
+      transparent 45%
+    ),
+    var(--page-bg);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: radial-gradient(
+        circle at top left,
+        var(--page-bg-secondary-dark),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 20% 20%,
+        rgba(56, 189, 248, 0.12),
+        transparent 45%
+      ),
+      var(--page-bg-dark);
+  }
+}
+
+.display-font {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
 }

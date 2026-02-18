@@ -1,4 +1,4 @@
----
+﻿---
 title: "I Didn't Know How to Code. So I Built an AI Agent Anyway."
 date: "2026-02-18"
 tags: ["builds", "agents", "automation", "raspberry-pi"]
@@ -67,3 +67,4 @@ This is just version one. Next I am adding memory, more tools, more context -- b
 > AI is not just a tool you use anymore. It is infrastructure you can build.
 
 And once you realize that, you start seeing systems everywhere.
+
