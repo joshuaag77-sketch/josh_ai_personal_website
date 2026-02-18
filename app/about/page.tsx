@@ -27,7 +27,7 @@ export default function AboutPage() {
             className="w-full h-auto"
           />
           <div className="px-6 py-4 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-800/70">
-            Joshua Agarwal
+            Joshua Agarwal — Calgary
           </div>
         </div>
       </div>
