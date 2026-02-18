@@ -46,7 +46,7 @@ export default function Home() {
             with accountability. The goal is leverage, not novelty.
           </p>
           <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
-            Toronto. Energy. Systems.
+            Calgary. Energy. Systems.
           </div>
         </div>
       </section>
