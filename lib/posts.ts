@@ -39,6 +39,9 @@ export function getAllPosts(): PostListItem[] {
       date: data.date ?? "",
       tags: Array.isArray(data.tags) ? data.tags : [],
       summary: data.summary ?? "",
+      kicker: data.kicker ?? "",
+      heroImage: data.heroImage ?? "",
+      heroAlt: data.heroAlt ?? "",
     });
   }
 
@@ -60,6 +63,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     date: data.date ?? "",
     tags: Array.isArray(data.tags) ? data.tags : [],
     summary: data.summary ?? "",
+    kicker: data.kicker ?? "",
+    heroImage: data.heroImage ?? "",
+    heroAlt: data.heroAlt ?? "",
+    heroCaption: data.heroCaption ?? "",
     content,
     contentHtml,
   };

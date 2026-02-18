@@ -3,6 +3,10 @@ export interface PostFrontmatter {
   date: string;
   tags: string[];
   summary: string;
+  kicker?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  heroCaption?: string;
   status?: "draft" | "published";
 }
 
@@ -12,6 +16,10 @@ export interface Post {
   date: string;
   tags: string[];
   summary: string;
+  kicker?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  heroCaption?: string;
   content: string;
   contentHtml?: string;
 }
@@ -22,4 +30,7 @@ export interface PostListItem {
   date: string;
   tags: string[];
   summary: string;
+  kicker?: string;
+  heroImage?: string;
+  heroAlt?: string;
 }

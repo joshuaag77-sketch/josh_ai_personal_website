@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">AI Agent Pipeline on Raspberry Pi</title>
+  <desc id="desc">A diagram showing a Telegram message flowing through parsing, an AI model, cleaning, and email sending on a Raspberry Pi.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0b0f" />
+      <stop offset="55%" stop-color="#12121a" />
+      <stop offset="100%" stop-color="#0a0a0a" />
+    </linearGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#a3e635" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)" />
+
+  <g opacity="0.6">
+    <circle cx="160" cy="120" r="90" fill="#1f2937" />
+    <circle cx="1040" cy="520" r="140" fill="#111827" />
+  </g>
+
+  <g stroke="url(#accent)" stroke-width="2" opacity="0.6">
+    <path d="M170 200 C260 160, 330 160, 420 200" fill="none" />
+    <path d="M470 200 C560 160, 630 160, 720 200" fill="none" />
+    <path d="M770 200 C860 160, 930 160, 1020 200" fill="none" />
+    <path d="M520 360 C520 420, 520 450, 520 510" fill="none" />
+  </g>
+
+  <g font-family="'Geist Mono', 'SF Mono', Menlo, monospace" font-size="18" fill="#e2e8f0">
+    <text x="100" y="105" font-size="14" letter-spacing="0.4em" fill="#94a3b8">INPUT</text>
+    <text x="920" y="105" font-size="14" letter-spacing="0.4em" fill="#94a3b8">OUTPUT</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <rect x="110" y="210" width="220" height="90" rx="22" fill="url(#node)" stroke="#334155" />
+    <rect x="360" y="210" width="220" height="90" rx="22" fill="url(#node)" stroke="#334155" />
+    <rect x="610" y="210" width="220" height="90" rx="22" fill="url(#node)" stroke="#334155" />
+    <rect x="860" y="210" width="220" height="90" rx="22" fill="url(#node)" stroke="#334155" />
+  </g>
+
+  <g font-family="'Geist Sans', 'Inter', Arial, sans-serif" font-size="20" fill="#e2e8f0">
+    <text x="140" y="266">Telegram</text>
+    <text x="400" y="266">Parser</text>
+    <text x="662" y="266">AI Model</text>
+    <text x="898" y="266">Email</text>
+  </g>
+
+  <g>
+    <rect x="420" y="510" width="320" height="110" rx="28" fill="#0f172a" stroke="#334155" />
+    <text x="462" y="567" font-family="'Geist Sans', 'Inter', Arial, sans-serif" font-size="18" fill="#e2e8f0">Raspberry Pi</text>
+    <text x="462" y="592" font-family="'Geist Mono', 'SF Mono', Menlo, monospace" font-size="13" fill="#94a3b8">agent runtime</text>
+  </g>
+
+  <g opacity="0.9">
+    <circle cx="520" cy="200" r="6" fill="#a3e635" />
+    <circle cx="770" cy="200" r="6" fill="#22d3ee" />
+    <circle cx="1020" cy="200" r="6" fill="#a3e635" />
+  </g>
+
+  <g font-family="'Geist Mono', 'SF Mono', Menlo, monospace" font-size="12" fill="#94a3b8">
+    <text x="90" y="340">Text -> intent -> action</text>
+  </g>
+</svg>
