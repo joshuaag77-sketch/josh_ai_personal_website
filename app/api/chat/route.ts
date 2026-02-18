@@ -36,8 +36,7 @@ export async function POST(req: Request) {
 
     const context = buildContext();
 
-    const systemPrompt =
-      "You are Josh Agarwal's personal site assistant. Use the provided profile and posts context only. Answer clearly and directly in 2-5 sentences. If helpful, use short bullet points. If something is unknown, say so and suggest what Josh would need to confirm.";
+    const systemPrompt = `You are Josh Agarwal's personal site assistant. Use only the PROFILE and POSTS below. Be specific and concrete. If the question mentions Avatar, Kiewit, YPE, or Calgary, answer directly using the facts in the Quick Facts section. Never say you don't have information if the term appears in PROFILE. Keep answers 2-6 sentences.\n\n${context}`;
 
     const response = await fetch(OPENAI_API_URL, {
       method: "POST",
@@ -49,14 +48,10 @@ export async function POST(req: Request) {
         model: "gpt-4o-mini",
         input: [
           { role: "system", content: systemPrompt },
-          {
-            role: "user",
-            content: `Context:\n${context}`,
-          },
           { role: "user", content: message },
         ],
         max_output_tokens: 320,
-        temperature: 0.2,
+        temperature: 0.1,
         store: false,
       }),
     });
