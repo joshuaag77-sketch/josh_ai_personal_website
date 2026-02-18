@@ -10,16 +10,20 @@ const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 
 function getPostSlugs(): string[] {
   if (!fs.existsSync(POSTS_DIR)) return [];
-  return fs.readdirSync(POSTS_DIR)
+  return fs
+    .readdirSync(POSTS_DIR)
     .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
     .map((f) => f.replace(/\.(md|mdx)$/, ""));
 }
 
+function estimateReadingTime(text: string): string {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 220));
+  return `${minutes} min read`;
+}
+
 async function markdownToHtml(markdown: string): Promise<string> {
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkHtml)
-    .process(markdown);
+  const result = await unified().use(remarkParse).use(remarkHtml).process(markdown);
   return String(result.value);
 }
 
@@ -31,7 +35,7 @@ export function getAllPosts(): PostListItem[] {
     const fullPath = path.join(POSTS_DIR, `${slug}.md`);
     if (!fs.existsSync(fullPath)) continue;
     const raw = fs.readFileSync(fullPath, "utf-8");
-    const { data } = matter(raw);
+    const { data, content } = matter(raw);
     if (data.status === "draft") continue;
     posts.push({
       slug,
@@ -42,6 +46,7 @@ export function getAllPosts(): PostListItem[] {
       kicker: data.kicker ?? "",
       heroImage: data.heroImage ?? "",
       heroAlt: data.heroAlt ?? "",
+      readingTime: estimateReadingTime(content),
     });
   }
 
@@ -67,6 +72,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     heroImage: data.heroImage ?? "",
     heroAlt: data.heroAlt ?? "",
     heroCaption: data.heroCaption ?? "",
+    readingTime: estimateReadingTime(content),
     content,
     contentHtml,
   };

@@ -20,6 +20,7 @@ export interface Post {
   heroImage?: string;
   heroAlt?: string;
   heroCaption?: string;
+  readingTime?: string;
   content: string;
   contentHtml?: string;
 }
@@ -33,4 +34,5 @@ export interface PostListItem {
   kicker?: string;
   heroImage?: string;
   heroAlt?: string;
+  readingTime?: string;
 }

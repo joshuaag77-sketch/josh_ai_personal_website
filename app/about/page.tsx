@@ -20,11 +20,11 @@ export default function AboutPage() {
             mindset: real systems, real constraints, real accountability.
           </p>
         </div>
-        <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur overflow-hidden shadow-[0_25px_80px_-60px_rgba(15,23,42,0.6)]">
+        <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur overflow-hidden shadow-[0_25px_80px_-60px_rgba(15,23,42,0.6)] max-w-sm lg:max-w-none">
           <img
             src="/images/joshua-agarwal.jpg"
             alt="Joshua Agarwal headshot"
-            className="w-full h-auto"
+            className="w-full h-auto object-cover aspect-[4/5]"
           />
           <div className="px-6 py-4 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-800/70">
             Joshua Agarwal — Calgary

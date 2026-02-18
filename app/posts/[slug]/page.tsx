@@ -1,7 +1,8 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import type { Metadata } from "next";
+import { ReadingProgress } from "@/components/ReadingProgress";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -46,8 +47,9 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.16),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.12),_transparent_60%)]" />
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative">
+      <ReadingProgress />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.12),_transparent_60%)]" />
+      <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative">
         <header className="mb-10">
           <Link
             href="/posts"
@@ -60,11 +62,12 @@ export default async function PostPage({ params }: Props) {
               {post.kicker}
             </p>
           )}
-          <h1 className="display-font text-4xl font-semibold mb-5 text-slate-900 dark:text-slate-100 leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-semibold mb-5 text-slate-900 dark:text-slate-100 font-sans">
             {post.title}
           </h1>
-          <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-6">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-400 mb-6">
             <time>{new Date(post.date).toLocaleDateString()}</time>
+            {post.readingTime && <span>{post.readingTime}</span>}
             {post.tags.length > 0 && (
               <div className="flex gap-2">
                 {post.tags.map((tag) => (
@@ -79,31 +82,40 @@ export default async function PostPage({ params }: Props) {
             )}
           </div>
           {post.summary && (
-            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
               {post.summary}
             </p>
           )}
         </header>
 
-        {post.heroImage && (
-          <figure className="mb-10 overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur shadow-[0_30px_120px_-70px_rgba(15,23,42,0.6)]">
-            <img
-              src={post.heroImage}
-              alt={post.heroAlt || ""}
-              className="w-full h-auto"
-            />
-            {post.heroCaption && (
-              <figcaption className="px-6 py-4 text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-800/70">
-                {post.heroCaption}
-              </figcaption>
-            )}
-          </figure>
-        )}
-
         <div
-          className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-blue-600 dark:hover:prose-a:text-blue-300 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700 prose-blockquote:bg-blue-50/60 dark:prose-blockquote:bg-slate-900/40 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-2xl"
+          className="article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700"
           dangerouslySetInnerHTML={{ __html: post.contentHtml || "" }}
         />
+
+        <hr className="my-12 border-slate-200/70 dark:border-slate-800/70" />
+
+        <section className="rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-6 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-blue-600/80 dark:text-blue-300/80 mb-3">
+            Author
+          </p>
+          <div className="flex items-center gap-4">
+            <img
+              src="/images/joshua-agarwal.jpg"
+              alt="Joshua Agarwal"
+              className="h-14 w-14 rounded-full object-cover"
+            />
+            <div>
+              <p className="font-semibold text-slate-900 dark:text-slate-100 font-sans">
+                Joshua Agarwal
+              </p>
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                Chemical engineer in energy and infrastructure. Writing about
+                leverage, intelligent systems, and real-world constraints.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <nav className="mt-14 pt-8 border-t border-slate-200/70 dark:border-slate-800/70 flex justify-between">
           {prevPost ? (
@@ -131,4 +143,3 @@ export default async function PostPage({ params }: Props) {
     </article>
   );
 }
-
