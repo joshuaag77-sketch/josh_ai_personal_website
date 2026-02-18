@@ -1,12 +1,13 @@
 ﻿import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { ChatWidget } from "@/components/ChatWidget";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <section className="mb-20 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
+      <section className="mb-16 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-blue-600/80 dark:text-blue-300/80 mb-4">
             Lab Notebook
@@ -50,6 +51,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <div className="mb-20">
+        <ChatWidget />
+      </div>
 
       <section className="mb-20">
         <h2 className="display-font text-3xl font-semibold mb-8 text-slate-900 dark:text-slate-100">
