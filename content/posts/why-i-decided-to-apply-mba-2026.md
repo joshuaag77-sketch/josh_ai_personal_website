@@ -1,6 +1,6 @@
 ﻿---
 title: "Why I Decided to Apply for an MBA in 2026"
-date: "2026-02-18"
+date: "2026-02-20"
 tags: ["mba", "learning", "discipline"]
 summary: "A personal essay on the decision to apply for an MBA and the grind that led there."
 kicker: "Personal Essay"

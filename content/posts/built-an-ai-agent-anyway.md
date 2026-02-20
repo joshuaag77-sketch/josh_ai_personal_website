@@ -1,6 +1,6 @@
 ﻿---
 title: "I Didn't Know How to Code. So I Built an AI Agent Anyway."
-date: "2026-02-18"
+date: "2026-02-20"
 tags: ["builds", "agents", "automation", "raspberry-pi"]
 summary: "From zero to a working Telegram-to-email agent in one day on a Raspberry Pi."
 kicker: "First Project"

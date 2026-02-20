@@ -1,6 +1,6 @@
 ﻿---
 title: "Why I Started Writing Things Down Publicly"
-date: "2026-02-18"
+date: "2026-02-20"
 tags: ["writing", "learning", "systems"]
 summary: "A short explanation for why I started documenting my experiments while the space is still messy."
 kicker: "Field Notes"
