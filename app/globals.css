@@ -105,6 +105,18 @@ body {
   border-color: rgba(148, 163, 184, 0.35);
 }
 
+.article-content blockquote {
+  border-left: 3px solid #2563eb;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.04), rgba(37, 99, 235, 0.01));
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #334155;
+}
+
 @media (prefers-color-scheme: dark) {
   .article-content > p:first-of-type::first-letter {
     color: #93c5fd;
@@ -112,5 +124,11 @@ body {
 
   .article-content hr {
     border-color: rgba(51, 65, 85, 0.8);
+  }
+
+  .article-content blockquote {
+    border-left-color: #60a5fa;
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), rgba(96, 165, 250, 0.02));
+    color: #cbd5e1;
   }
 }

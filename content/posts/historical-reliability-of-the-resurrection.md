@@ -4,6 +4,9 @@ date: "2026-04-05"
 tags: ["faith", "history", "Easter"]
 summary: "Since it is Easter, I wanted to reflect on why I believe in Christianity. The lynchpin of the Christian faith is the historical reliability of the resurrection of Jesus."
 kicker: "Field Notes"
+heroImage: "/images/resurrection-hero.svg"
+heroAlt: "Sunrise over an empty tomb with three crosses silhouetted on a distant hill."
+heroCaption: "Dawn breaks. The tomb is empty."
 status: "published"
 ---
 
@@ -31,7 +34,7 @@ What I find particularly compelling is the work of scholar Gary Habermas and his
 
 The strongest arguments for the empty tomb are these. All four gospels present an empty tomb, and there is no record anywhere, from Rome, from Jewish leadership, from anyone, of a body being produced. This matters more than people realize. Rome viewed the growth of the early church as a direct political threat. If a body existed, they had every incentive to produce it and crush the movement before it spread. They never did.
 
-Early non-gospel sources, including Justin Martyr, reference the Jewish counter-claim that the disciples stole the body. This is actually an important detail because early Jewish critics of Christianity were not denying the tomb was empty. They were trying to explain it. The empty tomb was not in dispute. Only the cause was.
+Early non-gospel sources, including Justin Martyr, reference the Jewish counter-claim that the disciples stole the body. This is actually an important detail because early Jewish critics of Christianity were not denying the tomb was empty. They were trying to explain it. > The empty tomb was not in dispute. Only the cause was.
 
 And perhaps the argument I find most underrated: the resurrection accounts place women as the primary witnesses. In first century Jewish and Roman culture, the testimony of women carried lower legal standing. Nobody fabricating a story meant to convince people would have written it this way. The fact that it was recorded exactly as it was, against the cultural grain, is a mark of authenticity.
 
@@ -43,11 +46,11 @@ Most scholars, including skeptical ones, accept that the disciples genuinely bel
 
 The eyewitness testimony here was not based on one person's claim. Paul writes in 1 Corinthians 15:3 to 8, one of the earliest texts in the entire New Testament, with many scholars dating the creed embedded in it to within just a few years of the crucifixion, that Jesus appeared to Peter, then to the twelve, then to more than five hundred people at once, most of whom were still alive when Paul wrote. He was essentially inviting people to go and verify it themselves. People walked with Jesus, talked with Him, touched Him. This is not the language of legend.
 
-Then there is the transformation of the disciples, which I think is one of the most powerful pieces of evidence. Before the resurrection, the disciples were broken and afraid. Peter denied even knowing Jesus three times on the night of his arrest (Luke 22:54 to 62). After the resurrection, everything changed. That same man stood before the Sanhedrin and said they could not stop speaking about what they had seen and heard (Acts 4:19 to 20). These men went on to preach boldly, suffer imprisonment, lose everything, and give their lives for this claim. People might die for something they genuinely believe to be true. Nobody dies for something they know is a lie.
+Then there is the transformation of the disciples, which I think is one of the most powerful pieces of evidence. Before the resurrection, the disciples were broken and afraid. Peter denied even knowing Jesus three times on the night of his arrest (Luke 22:54 to 62). After the resurrection, everything changed. That same man stood before the Sanhedrin and said they could not stop speaking about what they had seen and heard (Acts 4:19 to 20). These men went on to preach boldly, suffer imprisonment, lose everything, and give their lives for this claim. > People might die for something they genuinely believe to be true. Nobody dies for something they know is a lie.
 
 The conversion of the skeptics is another thing I keep coming back to. James, the brother of Jesus, did not believe in Him during His lifetime. After the resurrection, James became one of the most prominent leaders of the early church and was ultimately martyred for his faith, something recorded not only in Christian sources but independently by Josephus (Antiquities 20.9). Then there is Paul, who by his own admission actively persecuted and destroyed the early church (Galatians 1:13), and who encountered the risen Jesus and was so completely transformed that he became its most influential voice. These are not the stories of credulous followers looking for something to believe. These are hostile witnesses who had everything to lose.
 
-Something else that has always struck me is that Jesus prophesied his own death and resurrection, explained the reason for it, and then it happened exactly as he said it would. He was explicit that his death was the atoning sacrifice that would pay the price for our shortcomings, and that resurrection would be the sign validating everything he claimed. He told his disciples in advance, explained the purpose, and then fulfilled it. That kind of coherence, the prediction, the purpose, the fulfillment, is not the shape of myth. Myths do not announce themselves ahead of time.
+Something else that has always struck me is that Jesus prophesied his own death and resurrection, explained the reason for it, and then it happened exactly as he said it would. He was explicit that his death was the atoning sacrifice that would pay the price for our shortcomings, and that resurrection would be the sign validating everything he claimed. He told his disciples in advance, explained the purpose, and then fulfilled it. > That kind of coherence — the prediction, the purpose, the fulfillment — is not the shape of myth. Myths do not announce themselves ahead of time.
 
 After the resurrection, the message spread with remarkable speed in the very city where Jesus had been publicly executed, among people who could have easily investigated and disproved it, with hundreds of alleged eyewitnesses still alive. This growth was not backed by money or political power. It was fueled entirely by the message that He had risen. For anyone who wants to go deep on this, N.T. Wright's *The Resurrection of the Son of God* is the most thorough scholarly treatment of the subject, written not as apologetics but as rigorous history.
 

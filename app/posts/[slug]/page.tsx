@@ -88,6 +88,23 @@ export default async function PostPage({ params }: Props) {
           )}
         </header>
 
+        {post.heroImage && (
+          <figure className="mb-12 -mx-4 sm:-mx-6 lg:-mx-12">
+            <div className="rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-[0_20px_80px_-30px_rgba(15,23,42,0.25)] dark:shadow-[0_20px_80px_-30px_rgba(0,0,0,0.5)]">
+              <img
+                src={post.heroImage}
+                alt={post.heroAlt || post.title}
+                className="w-full h-auto"
+              />
+            </div>
+            {post.heroCaption && (
+              <figcaption className="mt-3 text-center text-sm text-slate-500 dark:text-slate-400 italic">
+                {post.heroCaption}
+              </figcaption>
+            )}
+          </figure>
+        )}
+
         <div
           className="article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700"
           dangerouslySetInnerHTML={{ __html: post.contentHtml || "" }}

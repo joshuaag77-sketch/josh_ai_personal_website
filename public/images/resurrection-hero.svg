@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="35%" stop-color="#334155"/>
+      <stop offset="60%" stop-color="#7c6f64"/>
+      <stop offset="80%" stop-color="#d4a373"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="85%" r="40%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef3c7" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#fbbf24" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#44403c"/>
+      <stop offset="100%" stop-color="#292524"/>
+    </linearGradient>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="starBlur">
+      <feGaussianBlur stdDeviation="1"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1400" height="500" fill="url(#sky)"/>
+
+  <!-- Ambient glow from sunrise -->
+  <ellipse cx="700" cy="420" rx="600" ry="200" fill="url(#glow)"/>
+
+  <!-- Stars fading in upper sky -->
+  <circle cx="200" cy="60" r="1.5" fill="#e2e8f0" opacity="0.6" filter="url(#starBlur)"/>
+  <circle cx="350" cy="90" r="1" fill="#e2e8f0" opacity="0.4" filter="url(#starBlur)"/>
+  <circle cx="550" cy="40" r="1.5" fill="#e2e8f0" opacity="0.5" filter="url(#starBlur)"/>
+  <circle cx="900" cy="70" r="1" fill="#e2e8f0" opacity="0.3" filter="url(#starBlur)"/>
+  <circle cx="1050" cy="50" r="1.5" fill="#e2e8f0" opacity="0.5" filter="url(#starBlur)"/>
+  <circle cx="1200" cy="85" r="1" fill="#e2e8f0" opacity="0.4" filter="url(#starBlur)"/>
+  <circle cx="150" cy="140" r="1" fill="#e2e8f0" opacity="0.3" filter="url(#starBlur)"/>
+  <circle cx="1300" cy="30" r="1.5" fill="#e2e8f0" opacity="0.4" filter="url(#starBlur)"/>
+
+  <!-- Sun rising at horizon -->
+  <circle cx="700" cy="400" r="60" fill="url(#sunGlow)" filter="url(#softBlur)"/>
+  <circle cx="700" cy="400" r="30" fill="#fef3c7" opacity="0.9"/>
+
+  <!-- Light rays -->
+  <line x1="700" y1="400" x2="500" y2="250" stroke="#fbbf24" stroke-width="1" opacity="0.15"/>
+  <line x1="700" y1="400" x2="600" y2="220" stroke="#fbbf24" stroke-width="1" opacity="0.12"/>
+  <line x1="700" y1="400" x2="700" y2="200" stroke="#fbbf24" stroke-width="1.5" opacity="0.18"/>
+  <line x1="700" y1="400" x2="800" y2="220" stroke="#fbbf24" stroke-width="1" opacity="0.12"/>
+  <line x1="700" y1="400" x2="900" y2="250" stroke="#fbbf24" stroke-width="1" opacity="0.15"/>
+
+  <!-- Distant hills -->
+  <path d="M0 420 Q200 360 400 390 Q550 370 700 395 Q850 370 1000 385 Q1200 360 1400 410 L1400 500 L0 500Z" fill="#57534e" opacity="0.6"/>
+  <path d="M0 430 Q300 390 500 410 Q700 385 900 405 Q1100 390 1400 420 L1400 500 L0 500Z" fill="#44403c" opacity="0.8"/>
+
+  <!-- Ground -->
+  <path d="M0 440 Q350 420 700 435 Q1050 420 1400 440 L1400 500 L0 500Z" fill="url(#ground)"/>
+
+  <!-- Empty tomb - carved into rock on the right -->
+  <path d="M880 390 Q880 350 920 340 Q960 335 1000 340 Q1040 350 1040 390 L1040 460 L880 460Z" fill="#3f3f46" stroke="#52525b" stroke-width="1.5"/>
+
+  <!-- Tomb opening (dark) -->
+  <ellipse cx="960" cy="430" rx="35" ry="30" fill="#18181b"/>
+
+  <!-- Rolled-away stone -->
+  <ellipse cx="1010" cy="445" rx="22" ry="28" fill="#57534e" stroke="#6b7280" stroke-width="1" transform="rotate(-15 1010 445)"/>
+
+  <!-- Small cross silhouette on distant hill -->
+  <g transform="translate(350, 365)">
+    <rect x="-2" y="-30" width="4" height="30" fill="#292524"/>
+    <rect x="-10" y="-22" width="20" height="3.5" fill="#292524"/>
+  </g>
+
+  <!-- Two more crosses, slightly smaller -->
+  <g transform="translate(320, 375)">
+    <rect x="-1.5" y="-22" width="3" height="22" fill="#292524"/>
+    <rect x="-7" y="-16" width="14" height="3" fill="#292524"/>
+  </g>
+  <g transform="translate(380, 373)">
+    <rect x="-1.5" y="-22" width="3" height="22" fill="#292524"/>
+    <rect x="-7" y="-16" width="14" height="3" fill="#292524"/>
+  </g>
+</svg>
