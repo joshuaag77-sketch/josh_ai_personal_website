@@ -132,3 +132,124 @@ body {
     color: #cbd5e1;
   }
 }
+
+/* ── Scroll Animations ── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.animate-on-scroll.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Particle Field ── */
+@keyframes particle-drift {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: var(--particle-opacity-start); }
+  50% { transform: translateY(var(--drift-y)) translateX(var(--drift-x)); opacity: var(--particle-opacity-end); }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: particle-drift var(--duration) ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ── Typing Animation ── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.typing-word {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.typing-word.exiting {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.typing-word.entering {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.typing-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Tilt Card ── */
+.tilt-card {
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+}
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(59, 130, 246, 0.06),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.tilt-card:hover::after {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tilt-card::after {
+    background: radial-gradient(
+      circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(96, 165, 250, 0.1),
+      transparent 60%
+    );
+  }
+}
+
+/* ── Status Ticker ── */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ── Tag Filter Transitions ── */
+.post-card-filter {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.post-card-filter.hidden-card {
+  opacity: 0;
+  transform: scale(0.95);
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+/* ── Animated Counter ── */
+.counter-number {
+  font-variant-numeric: tabular-nums;
+}
