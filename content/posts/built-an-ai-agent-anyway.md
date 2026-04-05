@@ -4,7 +4,7 @@ date: "2026-02-20"
 tags: ["builds", "agents", "automation", "raspberry-pi"]
 summary: "From zero to a working Telegram-to-email agent in one day on a Raspberry Pi."
 kicker: "First Project"
-heroImage: "/images/ai-agent-pi.svg"
+heroImage: "/images/thumb-agent.svg"
 heroAlt: "Diagram of an AI agent pipeline running on a Raspberry Pi."
 heroCaption: "Text in. Actions out. A tiny box doing real work."
 status: "published"

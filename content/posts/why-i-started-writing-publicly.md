@@ -4,6 +4,8 @@ date: "2026-02-20"
 tags: ["writing", "learning", "systems"]
 summary: "A short explanation for why I started documenting my experiments while the space is still messy."
 kicker: "Field Notes"
+heroImage: "/images/thumb-writing.svg"
+heroAlt: "Abstract illustration of a notebook and pen."
 status: "published"
 ---
 

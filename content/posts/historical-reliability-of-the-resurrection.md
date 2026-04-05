@@ -4,7 +4,7 @@ date: "2026-04-05"
 tags: ["faith", "history", "Easter"]
 summary: "Since it is Easter, I wanted to reflect on why I believe in Christianity. The lynchpin of the Christian faith is the historical reliability of the resurrection of Jesus."
 kicker: "Field Notes"
-heroImage: "/images/resurrection-hero.svg"
+heroImage: "/images/thumb-resurrection.svg"
 heroAlt: "Sunrise over an empty tomb with three crosses silhouetted on a distant hill."
 heroCaption: "Dawn breaks. The tomb is empty."
 status: "published"
