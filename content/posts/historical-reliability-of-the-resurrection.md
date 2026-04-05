@@ -15,9 +15,13 @@ I think at its core, the evidence suggests that the most likely scenario is Jesu
 
 It is the exact same scenario with the creation of the universe. What caused the Big Bang? The evidence by far suggests that intelligent design created the universe, however that would mean accepting something that cannot be scientifically proven. So the question is, how open minded are we really? If we can infer from the evidence that the most likely explanation falls outside of our worldview, will we accept it?
 
+---
+
 ## The Death of Jesus
 
 Jesus of Nazareth's death by crucifixion under Pontius Pilate is considered an indisputable fact of history, accepted by nearly all historians and scholars, both religious and secular. It is heavily documented in both early Christian sources and non-Christian records, including the Roman historian Tacitus (Annals 15.44) and the Jewish historian Josephus (Antiquities 18.3). This is not a contested starting point. Everyone agrees Jesus died.
+
+---
 
 ## The Empty Tomb
 
@@ -31,6 +35,8 @@ Early non-gospel sources, including Justin Martyr, reference the Jewish counter-
 
 And perhaps the argument I find most underrated: the resurrection accounts place women as the primary witnesses. In first century Jewish and Roman culture, the testimony of women carried lower legal standing. Nobody fabricating a story meant to convince people would have written it this way. The fact that it was recorded exactly as it was, against the cultural grain, is a mark of authenticity.
 
+---
+
 ## The Resurrection
 
 Most scholars, including skeptical ones, accept that the disciples genuinely believed they had seen Jesus after his death, and that this belief spread rapidly even under severe persecution. Something happened. The real question is not whether something happened. The question is what kind of explanation you are willing to accept. Supernatural resurrection, mass hallucination, stolen body, or legend development. Each deserves honest examination.
@@ -43,9 +49,11 @@ The conversion of the skeptics is another thing I keep coming back to. James, th
 
 Something else that has always struck me is that Jesus prophesied his own death and resurrection, explained the reason for it, and then it happened exactly as he said it would. He was explicit that his death was the atoning sacrifice that would pay the price for our shortcomings, and that resurrection would be the sign validating everything he claimed. He told his disciples in advance, explained the purpose, and then fulfilled it. That kind of coherence, the prediction, the purpose, the fulfillment, is not the shape of myth. Myths do not announce themselves ahead of time.
 
-After the resurrection, the message spread with remarkable speed in the very city where Jesus had been publicly executed, among people who could have easily investigated and disproved it, with hundreds of alleged eyewitnesses still alive. This growth was not backed by money or political power. It was fueled entirely by the message that He had risen. For anyone who wants to go deep on this, N.T. Wright's The Resurrection of the Son of God is the most thorough scholarly treatment of the subject, written not as apologetics but as rigorous history.
+After the resurrection, the message spread with remarkable speed in the very city where Jesus had been publicly executed, among people who could have easily investigated and disproved it, with hundreds of alleged eyewitnesses still alive. This growth was not backed by money or political power. It was fueled entirely by the message that He had risen. For anyone who wants to go deep on this, N.T. Wright's *The Resurrection of the Son of God* is the most thorough scholarly treatment of the subject, written not as apologetics but as rigorous history.
 
 One last thing worth noting. The four gospels present different perspectives and varying details of the resurrection events. Far from undermining credibility, this is exactly what historians look for. Perfect uniformity across independent accounts is actually a red flag for collusion. Variation in the peripheral details alongside agreement on the core facts is the fingerprint of genuine independent testimony.
+
+---
 
 ## Why This Matters to Me
 
