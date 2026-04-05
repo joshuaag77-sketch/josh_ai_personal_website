@@ -41,9 +41,9 @@ export default function AboutPage() {
         <div className="mb-12 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             <AnimatedCounter end={4} label="Articles Published" />
-            <AnimatedCounter end={655} label="GMAT Score" />
             <AnimatedCounter end={1} label="AI Chatbot Built" />
             <AnimatedCounter end={5} suffix="+" label="Experiments Run" />
+            <AnimatedCounter end={3} suffix="+" label="Systems Built" />
           </div>
         </div>
       </AnimateOnScroll>
