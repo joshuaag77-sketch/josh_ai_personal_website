@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>655 GMAT, 4 Top Admits — Here's What Actually Matters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1714;
+      --ink-light: #4a4540;
+      --ink-faint: #8a8480;
+      --cream: #f7f4ef;
+      --cream-dark: #ede9e2;
+      --gold: #b8933a;
+      --gold-light: #d4a94e;
+      --rule: #d8d2c8;
+      --green: #3d6b4f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    /* ── Progress Bar ── */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--gold);
+      z-index: 999;
+      transition: width 0.1s linear;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      max-width: 780px;
+      margin: 0 auto 24px;
+      color: var(--cream);
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #b0a89e;
+      max-width: 580px;
+      margin: 0 auto;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    .meta {
+      margin-top: 36px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: #7a726a;
+      text-transform: uppercase;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    article {
+      padding: 72px 0 96px;
+    }
+
+    /* ── Typography ── */
+    p { margin-bottom: 1.6em; color: var(--ink); }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 72px 0 20px;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    h2::before {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-style: italic;
+      margin: 40px 0 12px;
+      color: var(--ink);
+    }
+
+    strong { font-weight: 500; }
+
+    /* ── Pull quote ── */
+    blockquote {
+      margin: 48px 0;
+      padding: 32px 36px;
+      border-left: 3px solid var(--gold);
+      background: var(--cream-dark);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    /* ── Stat row ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 48px 0;
+    }
+
+    .stat {
+      background: var(--cream);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 56px 0;
+    }
+
+    /* ── Numbered list ── */
+    .numbered-list {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+      margin: 24px 0 32px;
+    }
+
+    .numbered-list li {
+      counter-increment: item;
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      align-items: flex-start;
+    }
+
+    .numbered-list li::before {
+      content: counter(item, decimal-leading-zero);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+      line-height: 1.4;
+      min-width: 36px;
+    }
+
+    .numbered-list li p { margin: 0; }
+
+    /* ── Insight box (dark) ── */
+    .insight {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 36px 40px;
+      margin: 48px 0;
+    }
+
+    .insight-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+    }
+
+    .insight p {
+      color: #ccc5bc;
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    /* ── Leverage callout ── */
+    .leverage-box {
+      border: 1px solid var(--gold);
+      padding: 32px 36px;
+      margin: 48px 0;
+      position: relative;
+    }
+
+    .leverage-box::before {
+      content: 'THE LEVERAGE PLAY';
+      position: absolute;
+      top: -10px;
+      left: 24px;
+      background: var(--cream);
+      padding: 0 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+
+    /* ── Flip Cards ── */
+    .flip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 32px 0 48px;
+    }
+
+    .flip-card {
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .flip-front {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .flip-back {
+      background: var(--gold);
+      color: var(--ink);
+      transform: rotateY(180deg);
+    }
+
+    .flip-front-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .flip-front-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a09890;
+    }
+
+    .flip-back p {
+      font-size: 13px;
+      line-height: 1.5;
+      font-weight: 400;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .flip-hint {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    /* ── GMAT Score Visual ── */
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0 36px;
+      font-size: 14px;
+    }
+
+    .score-table th {
+      background: var(--ink);
+      color: var(--gold-light);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .score-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--rule);
+      color: var(--ink-light);
+    }
+
+    .score-table tr:nth-child(even) td { background: var(--cream-dark); }
+
+    .score-table td:first-child { font-weight: 500; color: var(--ink); }
+
+    .score-highlight td { background: rgba(184,147,58,0.12) !important; }
+    .score-highlight td:first-child { color: var(--gold); font-weight: 600; }
+
+    /* ── GMAT Strategy Cards ── */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 36px 0 48px;
+    }
+
+    .strategy-card {
+      background: var(--cream);
+      padding: 28px 24px;
+    }
+
+    .strategy-icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .strategy-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .strategy-card p {
+      font-size: 14px;
+      line-height: 1.65;
+      margin: 0;
+      color: var(--ink-light);
+    }
+
+    /* ── ROI Calculator ── */
+    .roi-calculator {
+      background: var(--ink);
+      padding: 48px 40px;
+      margin: 48px 0;
+      color: var(--cream);
+    }
+
+    .roi-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+
+    .roi-subtitle {
+      font-size: 13px;
+      color: #7a726a;
+      margin-bottom: 32px;
+    }
+
+    .roi-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .roi-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .roi-field select,
+    .roi-field input[type="range"] {
+      width: 100%;
+    }
+
+    .roi-field select {
+      background: #2a2520;
+      border: 1px solid #3a3530;
+      color: var(--cream);
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .roi-field input[type="range"] {
+      accent-color: var(--gold);
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #5a5248;
+      margin-top: 4px;
+    }
+
+    .roi-output {
+      margin-top: 36px;
+      border-top: 1px solid #2a2520;
+      padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 24px;
+    }
+
+    .roi-metric label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #5a5248;
+      margin-bottom: 6px;
+    }
+
+    .roi-metric .value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .roi-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #5a5248;
+      line-height: 1.6;
+    }
+
+    /* ── Inline CTA nudge ── */
+    .inline-cta {
+      background: var(--cream-dark);
+      border-left: 3px solid var(--gold);
+      padding: 20px 24px;
+      margin: 48px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .inline-cta p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--ink-light);
+    }
+
+    .inline-cta a {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .inline-cta a:hover { background: var(--gold); color: var(--ink); }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      background: var(--ink);
+      padding: 88px 24px;
+      text-align: center;
+    }
+
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+    }
+
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      color: var(--cream);
+      max-width: 620px;
+      margin: 0 auto 16px;
+      line-height: 1.25;
+    }
+
+    .cta-section h2::before { display: none; }
+
+    .cta-proof {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin: 32px 0;
+      flex-wrap: wrap;
+    }
+
+    .cta-proof-item {
+      text-align: center;
+    }
+
+    .cta-proof-item strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .cta-proof-item span {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a5248;
+    }
+
+    .cta-value-list {
+      list-style: none;
+      max-width: 460px;
+      margin: 0 auto 40px;
+      text-align: left;
+    }
+
+    .cta-value-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #2a2520;
+      font-size: 15px;
+      color: #9a928a;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .cta-value-list li::before {
+      content: '→';
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .cta-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .cta-form input {
+      width: 100%;
+      padding: 14px 18px;
+      background: #2a2520;
+      border: 1px solid #3a3530;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cta-form input::placeholder { color: #5a5248; }
+    .cta-form input:focus { border-color: var(--gold); }
+
+    .cta-btn {
+      width: 100%;
+      padding: 17px 24px;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .cta-btn:hover { background: var(--gold-light); }
+
+    .cta-price {
+      font-size: 13px;
+      color: #5a5248;
+      margin-top: 6px;
+    }
+
+    footer {
+      background: #111;
+      color: #5a5248;
+      text-align: center;
+      padding: 28px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 600px) {
+      h2 { font-size: 1.4rem; }
+      blockquote { padding: 24px; font-size: 1rem; }
+      .insight { padding: 28px 22px; }
+      .roi-row { grid-template-columns: 1fr; }
+      .roi-calculator { padding: 32px 22px; }
+      .flip-card { height: 180px; }
+      .inline-cta { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HEADER -->
+<header>
+  <p class="eyebrow">MBA Admissions · Class of 2026</p>
+  <h1>655 GMAT, 4 Top Admits. Here Is What Actually Matters.</h1>
+  <p class="subtitle">Admitted to Wharton, Booth, Yale SOM, and Cornell Johnson with over $210K in scholarships across the four schools as an international applicant. This is the guide I wish existed when I started.</p>
+  <p class="meta">By Josh &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp; 18 min read</p>
+</header>
+
+<!-- ARTICLE -->
+<article>
+  <div class="container">
+
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-number">655</span>
+        <span class="stat-label">GMAT Focus Score</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Top Admits</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">$210K+</span>
+        <span class="stat-label">Total Scholarships</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">Int'l</span>
+        <span class="stat-label">Canadian Applicant</span>
+      </div>
+    </div>
+
+    <p>There is a lot of noise online about how to get into business school. Most of it will not help you. I know because I spent a year swimming in it — the Reddit threads, the admissions consultant blogs, the GMAT Club forums — trying to figure out what actually moves the needle.</p>
+
+    <p>I scored a 655 on the GMAT Focus Edition. I was admitted to Wharton, Booth, Yale SOM, and Cornell Johnson, with over $210K in scholarships spread across those four schools. I am Canadian. I did not have a flawless profile. What I had was a clear strategy and a willingness to work that system hard.</p>
+
+    <p>This is what I learned. I am going to give you the high-signal version with no filler.</p>
+
+    <blockquote>
+      The goal is not a perfect GMAT score. The goal is a business school admit. Those are very different objectives, and confusing them will cost you a year.
+    </blockquote>
+
+
+    <!-- SECTION 1: BEFORE YOU START -->
+    <h2>Before You Start: The Question Nobody Asks First</h2>
+
+    <p>Before you open a prep book or look at school rankings, sit with this question honestly: if you got into the school of your dreams and the price tag was $260,000 USD with no scholarship, would you still go?</p>
+
+    <p>Most people do not think about this until they have offers in hand and a 30-day deadline to decide. By then the financial pressure warps the decision. Do the math now, before you are emotionally invested in specific schools.</p>
+
+    <p>The total cost of a top MBA is not just tuition. It is two years of lost income. It is interest on loans. It is the cost of living in Philadelphia or Chicago or New Haven while you are not earning. For most applicants, the real number is somewhere between $250,000 and $350,000 when you account for everything. That is not a reason not to go. It is a reason to go with your eyes open and a plan to minimize unnecessary cost.</p>
+
+    <p>And nobody talks about the cost of the preparation journey itself. GMAT prep courses, private coaching, practice exams, score sends, application fees, interview prep — we are talking thousands of dollars before you even submit a single application. Budget for it.</p>
+
+    <!-- ROI CALCULATOR -->
+    <div class="roi-calculator" id="roi-calc">
+      <p class="roi-title">MBA Cost Reality Check</p>
+      <p class="roi-subtitle">Adjust the inputs below to see what attending actually costs you.</p>
+
+      <div class="roi-row">
+        <div class="roi-field">
+          <label>Target School</label>
+          <select id="school-select" onchange="calcROI()">
+            <option value="267500">Wharton ($267,500 est. total)</option>
+            <option value="252000">Chicago Booth ($252,000 est. total)</option>
+            <option value="228000">Yale SOM ($228,000 est. total)</option>
+            <option value="205000">Cornell Johnson ($205,000 est. total)</option>
+            <option value="248000">Kellogg ($248,000 est. total)</option>
+            <option value="260000">Columbia ($260,000 est. total)</option>
+          </select>
+        </div>
+        <div class="roi-field">
+          <label>Scholarship Amount ($)</label>
+          <input type="range" id="scholarship" min="0" max="150000" step="5000" value="0" oninput="calcROI(); document.getElementById('schol-val').textContent='$'+Number(this.value).toLocaleString();" />
+          <div class="range-labels"><span>$0</span><span id="schol-val">$0</span><span>$150K</span></div>
+        </div>
+      </div>
+
+      <div class="roi-row">
+        <div class="roi-field">
+          <label>Pre-MBA Annual Salary ($)</label>
+          <input type="range" id="pre-salary" min="50000" max="200000" step="5000" value="100000" oninput="calcROI(); document.getElementById('pre-sal-val').textContent='$'+Number(this.value).toLocaleString();" />
+          <div class="range-labels"><span>$50K</span><span id="pre-sal-val">$100K</span><span>$200K</span></div>
+        </div>
+        <div class="roi-field">
+          <label>Expected Post-MBA Salary ($)</label>
+          <input type="range" id="post-salary" min="100000" max="350000" step="5000" value="200000" oninput="calcROI(); document.getElementById('post-sal-val').textContent='$'+Number(this.value).toLocaleString();" />
+          <div class="range-labels"><span>$100K</span><span id="post-sal-val">$200K</span><span>$350K</span></div>
+        </div>
+      </div>
+
+      <div class="roi-output" id="roi-output">
+        <div class="roi-metric">
+          <label>Net Debt (after scholarship)</label>
+          <div class="value" id="net-debt">$267,500</div>
+        </div>
+        <div class="roi-metric">
+          <label>Monthly Loan Payment (10yr @ 7%)</label>
+          <div class="value" id="monthly-payment">$3,105</div>
+        </div>
+        <div class="roi-metric">
+          <label>Total Interest Paid</label>
+          <div class="value" id="total-interest">$105,100</div>
+        </div>
+        <div class="roi-metric">
+          <label>Salary Lift (Annual)</label>
+          <div class="value" id="salary-lift">$100K</div>
+        </div>
+        <div class="roi-metric">
+          <label>Break-Even (Years)</label>
+          <div class="value" id="break-even">3.7 yrs</div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <canvas id="amort-chart" height="120"></canvas>
+      </div>
+      <p class="roi-note">Loan payment assumes 10-year amortization at 7% interest. Opportunity cost (2 years of pre-MBA salary foregone) is included in the school's estimated total cost. This is a simplified model for directional clarity, not financial advice.</p>
+    </div>
+
+    <p>Use that calculator as a gut check. The point is not to scare you out of applying. The point is to make sure you are applying with full clarity on what you are signing up for, and with a plan to negotiate every dollar of scholarship you possibly can.</p>
+
+    <p>Start building a contact log of people from schools you are interested in as early as possible. Reach out on LinkedIn. Take notes on what they say. What they tell you about the culture, the recruiting, the day-to-day will be more valuable than any brochure. And those conversations become ammunition for your essays and interviews later.</p>
+
+    <div class="inline-cta">
+      <p>Want help modeling the real financial decision across your specific schools? Book a strategy session.</p>
+      <a href="#consult">Book a Session</a>
+    </div>
+
+
+    <!-- SECTION 2: GMAT -->
+    <h2>The GMAT: Understanding the Game Before You Play It</h2>
+
+    <p>The single most important thing to understand about the GMAT is that it is not like any exam you have taken in school. Most standardized tests reward the student who knows the most material. The GMAT rewards the student who understands the algorithm running underneath it. Once you see it that way, your entire approach changes.</p>
+
+    <h3>First decision: GMAT or GRE?</h3>
+
+    <p>Before you start studying anything, answer this question. Nearly every top MBA program now accepts both the GMAT Focus Edition and the GRE, and most admissions committees treat them equally. Do not default to the GMAT because it feels like the traditional choice. Take a diagnostic practice test for each and go with whichever plays more to your natural strengths. If you are strong at vocabulary and reading comprehension, the GRE may serve you better. If you are comfortable with data interpretation and logical reasoning, the GMAT Focus likely suits you. The stigma around the GRE in MBA admissions is largely outdated at this point.</p>
+
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>GMAT Focus Edition</th>
+          <th>GRE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Duration</td><td>2 hr 15 min</td><td>1 hr 58 min</td></tr>
+        <tr><td>Score Range</td><td>205 to 805</td><td>260 to 340</td></tr>
+        <tr><td>Sections</td><td>Quant, Verbal, Data Insights</td><td>Quant, Verbal, Analytical Writing</td></tr>
+        <tr><td>Adaptive</td><td>Yes, section-level</td><td>Yes, section-level</td></tr>
+        <tr><td>Accepted at top MBAs</td><td>Yes, all programs</td><td>Yes, all programs</td></tr>
+        <tr><td>Prep resources</td><td>Excellent (GMAT Club, OG)</td><td>Good (ETS Official)</td></tr>
+        <tr class="score-highlight"><td>Best for</td><td>Data-heavy thinkers, analytical profiles</td><td>Strong readers, humanities backgrounds</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Understanding the GMAT scoring system</h3>
+
+    <p>The GMAT Focus Edition replaced the old GMAT in February 2024. The scoring scale changed from 200 to 800 (old) to 205 to 805 (new), with every score ending in a five. Three equally weighted sections cover Quantitative Reasoning, Verbal Reasoning, and Data Insights. Each section is scored 60 to 90. The total score is your percentile that matters, not the raw number. Schools evaluate percentile ranking.</p>
+
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>GMAT Focus Score</th>
+          <th>Approx. Percentile</th>
+          <th>Old GMAT Equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>715 to 805</td><td>99th+</td><td>760 to 800</td></tr>
+        <tr><td>685 to 705</td><td>96th to 98th</td><td>720 to 750</td></tr>
+        <tr><td>665 to 675</td><td>92nd to 95th</td><td>700 to 720</td></tr>
+        <tr class="score-highlight"><td>655</td><td>~90th to 91st</td><td>~690</td></tr>
+        <tr><td>635 to 645</td><td>84th to 88th</td><td>670 to 680</td></tr>
+        <tr><td>605 to 625</td><td>74th to 80th</td><td>640 to 660</td></tr>
+      </tbody>
+    </table>
+
+    <p>My 655 sits at roughly the 90th percentile. That is the score that got me into Wharton, Booth, Yale, and Cornell with scholarship. The number looked lower than the old 700 benchmark most people fixate on. But the percentile is what schools actually compare, and 90th is competitive at every top program.</p>
+
+    <h3>The algorithm is the game</h3>
+
+    <p>The GMAT Focus Edition is adaptive by section. The exam starts at a medium difficulty level and adjusts based on how you perform. Answer correctly and the questions get harder. Answer incorrectly and they get easier. Your final score reflects both how many you got right and the difficulty level you were answering at. This has major strategic implications that most people completely ignore.</p>
+
+    <p>The most important one: because the exam is adaptive, guessing quickly on a question you genuinely cannot solve and moving on is almost always better than spending four minutes on it. A question you spend too long on that you eventually get wrong has cost you both the points and the time. Flag it, make your best call, move on. Come back at the end if you have time. Never leave a question blank — blank answers carry a double penalty.</p>
+
+    <p>The second implication: strong performance early in a section matters more than strong performance late, because early answers determine the difficulty band you are placed in. This does not mean you should rush — it means you should be deliberate and composed at the start of each section rather than warming up slowly.</p>
+
+    <h3>What actually moves the score</h3>
+
+    <p class="flip-hint">Hover over each card (or tap on mobile) to reveal the insight.</p>
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">01</div>
+            <div class="flip-front-label">Start with a Diagnostic</div>
+          </div>
+          <div class="flip-back">
+            <p>Get your real baseline before you study anything. Identify the two or three skill areas with the biggest gap. Depth beats breadth every time.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">02</div>
+            <div class="flip-front-label">Review Over Volume</div>
+          </div>
+          <div class="flip-back">
+            <p>All real improvement comes from deep question review, not grinding more questions. Write out what broke down. Find alternative solution paths. Log it. Redo it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">03</div>
+            <div class="flip-front-label">Timing Strategy</div>
+          </div>
+          <div class="flip-back">
+            <p>Each section is 45 minutes. Know your pace per question. Practice triage: flag and move, then return. Stalling on one question kills your score more than getting it wrong.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">04</div>
+            <div class="flip-front-label">The Mind Game</div>
+          </div>
+          <div class="flip-back">
+            <p>One bad question cannot hurt you if you refuse to carry it. A short memory for mistakes during the exam is a real, trainable skill. Practice it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">05</div>
+            <div class="flip-front-label">Error Log</div>
+          </div>
+          <div class="flip-back">
+            <p>Build a categorized log of every question you get wrong. Note the concept, what broke down in your reasoning, and the correct approach. Review it weekly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <div class="flip-front-num">06</div>
+            <div class="flip-front-label">Get a Coach</div>
+          </div>
+          <div class="flip-back">
+            <p>In a world of AI tutors, a human coach still wins on accountability and strategy. Having someone in your corner is underrated. Reach out if you want a recommendation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="inline-cta">
+      <p>Want a coach recommendation or help building your GMAT prep plan? I can point you in the right direction.</p>
+      <a href="#consult">Get in Touch</a>
+    </div>
+
+
+    <!-- SECTION 3: APPLICATIONS -->
+    <h2>Applications: The Creative Writing Contest You Have Been Preparing For Your Whole Life</h2>
+
+    <p>Once your GMAT score is locked in, the application phase is a completely different game. The test was about demonstrating cognitive ability under pressure. Applications are about demonstrating self-awareness, narrative clarity, and fit. These are skills that belong to you and nobody can manufacture them in a few weeks.</p>
+
+    <h3>Authenticity is not a platitude, it is a strategy</h3>
+    <p>Every admissions consultant says be authentic. It is true and also vague. What it means in practice: avoid jargon, write like you actually talk, and use AI tools for refinement rather than idea generation. Admissions committees read hundreds of applications. The ones that stand out do not try to sound impressive. They try to sound real. The most overused word in MBA essays is "impact." Think differently about how you describe what you do and why you do it.</p>
+
+    <h3>Your resume is the linchpin</h3>
+    <p>Everything in your application flows from your resume. It is the first document read and it frames every other piece. The specificity of your work descriptions, the scale of your impact, the progression of your responsibilities: these set the foundation that your essays build on. A strong resume makes the entire application easier to write because your story is already clear. Spend real time on it. Get sharp feedback. Consider getting it reviewed by someone who has been through this process recently. It is that important.</p>
+
+    <h3>Essays: tell the story only you can tell</h3>
+    <p>The essay question is asking one thing in different formats: who are you, why do you want an MBA, and why this school specifically? The strongest essays do not answer these generically. They give the reader something specific and memorable. Think about what you have done that nobody else in the applicant pool has done. That is your material. School-specific essays need to be genuinely specific. Name programs, clubs, professors, and courses that actually connect to what you want to do. Generic "why school X" answers are immediately visible and immediately forgettable.</p>
+
+    <h3>Recommendations: choose people who know your work, not your title</h3>
+    <p>Your recommenders should be people who have seen you do the actual work, not the most senior names you can access. A manager who worked closely with you on a specific project will write a more compelling letter than a C-suite executive who knows your name but not your work. Give your recommenders context. Share your essays, your resume, and the specific stories you want them to reinforce. Make it easy for them to be specific, because specificity is what lands.</p>
+
+    <div class="inline-cta">
+      <p>Want a review of your resume or essay drafts from someone who just went through this? Let's talk.</p>
+      <a href="#consult">Book a Session</a>
+    </div>
+
+
+    <!-- SECTION 4: INTERVIEWS -->
+    <h2>Interviews: You Already Have the Offer</h2>
+
+    <p>This is the reframe that changed everything for me. By the time you are in an MBA interview, you already have the admit. The interview is not an audition. It is a fit conversation. The school is deciding whether you belong in their community. You are deciding the same thing about them. Walking in with that frame changes how you carry yourself entirely. You are not trying to impress anyone. You are validating a mutual decision that has already been made in your favor.</p>
+
+    <h3>Study your interviewer like your score depends on it. Because it does.</h3>
+
+    <p>Before every interview I did, I spent serious time researching my interviewer. Everything publicly available: their career history, what they had built, what they had written, where they had spoken, what they cared about. I was not looking for small talk fodder. I was looking for genuine overlap between their perspective and mine, so that when we were in the room, the conversation felt less like an interview and more like two people who already had things in common figuring out whether they should be in the same community.</p>
+
+    <p>The concept for this, if you want a clean way to think about it, is contextual intelligence: understanding the specific person in front of you well enough to communicate your ideas through a frame they will actually connect with. This is not manipulation. It is the highest form of communication. The candidates who do this well do not just answer questions. They make the interviewer feel genuinely heard and understood, which is exactly what great leaders do. I used it with every interviewer I had. It showed up in my admit rate.</p>
+
+    <ul class="numbered-list">
+      <li><p><strong>Enter with the right frame.</strong> You already have the offer. This is a fit conversation. Calm, composed, not trying to impress — just validating a mutual decision.</p></li>
+      <li><p><strong>Control the conversation without dominating it.</strong> Do not just answer questions. Build on them, ask your own, create natural transitions. Leadership shows up in how you communicate, not just what you say.</p></li>
+      <li><p><strong>Match their energy.</strong> If they are relaxed and conversational, be natural. If they are analytical and structured, be precise. Reading the room and adjusting in real time is a skill very few candidates consciously use.</p></li>
+      <li><p><strong>Use proof, not claims.</strong> Do not say "Booth has a collaborative culture." Say "every student I spoke to mentioned the same specific thing about how people operate here, and one told me about X directly." First-hand specificity is worth ten times the generic observation.</p></li>
+      <li><p><strong>Know your angles before you walk in.</strong> Decide in advance how you want to be remembered. What are the two or three things you want this person to know about you? Make sure those come through naturally. You are not "whatever comes out." You are a person with a clear identity and a clear point of view.</p></li>
+      <li><p><strong>Be someone they would want in the room.</strong> Smart is the baseline. Everyone interviewing is smart. The real question the interviewer is asking is whether they would want to work with you, sit next to you in class, or grab a drink with you. Likability is a real lever. Do not underestimate it.</p></li>
+    </ul>
+
+
+    <!-- SECTION 5: SCHOOL SELECTION -->
+    <h2>School Selection: The Strategic Layer Most People Skip</h2>
+
+    <p>Where you apply matters as much as how you apply. A brilliant application to the wrong school is wasted effort. The goal is to identify a portfolio of schools where you are genuinely competitive, where you would genuinely thrive, and where the structure of the program fits what you want to do afterward.</p>
+
+    <p>Think about this in three layers. The first is fit: does the culture, pedagogy, and community match how you learn and who you are? The second is outcome: where do graduates go, and does that align with your actual goals? The third is financial: what is the realistic cost, and does the ROI hold up for your specific situation?</p>
+
+    <p>Most people think hard about the first two and barely think about the third until they are staring at offer letters with a deadline. Do that math before you apply.</p>
+
+    <div class="leverage-box">
+      <p>Here is what almost nobody figures out until it is too late. Application fees at top programs run $250 to $275 per school. If you apply to six schools, that is roughly $1,500 to $1,600 in application fees. A lot of strong candidates narrow their list aggressively to save that money, thinking they have a solid enough profile to get in where they want. That logic works against you financially.</p>
+      <p style="margin-top:16px;">Think about it this way. Say you get into Booth with $100K in scholarship and Kellogg with $50K, and Kellogg is actually your first choice. You can go back to Kellogg and tell them you have a $100K offer from a peer program. Kellogg may well close that gap — because they want you enrolled and they know Booth is a real alternative. Your $275 Kellogg application just potentially returned tens of thousands of dollars in additional scholarship. That is an absurd return on investment. Apply broadly to competitive peer schools. The application cost is not the variable to optimize on.</p>
+    </div>
+
+    <p>What I would do differently: I would have started the school-specific research earlier, not to build a list, but to genuinely understand the differences between programs. By the time I was writing essays, some of the nuance that makes a great school-specific answer felt rushed. The candidates who do this well start having coffee chats twelve to eighteen months before they apply, not six weeks before the deadline.</p>
+
+
+    <!-- SECTION 6: SCHOLARSHIPS -->
+    <h2>Scholarships and Negotiation: The Move Most Applicants Miss</h2>
+
+    <p>Let me be direct here. Most admitted candidates do attempt to negotiate their scholarship offers. The ones who do not are leaving real money on the table. At the MBA level, schools expect it and the process is well understood. What separates a successful negotiation from an unsuccessful one is almost entirely about execution.</p>
+
+    <blockquote>
+      The temporary discomfort of asking for more money is nothing compared to the years of financial strain from not asking. The worst they can say is no. And sometimes, they say yes with a significant number attached.
+    </blockquote>
+
+    <p>The most important principle is this: use peer school offers as leverage. A competing offer from a program at a similar ranking tier is the clearest and most credible thing you can bring into a negotiation. Wharton and Booth can leverage each other. A lower-ranked offer used against an M7 school is unlikely to move anything meaningful. The tier match matters.</p>
+
+    <p>When you reach out, lead with genuine enthusiasm for the program. Be specific about the competing offer — give them a real number. Explain clearly why the gap creates a real barrier for you. Ask directly whether there is any opportunity to reconsider. Keep the tone professional, concise, and free of ultimatums. You are not threatening. You are giving them a credible reason to re-evaluate your award, which is genuinely in their interest if they want you enrolled.</p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <span class="strategy-icon">📄</span>
+        <div class="strategy-title">Document the Offer</div>
+        <p>Be ready to share the competing offer letter in writing. Schools may ask. Showing it builds credibility and signals you are negotiating in good faith.</p>
+      </div>
+      <div class="strategy-card">
+        <span class="strategy-icon">⏱</span>
+        <div class="strategy-title">Timing Is Everything</div>
+        <p>Negotiate before you commit. Once you accept and pay a deposit, your leverage is gone. The window between offer and decision deadline is your negotiating window.</p>
+      </div>
+      <div class="strategy-card">
+        <span class="strategy-icon">🎯</span>
+        <div class="strategy-title">Ask for a Specific Number</div>
+        <p>Do not ask vaguely for "more support." Give them a target. A specific, justified number is far easier for the admissions committee to act on than a general request.</p>
+      </div>
+      <div class="strategy-card">
+        <span class="strategy-icon">🤝</span>
+        <div class="strategy-title">Stay Humble</div>
+        <p>Negotiate with the tone of someone who genuinely wants to attend, not someone making demands. Arrogance kills negotiations. Enthusiasm and a clear ask wins them.</p>
+      </div>
+    </div>
+
+    <p>I negotiated at multiple schools. Some moved significantly. Some did not move at all. The act of asking costs nothing if you do it with the right tone. Know your number, know your leverage, and make the ask.</p>
+
+    <div class="inline-cta">
+      <p>Want to talk through your specific scholarship situation or how to structure a negotiation email? That is exactly what the strategy session is for.</p>
+      <a href="#consult">Book a Session</a>
+    </div>
+
+
+    <!-- CLOSING -->
+    <hr />
+
+    <h2>The Part That Cannot Be Packaged</h2>
+
+    <p>Everything above is strategy. It is learnable, it is replicable, and if you execute it well it gives you a real edge over the large majority of applicants who are going through this process without a clear framework.</p>
+
+    <p>But the thing that actually got me into these programs is harder to put in a guide. I had a genuine story. I knew why I wanted an MBA, what I wanted to do with it, and why these specific programs were the right places for me to do that. I had done the actual work: not just the application work, but the career reflection, the hard conversations with people who gave me honest feedback, the deep research into what each school actually offers.</p>
+
+    <p>You can have a 720 GMAT and a generic story and get dinged from your dream school. You can have a 655 and a clear, differentiated narrative and get in with scholarship. The score matters. The essays matter. The interview matters. But underneath all of it, the question the entire application is asking is this: do you know who you are and where you are going?</p>
+
+    <p>That is the question worth spending the most time on.</p>
+
+    <p>Booking conference rooms after work. Coffee, headphones, scores going backwards before they went forward. I made a promise to myself I would not quit. The score was just proof I kept it.</p>
+
+    <p>Good luck.</p>
+
+  </div>
+</article>
+
+<!-- CTA SECTION -->
+<section class="cta-section" id="consult">
+  <p class="cta-eyebrow">Strategy Session</p>
+  <h2>One Hour With Someone Who Just Did It Beats 100 Hours of Reddit Research.</h2>
+
+  <div class="cta-proof">
+    <div class="cta-proof-item">
+      <strong>655</strong>
+      <span>GMAT Focus</span>
+    </div>
+    <div class="cta-proof-item">
+      <strong>4</strong>
+      <span>Top Admits</span>
+    </div>
+    <div class="cta-proof-item">
+      <strong>$210K+</strong>
+      <span>Scholarships Won</span>
+    </div>
+    <div class="cta-proof-item">
+      <strong>2026</strong>
+      <span>Current Cycle</span>
+    </div>
+  </div>
+
+  <ul class="cta-value-list">
+    <li>Full profile review with honest, specific feedback on your positioning</li>
+    <li>School list strategy built around where you are actually competitive</li>
+    <li>Essay narrative coaching so your story lands the way it should</li>
+    <li>Interview prep using the same research-driven approach that worked for me</li>
+    <li>Scholarship negotiation strategy and help drafting the ask</li>
+    <li>Answers to anything else you are stuck on — no agenda, just signal</li>
+  </ul>
+
+  <form class="cta-form" onsubmit="handleSubmit(event)">
+    <input type="text" name="name" placeholder="Your name" required />
+    <input type="email" name="email" placeholder="Your email address" required />
+    <button type="submit" class="cta-btn">Request a Strategy Session</button>
+    <p class="cta-price">$200 · 1 hour · Video call · I will follow up within 48 hours to confirm.</p>
+  </form>
+</section>
+
+<footer>
+  &copy; 2026 Josh &nbsp;·&nbsp; All rights reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // ROI Calculator
+  const schoolData = {
+    267500: { name: 'Wharton' },
+    252000: { name: 'Booth' },
+    228000: { name: 'Yale SOM' },
+    205000: { name: 'Cornell' },
+    248000: { name: 'Kellogg' },
+    260000: { name: 'Columbia' }
+  };
+
+  function calcROI() {
+    const totalCost = parseFloat(document.getElementById('school-select').value);
+    const scholarship = parseFloat(document.getElementById('scholarship').value);
+    const preSalary = parseFloat(document.getElementById('pre-salary').value);
+    const postSalary = parseFloat(document.getElementById('post-salary').value);
+
+    const netDebt = Math.max(0, totalCost - scholarship);
+    const annualRate = 0.07;
+    const months = 120;
+    const monthlyRate = annualRate / 12;
+    const monthlyPayment = netDebt > 0
+      ? (netDebt * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
+      : 0;
+    const totalPaid = monthlyPayment * months;
+    const totalInterest = Math.max(0, totalPaid - netDebt);
+    const salaryLift = Math.max(0, postSalary - preSalary);
+    const breakEven = salaryLift > 0 ? (totalCost - scholarship) / salaryLift : 0;
+
+    document.getElementById('net-debt').textContent = '$' + Math.round(netDebt).toLocaleString();
+    document.getElementById('monthly-payment').textContent = '$' + Math.round(monthlyPayment).toLocaleString();
+    document.getElementById('total-interest').textContent = '$' + Math.round(totalInterest).toLocaleString();
+    document.getElementById('salary-lift').textContent = '$' + Math.round(salaryLift / 1000) + 'K';
+    document.getElementById('break-even').textContent = breakEven > 0 ? breakEven.toFixed(1) + ' yrs' : 'N/A';
+
+    updateAmortChart(netDebt, monthlyPayment, monthlyRate);
+  }
+
+  let amortChart = null;
+  function updateAmortChart(principal, monthlyPayment, monthlyRate) {
+    const labels = [];
+    const balances = [];
+    let balance = principal;
+    labels.push('0');
+    balances.push(Math.round(balance));
+    for (let year = 1; year <= 10; year++) {
+      for (let m = 0; m < 12; m++) {
+        const interest = balance * monthlyRate;
+        const principalPaid = monthlyPayment - interest;
+        balance = Math.max(0, balance - principalPaid);
+      }
+      labels.push('Yr ' + year);
+      balances.push(Math.round(balance));
+    }
+    const ctx = document.getElementById('amort-chart');
+    if (!ctx || typeof Chart === 'undefined') return;
+    if (amortChart) {
+      amortChart.data.labels = labels;
+      amortChart.data.datasets[0].data = balances;
+      amortChart.update();
+      return;
+    }
+    amortChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Loan Balance',
+          data: balances,
+          borderColor: '#c9a961',
+          backgroundColor: 'rgba(201, 169, 97, 0.15)',
+          fill: true,
+          tension: 0.25,
+          pointRadius: 0,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Loan Balance Over 10 Years', color: '#e8dcc4', font: { size: 14 } },
+          tooltip: {
+            callbacks: {
+              label: (c) => '$' + c.parsed.y.toLocaleString()
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#a89a82' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: {
+            ticks: { color: '#a89a82', callback: (v) => '$' + (v/1000) + 'K' },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          }
+        }
+      }
+    });
+  }
+
+  calcROI();
+
+  // CTA form -> redirect to Calendly with prefilled name/email
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const name = encodeURIComponent(form.name.value || '');
+    const email = encodeURIComponent(form.email.value || '');
+    const url = 'https://calendly.com/m7strategy?name=' + name + '&email=' + email;
+    window.location.href = url;
+  }
+</script>
+
+</body>
+</html>
