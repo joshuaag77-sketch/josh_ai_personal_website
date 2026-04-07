@@ -8,6 +8,7 @@ export interface PostFrontmatter {
   heroAlt?: string;
   heroCaption?: string;
   status?: "draft" | "published";
+  interactive?: string;
 }
 
 export interface Post {
@@ -21,6 +22,7 @@ export interface Post {
   heroAlt?: string;
   heroCaption?: string;
   readingTime?: string;
+  interactive?: string;
   content: string;
   contentHtml?: string;
 }

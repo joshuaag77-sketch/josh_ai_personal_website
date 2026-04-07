@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import type { Metadata } from "next";
 import { ReadingProgress } from "@/components/ReadingProgress";
+import { MbaRoiCalculator } from "@/components/MbaRoiCalculator";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -105,10 +106,34 @@ export default async function PostPage({ params }: Props) {
           </figure>
         )}
 
-        <div
-          className="article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700"
-          dangerouslySetInnerHTML={{ __html: post.contentHtml || "" }}
-        />
+        {(() => {
+          const html = post.contentHtml || "";
+          const marker = "<p>===ROI_CALCULATOR===</p>";
+          const proseClass =
+            "article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700";
+          if (post.interactive === "mba-roi" && html.includes(marker)) {
+            const [before, after] = html.split(marker);
+            return (
+              <>
+                <div
+                  className={proseClass}
+                  dangerouslySetInnerHTML={{ __html: before }}
+                />
+                <MbaRoiCalculator />
+                <div
+                  className={proseClass}
+                  dangerouslySetInnerHTML={{ __html: after }}
+                />
+              </>
+            );
+          }
+          return (
+            <div
+              className={proseClass}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          );
+        })()}
 
         <hr className="my-12 border-slate-200/70 dark:border-slate-800/70" />
 
