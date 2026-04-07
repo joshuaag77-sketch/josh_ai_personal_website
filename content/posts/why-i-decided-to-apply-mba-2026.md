@@ -6,7 +6,7 @@ summary: "485 to 655: the GMAT saga, the humbling, and what I actually learned f
 kicker: "Personal Essay"
 heroImage: "/images/thumb-mba.svg"
 heroAlt: "Bar chart showing GMAT score progression from 485 to 655."
-status: "published"
+status: "draft"
 ---
 
 I think the idea of doing an MBA was always somewhere in the background for me. It wasn’t something I obsessed over or planned step by step, but it was there. The point where it actually became real was early 2025 after I got back from a trip to India. I came back with momentum — work was going well, I was involved in things I cared about, building projects, doing meaningful stuff. And I had this thought that kept coming back: if I was ever going to seriously try for something bigger, this was probably the time.

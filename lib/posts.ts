@@ -47,6 +47,7 @@ export function getAllPosts(): PostListItem[] {
       heroImage: data.heroImage ?? "",
       heroAlt: data.heroAlt ?? "",
       readingTime: estimateReadingTime(content),
+      featured: data.featured === true,
     });
   }
 

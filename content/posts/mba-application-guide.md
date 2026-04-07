@@ -7,6 +7,7 @@ kicker: "MBA Admissions Guide"
 heroImage: "/images/thumb-mba.svg"
 heroAlt: "Bar chart showing GMAT score progression."
 interactive: "mba-roi"
+featured: true
 status: "published"
 ---
 
