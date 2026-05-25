@@ -30,7 +30,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const siteUrl = "https://josh-ai-personal-website.vercel.app";
-  const ogImage = post.heroImage ? `${siteUrl}${post.heroImage}` : `${siteUrl}/images/thumb-agent.svg`;
 
   return {
     title: `${post.title} - Josh`,
@@ -42,13 +41,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Josh Agarwal",
       type: "article",
       publishedTime: post.date,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: post.heroAlt || post.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
-      images: [ogImage],
     },
   };
 }
