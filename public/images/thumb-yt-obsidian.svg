@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="240" fill="url(#bg3)"/>
+
+  <!-- Phone outline -->
+  <rect x="30" y="40" width="80" height="160" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <!-- Phone screen -->
+  <rect x="36" y="56" width="68" height="110" rx="3" fill="#0f172a"/>
+  <!-- YouTube red play button area -->
+  <rect x="46" y="66" width="48" height="27" rx="3" fill="#1a1a2e"/>
+  <polygon points="64,72 64,87 79,79.5" fill="#ff0000" opacity="0.9"/>
+  <!-- Video title lines -->
+  <rect x="46" y="100" width="42" height="5" rx="2" fill="#334155" opacity="0.8"/>
+  <rect x="46" y="109" width="32" height="4" rx="2" fill="#334155" opacity="0.5"/>
+  <!-- Share icon area -->
+  <rect x="46" y="124" width="48" height="18" rx="3" fill="#1e3a5f"/>
+  <text x="70" y="136" text-anchor="middle" font-family="monospace" font-size="7" fill="#60a5fa" opacity="0.9">SHARE</text>
+  <!-- Phone notch -->
+  <rect x="58" y="44" width="24" height="6" rx="3" fill="#334155" opacity="0.5"/>
+
+  <!-- Arrow 1: Phone → Tasker -->
+  <line x1="112" y1="120" x2="148" y2="120" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"/>
+  <polygon points="145,115 155,120 145,125" fill="#60a5fa" opacity="0.7"/>
+
+  <!-- Tasker box -->
+  <rect x="155" y="100" width="50" height="40" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="180" y="118" text-anchor="middle" font-family="monospace" font-size="8" fill="#94a3b8">TASKER</text>
+  <text x="180" y="130" text-anchor="middle" font-family="monospace" font-size="6" fill="#60a5fa" opacity="0.8">+Claude API</text>
+
+  <!-- Arrow 2: Tasker → Obsidian -->
+  <line x1="207" y1="120" x2="243" y2="120" stroke="#a78bfa" stroke-width="1.5" opacity="0.7"/>
+  <polygon points="240,115 250,120 240,125" fill="#a78bfa" opacity="0.7"/>
+
+  <!-- Obsidian diamond icon area -->
+  <rect x="250" y="95" width="70" height="50" rx="6" fill="#1e1b4b" stroke="#4c1d95" stroke-width="1.5"/>
+  <!-- Simplified Obsidian logo (diamond shape) -->
+  <polygon points="285,105 298,115 285,138 272,115" fill="#7c3aed" opacity="0.3"/>
+  <polygon points="285,105 298,115 285,120" fill="#a78bfa" opacity="0.7"/>
+  <polygon points="285,120 298,115 285,138" fill="#7c3aed" opacity="0.5"/>
+  <polygon points="285,105 272,115 285,120" fill="#c4b5fd" opacity="0.6"/>
+  <polygon points="285,120 272,115 285,138" fill="#7c3aed" opacity="0.4"/>
+
+  <!-- Note preview strip at bottom -->
+  <rect x="30" y="215" width="340" height="18" rx="3" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <rect x="40" y="219" width="6" height="6" rx="1" fill="#22c55e" opacity="0.7"/>
+  <rect x="52" y="220" width="60" height="4" rx="1" fill="#334155" opacity="0.6"/>
+  <rect x="120" y="220" width="40" height="4" rx="1" fill="#334155" opacity="0.4"/>
+  <rect x="280" y="220" width="30" height="4" rx="1" fill="#22c55e" opacity="0.3"/>
+  <text x="322" y="226" font-family="monospace" font-size="6" fill="#4ade80" opacity="0.8">SAVED</text>
+
+  <!-- Labels below boxes -->
+  <text x="70" y="212" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">YouTube</text>
+  <text x="180" y="148" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">Automation</text>
+  <text x="285" y="152" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">Obsidian</text>
+</svg>
