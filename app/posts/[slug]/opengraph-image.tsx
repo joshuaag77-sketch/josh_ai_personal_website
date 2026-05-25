@@ -1,9 +1,14 @@
 import { ImageResponse } from "next/og";
-import { getPostBySlug } from "@/lib/posts";
+import { getPostBySlug, getAllPosts } from "@/lib/posts";
 
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+export async function generateStaticParams() {
+  const posts = getAllPosts();
+  return posts.map((p) => ({ slug: p.slug }));
+}
 
 // Neural net: 4 layers of nodes, connected left→right
 // Layer configs: [x, nodeCount, nodeSpacing, color]
@@ -76,7 +81,7 @@ export default async function OgImage({
 
         {/* ── Neural net nodes — layered circles to fake blur/glow ── */}
         {allLayers.flat().map((node, i) => (
-          <div key={i} style={{ position: "absolute", left: 0, top: 0, width: 0, height: 0 }}>
+          <div key={i} style={{ display: "flex", position: "absolute", left: 0, top: 0, width: 0, height: 0 }}>
             {/* outer halo */}
             <div style={{ position: "absolute", left: node.x - 32, top: node.y - 32, width: 64, height: 64, borderRadius: "50%", background: node.color, opacity: 0.06 }} />
             {/* mid glow */}
