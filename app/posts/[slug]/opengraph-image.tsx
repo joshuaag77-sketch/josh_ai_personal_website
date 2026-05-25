@@ -67,24 +67,25 @@ export default async function OgImage({
               position: "absolute",
               left: e.x1, top: e.y1,
               width: len, height: 1,
-              background: "rgba(129,140,248,0.12)",
+              background: "rgba(129,140,248,0.07)",
               transformOrigin: "0 0",
               transform: `rotate(${angle}deg)`,
             }} />
           );
         })}
 
-        {/* ── Neural net nodes ── */}
+        {/* ── Neural net nodes — layered circles to fake blur/glow ── */}
         {allLayers.flat().map((node, i) => (
-          <div key={i} style={{
-            position: "absolute",
-            left: node.x - 7, top: node.y - 7,
-            width: 14, height: 14,
-            borderRadius: "50%",
-            background: node.color,
-            boxShadow: `0 0 12px 3px ${node.color}`,
-            opacity: 0.85,
-          }} />
+          <div key={i} style={{ position: "absolute", left: 0, top: 0, width: 0, height: 0 }}>
+            {/* outer halo */}
+            <div style={{ position: "absolute", left: node.x - 32, top: node.y - 32, width: 64, height: 64, borderRadius: "50%", background: node.color, opacity: 0.06 }} />
+            {/* mid glow */}
+            <div style={{ position: "absolute", left: node.x - 20, top: node.y - 20, width: 40, height: 40, borderRadius: "50%", background: node.color, opacity: 0.1 }} />
+            {/* inner glow */}
+            <div style={{ position: "absolute", left: node.x - 11, top: node.y - 11, width: 22, height: 22, borderRadius: "50%", background: node.color, opacity: 0.2 }} />
+            {/* core */}
+            <div style={{ position: "absolute", left: node.x - 5, top: node.y - 5, width: 10, height: 10, borderRadius: "50%", background: node.color, opacity: 0.7 }} />
+          </div>
         ))}
 
         {/* ── Fade: right side bleeds in, left stays dark for text ── */}
