@@ -4,6 +4,7 @@ import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import type { Metadata } from "next";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { MbaRoiCalculator } from "@/components/MbaRoiCalculator";
+import { WorkflowDemo } from "@/components/WorkflowDemo";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -108,25 +109,33 @@ export default async function PostPage({ params }: Props) {
 
         {(() => {
           const html = post.contentHtml || "";
-          const marker = "<p>===ROI_CALCULATOR===</p>";
+          const ROI_MARKER = "<p>===ROI_CALCULATOR===</p>";
+          const WORKFLOW_MARKER = "<p>===WORKFLOW_DEMO===</p>";
           const proseClass =
             "article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700";
-          if (post.interactive === "mba-roi" && html.includes(marker)) {
-            const [before, after] = html.split(marker);
+
+          if (post.interactive === "mba-roi" && html.includes(ROI_MARKER)) {
+            const [before, after] = html.split(ROI_MARKER);
             return (
               <>
-                <div
-                  className={proseClass}
-                  dangerouslySetInnerHTML={{ __html: before }}
-                />
+                <div className={proseClass} dangerouslySetInnerHTML={{ __html: before }} />
                 <MbaRoiCalculator />
-                <div
-                  className={proseClass}
-                  dangerouslySetInnerHTML={{ __html: after }}
-                />
+                <div className={proseClass} dangerouslySetInnerHTML={{ __html: after }} />
               </>
             );
           }
+
+          if (post.interactive === "workflow-demo" && html.includes(WORKFLOW_MARKER)) {
+            const [before, after] = html.split(WORKFLOW_MARKER);
+            return (
+              <>
+                <div className={proseClass} dangerouslySetInnerHTML={{ __html: before }} />
+                <WorkflowDemo />
+                <div className={proseClass} dangerouslySetInnerHTML={{ __html: after }} />
+              </>
+            );
+          }
+
           return (
             <div
               className={proseClass}

@@ -1,62 +1,124 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440">
   <defs>
-    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1e293b"/>
       <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
+    <linearGradient id="noteGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f0e2a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
   <!-- Background -->
-  <rect width="400" height="240" fill="url(#bg3)"/>
+  <rect width="800" height="440" fill="url(#bg)"/>
 
-  <!-- Phone outline -->
-  <rect x="30" y="40" width="80" height="160" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <!-- Phone screen -->
-  <rect x="36" y="56" width="68" height="110" rx="3" fill="#0f172a"/>
-  <!-- YouTube red play button area -->
-  <rect x="46" y="66" width="48" height="27" rx="3" fill="#1a1a2e"/>
-  <polygon points="64,72 64,87 79,79.5" fill="#ff0000" opacity="0.9"/>
-  <!-- Video title lines -->
-  <rect x="46" y="100" width="42" height="5" rx="2" fill="#334155" opacity="0.8"/>
-  <rect x="46" y="109" width="32" height="4" rx="2" fill="#334155" opacity="0.5"/>
-  <!-- Share icon area -->
-  <rect x="46" y="124" width="48" height="18" rx="3" fill="#1e3a5f"/>
-  <text x="70" y="136" text-anchor="middle" font-family="monospace" font-size="7" fill="#60a5fa" opacity="0.9">SHARE</text>
-  <!-- Phone notch -->
-  <rect x="58" y="44" width="24" height="6" rx="3" fill="#334155" opacity="0.5"/>
+  <!-- Subtle grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+  </pattern>
+  <rect width="800" height="440" fill="url(#grid)"/>
 
-  <!-- Arrow 1: Phone → Tasker -->
-  <line x1="112" y1="120" x2="148" y2="120" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"/>
-  <polygon points="145,115 155,120 145,125" fill="#60a5fa" opacity="0.7"/>
+  <!-- Left card: YouTube "dead link" state -->
+  <rect x="40" y="80" width="220" height="280" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+  <!-- Card header bar -->
+  <rect x="40" y="80" width="220" height="44" rx="16" fill="#1e293b"/>
+  <rect x="40" y="108" width="220" height="16" fill="#1e293b"/>
+  <!-- Window dots -->
+  <circle cx="64" cy="102" r="5" fill="#ef4444" opacity="0.6"/>
+  <circle cx="82" cy="102" r="5" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="100" cy="102" r="5" fill="#22c55e" opacity="0.6"/>
+  <!-- YouTube play area -->
+  <rect x="60" y="140" width="180" height="100" rx="8" fill="#0f172a"/>
+  <rect x="60" y="140" width="180" height="100" rx="8" fill="#1a0000" opacity="0.5"/>
+  <!-- Play button -->
+  <circle cx="150" cy="190" r="24" fill="#ff0000" opacity="0.85"/>
+  <polygon points="143,179 143,201 165,190" fill="white" opacity="0.95"/>
+  <!-- Video title stub -->
+  <rect x="60" y="256" width="140" height="8" rx="4" fill="#334155" opacity="0.8"/>
+  <rect x="60" y="270" width="100" height="6" rx="3" fill="#334155" opacity="0.5"/>
+  <!-- "Watch Later" badge -->
+  <rect x="60" y="292" width="80" height="22" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="307" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Watch Later</text>
+  <!-- Dead link label -->
+  <text x="150" y="360" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569" font-weight="500">Saved. Never revisited.</text>
 
-  <!-- Tasker box -->
-  <rect x="155" y="100" width="50" height="40" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
-  <text x="180" y="118" text-anchor="middle" font-family="monospace" font-size="8" fill="#94a3b8">TASKER</text>
-  <text x="180" y="130" text-anchor="middle" font-family="monospace" font-size="6" fill="#60a5fa" opacity="0.8">+Claude API</text>
+  <!-- Center: pipeline arrow cluster -->
+  <!-- Arrow line -->
+  <line x1="275" y1="220" x2="515" y2="220" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+  <!-- Arrow head -->
+  <polygon points="510,213 525,220 510,227" fill="#3b82f6" opacity="0.7"/>
 
-  <!-- Arrow 2: Tasker → Obsidian -->
-  <line x1="207" y1="120" x2="243" y2="120" stroke="#a78bfa" stroke-width="1.5" opacity="0.7"/>
-  <polygon points="240,115 250,120 240,125" fill="#a78bfa" opacity="0.7"/>
+  <!-- Center nodes -->
+  <!-- Tasker node -->
+  <circle cx="340" cy="180" r="28" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" opacity="0.9"/>
+  <text x="340" y="177" text-anchor="middle" font-family="system-ui" font-size="18" fill="#f59e0b">⚡</text>
+  <text x="340" y="192" text-anchor="middle" font-family="system-ui" font-size="8" fill="#94a3b8">Tasker</text>
 
-  <!-- Obsidian diamond icon area -->
-  <rect x="250" y="95" width="70" height="50" rx="6" fill="#1e1b4b" stroke="#4c1d95" stroke-width="1.5"/>
-  <!-- Simplified Obsidian logo (diamond shape) -->
-  <polygon points="285,105 298,115 285,138 272,115" fill="#7c3aed" opacity="0.3"/>
-  <polygon points="285,105 298,115 285,120" fill="#a78bfa" opacity="0.7"/>
-  <polygon points="285,120 298,115 285,138" fill="#7c3aed" opacity="0.5"/>
-  <polygon points="285,105 272,115 285,120" fill="#c4b5fd" opacity="0.6"/>
-  <polygon points="285,120 272,115 285,138" fill="#7c3aed" opacity="0.4"/>
+  <!-- Claude node -->
+  <circle cx="420" cy="260" r="28" fill="#1e293b" stroke="#60a5fa" stroke-width="1.5" opacity="0.9"/>
+  <text x="420" y="257" text-anchor="middle" font-family="system-ui" font-size="16" fill="#60a5fa">◈</text>
+  <text x="420" y="272" text-anchor="middle" font-family="system-ui" font-size="8" fill="#94a3b8">Claude</text>
 
-  <!-- Note preview strip at bottom -->
-  <rect x="30" y="215" width="340" height="18" rx="3" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
-  <rect x="40" y="219" width="6" height="6" rx="1" fill="#22c55e" opacity="0.7"/>
-  <rect x="52" y="220" width="60" height="4" rx="1" fill="#334155" opacity="0.6"/>
-  <rect x="120" y="220" width="40" height="4" rx="1" fill="#334155" opacity="0.4"/>
-  <rect x="280" y="220" width="30" height="4" rx="1" fill="#22c55e" opacity="0.3"/>
-  <text x="322" y="226" font-family="monospace" font-size="6" fill="#4ade80" opacity="0.8">SAVED</text>
+  <!-- Connecting lines between nodes -->
+  <line x1="275" y1="220" x2="315" y2="195" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+  <line x1="365" y1="190" x2="395" y2="245" stroke="#60a5fa" stroke-width="1" opacity="0.3"/>
+  <line x1="445" y1="255" x2="515" y2="230" stroke="#a78bfa" stroke-width="1" opacity="0.3"/>
 
-  <!-- Labels below boxes -->
-  <text x="70" y="212" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">YouTube</text>
-  <text x="180" y="148" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">Automation</text>
-  <text x="285" y="152" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">Obsidian</text>
+  <!-- "1 tap" label -->
+  <text x="395" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">1 tap →</text>
+  <text x="395" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">~30 sec</text>
+
+  <!-- Right card: structured Obsidian note -->
+  <rect x="540" y="60" width="220" height="320" rx="16" fill="url(#noteGrad)" stroke="#4c1d95" stroke-width="1.5"/>
+  <!-- Purple top accent -->
+  <rect x="540" y="60" width="220" height="4" rx="2" fill="#7c3aed" opacity="0.8"/>
+  <!-- Obsidian icon area -->
+  <polygon points="650,82 665,94 650,118 635,94" fill="#7c3aed" opacity="0.25"/>
+  <polygon points="650,82 665,94 650,98" fill="#a78bfa" opacity="0.6"/>
+  <polygon points="650,98 665,94 650,118" fill="#6d28d9" opacity="0.4"/>
+  <polygon points="650,82 635,94 650,98" fill="#c4b5fd" opacity="0.5"/>
+  <!-- Note content lines -->
+  <!-- Frontmatter block -->
+  <rect x="560" y="126" width="180" height="68" rx="4" fill="#0f0e2a" opacity="0.7"/>
+  <rect x="568" y="134" width="60" height="5" rx="2" fill="#a78bfa" opacity="0.6"/>
+  <rect x="568" y="144" width="100" height="4" rx="2" fill="#334155" opacity="0.6"/>
+  <rect x="568" y="153" width="80" height="4" rx="2" fill="#334155" opacity="0.5"/>
+  <rect x="568" y="162" width="120" height="4" rx="2" fill="#334155" opacity="0.5"/>
+  <rect x="568" y="171" width="90" height="4" rx="2" fill="#334155" opacity="0.4"/>
+  <rect x="568" y="180" width="70" height="4" rx="2" fill="#334155" opacity="0.4"/>
+  <!-- Summary section -->
+  <rect x="560" y="206" width="50" height="5" rx="2" fill="#60a5fa" opacity="0.7"/>
+  <rect x="560" y="216" width="175" height="4" rx="2" fill="#475569" opacity="0.7"/>
+  <rect x="560" y="225" width="160" height="4" rx="2" fill="#475569" opacity="0.6"/>
+  <rect x="560" y="234" width="130" height="4" rx="2" fill="#475569" opacity="0.5"/>
+  <!-- Key ideas section -->
+  <rect x="560" y="252" width="60" height="5" rx="2" fill="#60a5fa" opacity="0.7"/>
+  <rect x="565" y="263" width="165" height="4" rx="2" fill="#475569" opacity="0.6"/>
+  <rect x="565" y="272" width="150" height="4" rx="2" fill="#475569" opacity="0.5"/>
+  <rect x="565" y="281" width="130" height="4" rx="2" fill="#475569" opacity="0.5"/>
+  <!-- Tags row -->
+  <rect x="560" y="300" width="42" height="16" rx="8" fill="#4c1d95" opacity="0.8"/>
+  <rect x="608" y="300" width="50" height="16" rx="8" fill="#4c1d95" opacity="0.6"/>
+  <rect x="664" y="300" width="38" height="16" rx="8" fill="#4c1d95" opacity="0.5"/>
+  <text x="581" y="311" text-anchor="middle" font-family="system-ui" font-size="7" fill="#c4b5fd">ideas</text>
+  <text x="633" y="311" text-anchor="middle" font-family="system-ui" font-size="7" fill="#c4b5fd">learning</text>
+  <text x="683" y="311" text-anchor="middle" font-family="system-ui" font-size="7" fill="#c4b5fd">ai</text>
+  <!-- Structured note label -->
+  <text x="650" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#7c3aed" font-weight="500">Structured. Searchable. Linked.</text>
+
+  <!-- Bottom caption -->
+  <text x="400" y="430" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#334155" letter-spacing="3">YOUTUBE  →  OBSIDIAN</text>
 </svg>
