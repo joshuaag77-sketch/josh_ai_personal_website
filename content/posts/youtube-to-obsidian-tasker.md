@@ -67,3 +67,5 @@ Most people still treat AI as a separate destination — open a chat window, ask
 > The value isn't the model. It's the system around the model.
 
 One tap from YouTube to Obsidian. Five hours of debugging to get there. Absolutely worth it.
+
+*The entire build was guided by [Claude Code](https://claude.ai/code) — from wiring the Tasker flow to diagnosing the variable bugs. It's genuinely a different experience having an AI that can hold the full context of what you're building and think through the handoffs with you.*
