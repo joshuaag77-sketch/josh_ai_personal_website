@@ -55,7 +55,7 @@ export function ChatWidget() {
         { role: "assistant", content: data.answer || "" },
       ]);
     } catch (err: any) {
-      setError("The chatbot is temporarily unavailable. Try again later!");
+      setError(err?.message ?? "The chatbot is temporarily unavailable. Try again later!");
     } finally {
       setLoading(false);
     }
