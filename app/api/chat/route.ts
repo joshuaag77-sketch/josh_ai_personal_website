@@ -1,8 +1,8 @@
 ﻿import { NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 import { getAllPosts } from "@/lib/posts";
 import { getProfileMarkdown } from "@/lib/profile";
 
-const OPENAI_API_URL = "https://api.openai.com/v1/responses";
 export const runtime = "nodejs";
 
 function buildContext() {
@@ -43,10 +43,10 @@ function cannedAnswer(message: string) {
 
 export async function POST(req: Request) {
   try {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "Missing OPENAI_API_KEY" },
+        { error: "Missing ANTHROPIC_API_KEY" },
         { status: 500 }
       );
     }
@@ -71,55 +71,25 @@ export async function POST(req: Request) {
 
     const systemPrompt = `You are Josh Agarwal's personal site assistant. Use only the PROFILE and POSTS below. Be specific and concrete. If the question mentions Avatar, Kiewit, YPE, or Calgary, answer directly using the Quick Facts. Never say you don't have information if the term appears in Quick Facts. Keep answers 2-6 sentences.\n\nQUICK FACTS\n${quickFacts}\n\n${context}`;
 
-    const response = await fetch(OPENAI_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        input: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: message },
-        ],
-        max_output_tokens: 320,
-        temperature: 0.1,
-        store: false,
-      }),
+    const client = new Anthropic({ apiKey });
+
+    const response = await client.messages.create({
+      model: "claude-haiku-4-5",
+      max_tokens: 320,
+      system: systemPrompt,
+      messages: [{ role: "user", content: message }],
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenAI request failed:", errorText);
-      return NextResponse.json(
-        { error: errorText || "OpenAI request failed" },
-        { status: 500 }
-      );
-    }
+    const answer = response.content
+      .filter((block) => block.type === "text")
+      .map((block) => block.text)
+      .join("");
 
-    const data = await response.json();
-
-    let answer = data.output_text;
-    if (!answer && Array.isArray(data.output)) {
-      for (const item of data.output) {
-        if (item.type === "message" && Array.isArray(item.content)) {
-          const textChunk = item.content.find(
-            (part: any) => part.type === "output_text"
-          );
-          if (textChunk?.text) {
-            answer = textChunk.text;
-            break;
-          }
-        }
-      }
-    }
-
-    return NextResponse.json({ answer: answer || "" });
+    return NextResponse.json({ answer });
   } catch (error: any) {
     console.error("Chat error", error);
     return NextResponse.json(
-      { error: "Unexpected server error" },
+      { error: error?.message ?? "Unexpected server error" },
       { status: 500 }
     );
   }
