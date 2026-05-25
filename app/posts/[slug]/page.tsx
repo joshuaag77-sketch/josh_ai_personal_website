@@ -1,3 +1,4 @@
+import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
@@ -5,6 +6,7 @@ import type { Metadata } from "next";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { MbaRoiCalculator } from "@/components/MbaRoiCalculator";
 import { WorkflowDemo } from "@/components/WorkflowDemo";
+import { PipelineSection } from "@/components/PipelineSection";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -127,38 +129,46 @@ export default async function PostPage({ params }: Props) {
 
         {(() => {
           const html = post.contentHtml || "";
-          const ROI_MARKER = "<p>===ROI_CALCULATOR===</p>";
-          const WORKFLOW_MARKER = "<p>===WORKFLOW_DEMO===</p>";
           const proseClass =
             "article-content prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-slate-900 dark:prose-a:text-slate-100 prose-blockquote:border-blue-200 dark:prose-blockquote:border-slate-700";
 
-          if (post.interactive === "mba-roi" && html.includes(ROI_MARKER)) {
-            const [before, after] = html.split(ROI_MARKER);
-            return (
-              <>
-                <div className={proseClass} dangerouslySetInnerHTML={{ __html: before }} />
-                <MbaRoiCalculator />
-                <div className={proseClass} dangerouslySetInnerHTML={{ __html: after }} />
-              </>
-            );
-          }
+          // All known markers mapped to their components
+          const MARKERS: Record<string, React.ReactNode> = {
+            "<p>===ROI_CALCULATOR===</p>": <MbaRoiCalculator />,
+            "<p>===WORKFLOW_DEMO===</p>": <WorkflowDemo />,
+            "<p>===PIPELINE_SECTION===</p>": <PipelineSection />,
+          };
 
-          if (post.interactive === "workflow-demo" && html.includes(WORKFLOW_MARKER)) {
-            const [before, after] = html.split(WORKFLOW_MARKER);
-            return (
-              <>
-                <div className={proseClass} dangerouslySetInnerHTML={{ __html: before }} />
-                <WorkflowDemo />
-                <div className={proseClass} dangerouslySetInnerHTML={{ __html: after }} />
-              </>
-            );
+          // Split html on every marker and rebuild as interleaved html+components
+          type Seg = { kind: "html"; content: string } | { kind: "node"; content: React.ReactNode };
+          let segments: Seg[] = [{ kind: "html", content: html }];
+
+          for (const [marker, node] of Object.entries(MARKERS)) {
+            const next: Seg[] = [];
+            for (const seg of segments) {
+              if (seg.kind === "html" && seg.content.includes(marker)) {
+                const parts = seg.content.split(marker);
+                parts.forEach((part, i) => {
+                  next.push({ kind: "html", content: part });
+                  if (i < parts.length - 1) next.push({ kind: "node", content: node });
+                });
+              } else {
+                next.push(seg);
+              }
+            }
+            segments = next;
           }
 
           return (
-            <div
-              className={proseClass}
-              dangerouslySetInnerHTML={{ __html: html }}
-            />
+            <>
+              {segments.map((seg, i) =>
+                seg.kind === "html" ? (
+                  <div key={i} className={proseClass} dangerouslySetInnerHTML={{ __html: seg.content }} />
+                ) : (
+                  <React.Fragment key={i}>{seg.content}</React.Fragment>
+                )
+              )}
+            </>
           );
         })()}
 
