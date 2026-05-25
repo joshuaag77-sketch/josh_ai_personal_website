@@ -21,7 +21,7 @@ const TASKER_STEPS = [
   { n: 6, label: "HTTP Request → Claude", detail: "Send the transcript with an Obsidian markdown prompt." },
   { n: 7, label: "JavaScriptlet", detail: <>Parse Claude's response into <code className="text-xs bg-slate-800 px-1 py-0.5 rounded text-yellow-300">%notes</code>.</> },
   { n: 8, label: "Write File", detail: <>Save <code className="text-xs bg-slate-800 px-1 py-0.5 rounded text-yellow-300">%notes</code> as a <code className="text-xs bg-slate-800 px-1 py-0.5 rounded text-yellow-300">.md</code> file in the Obsidian inbox.</> },
-  { n: 9, label: "Flash confirmation", detail: "Show "Saved to Inbox."" },
+  { n: 9, label: "Flash confirmation", detail: 'Show "Saved to Inbox."' },
 ];
 
 export function PipelineSection() {
