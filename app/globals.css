@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 :root {
@@ -133,7 +133,7 @@ body {
   }
 }
 
-/* ── Scroll Animations ── */
+/* â”€â”€ Scroll Animations â”€â”€ */
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(24px);
@@ -152,7 +152,7 @@ body {
   }
 }
 
-/* ── Particle Field ── */
+/* â”€â”€ Particle Field â”€â”€ */
 @keyframes particle-drift {
   0%, 100% { transform: translateY(0) translateX(0); opacity: var(--particle-opacity-start); }
   50% { transform: translateY(var(--drift-y)) translateX(var(--drift-x)); opacity: var(--particle-opacity-end); }
@@ -166,7 +166,7 @@ body {
   will-change: transform, opacity;
 }
 
-/* ── Typing Animation ── */
+/* â”€â”€ Typing Animation â”€â”€ */
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -192,7 +192,7 @@ body {
   transform: translateY(0);
 }
 
-/* ── Tilt Card ── */
+/* â”€â”€ Tilt Card â”€â”€ */
 .tilt-card {
   transition: transform 0.15s ease-out;
   transform-style: preserve-3d;
@@ -225,7 +225,7 @@ body {
   }
 }
 
-/* ── Status Ticker ── */
+/* â”€â”€ Status Ticker â”€â”€ */
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.6); opacity: 0.4; }
@@ -235,7 +235,7 @@ body {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
-/* ── Tag Filter Transitions ── */
+/* â”€â”€ Tag Filter Transitions â”€â”€ */
 .post-card-filter {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -249,12 +249,12 @@ body {
   border: none;
 }
 
-/* ── Animated Counter ── */
+/* â”€â”€ Animated Counter â”€â”€ */
 .counter-number {
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Aurora glows (hero) ── */
+/* â”€â”€ Aurora glows (hero) â”€â”€ */
 .aurora {
   position: absolute;
   border-radius: 50%;
@@ -293,7 +293,7 @@ body {
   .aurora { animation: none; }
 }
 
-/* ── Scroll-driven motion (progressive enhancement) ── */
+/* â”€â”€ Scroll-driven motion (progressive enhancement) â”€â”€ */
 @keyframes scroll-grow-in {
   from {
     transform: scale(0.9) translateY(36px);
@@ -306,9 +306,9 @@ body {
 }
 @keyframes hero-recede {
   to {
-    transform: scale(0.94) translateY(-24px);
-    opacity: 0.3;
-    filter: blur(2px);
+    transform: scale(0.97) translateY(-12px);
+    opacity: 0.55;
+    filter: blur(0.5px);
   }
 }
 @supports (animation-timeline: view()) {
@@ -321,13 +321,13 @@ body {
     .scroll-hero {
       animation: hero-recede linear both;
       animation-timeline: view();
-      animation-range: exit 0% exit 100%;
+      animation-range: exit 35% exit 100%;
       transform-origin: 50% 0%;
     }
   }
 }
 
-/* ── Magnetic buttons ── */
+/* â”€â”€ Magnetic buttons â”€â”€ */
 .magnetic {
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
