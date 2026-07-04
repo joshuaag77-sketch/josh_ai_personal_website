@@ -22,7 +22,7 @@ const editorial = Newsreader({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://josh-ai-personal-website.vercel.app"),
+  metadataBase: new URL("https://joshagarwal.com"),
   title: {
     default: "Josh Agarwal — engineer, MBA candidate, builder of AI-native systems",
     template: "%s · Josh Agarwal",
