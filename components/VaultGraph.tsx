@@ -180,25 +180,33 @@ export function VaultGraph() {
           deg[b]++;
         });
 
-        // edges
-        const edgePos = new Float32Array(data.edges.length * 6);
-        data.edges.forEach(([a, b], i) => {
-          positions[a].toArray(edgePos, i * 6);
-          positions[b].toArray(edgePos, i * 6 + 3);
-        });
-        const edgeGeo = new THREE.BufferGeometry();
-        edgeGeo.setAttribute("position", new THREE.BufferAttribute(edgePos, 3));
-        const edgeMat = new THREE.LineBasicMaterial({
-          color: 0x3b82f6,
-          transparent: true,
-          opacity: 0.14,
-        });
-        group.add(new THREE.LineSegments(edgeGeo, edgeMat));
+        // edges — idea-links bright, theme-links dim
+        const isTheme = (i: number) => data.nodes[i].cluster === "theme";
+        const ideaEdges = data.edges.filter(([a, b]) => !isTheme(a) && !isTheme(b));
+        const themeEdges = data.edges.filter(([a, b]) => isTheme(a) || isTheme(b));
+        const buildEdges = (list: [number, number][], color: number, opacity: number) => {
+          const arr = new Float32Array(list.length * 6);
+          list.forEach(([a, b], i) => {
+            positions[a].toArray(arr, i * 6);
+            positions[b].toArray(arr, i * 6 + 3);
+          });
+          const geo = new THREE.BufferGeometry();
+          geo.setAttribute("position", new THREE.BufferAttribute(arr, 3));
+          group.add(
+            new THREE.LineSegments(
+              geo,
+              new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+            )
+          );
+        };
+        buildEdges(ideaEdges, 0x3b82f6, 0.14);
+        buildEdges(themeEdges, 0x64748b, 0.05);
 
         // nodes
         data.nodes.forEach((n, i) => {
           const color = new THREE.Color(CLUSTER_COLORS[n.cluster] ?? "#94a3b8");
-          const r = 0.5 + Math.min(deg[i], 14) * 0.09;
+          const theme = n.cluster === "theme";
+          const r = theme ? 0.3 : 0.5 + Math.min(deg[i], 14) * 0.09;
           const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(r, 20, 20),
             new THREE.MeshBasicMaterial({ color })
@@ -213,17 +221,17 @@ export function VaultGraph() {
               map: glow,
               color,
               transparent: true,
-              opacity: 0.55,
+              opacity: theme ? 0.28 : 0.55,
               depthWrite: false,
               blending: THREE.AdditiveBlending,
             })
           );
-          sprite.scale.setScalar(r * 7);
+          sprite.scale.setScalar(r * (theme ? 5 : 7));
           sprite.position.copy(positions[i]);
           group.add(sprite);
 
           // permanent labels for hubs
-          if (deg[i] >= 9 || n.cluster === "moc") {
+          if ((!theme && deg[i] >= 9) || n.cluster === "moc" || (theme && deg[i] >= 5)) {
             const label = makeLabelSprite(n.label, CLUSTER_COLORS[n.cluster] ?? "#e2e8f0");
             label.position.copy(positions[i]).add(new THREE.Vector3(0, r + 1.2, 0));
             group.add(label);
