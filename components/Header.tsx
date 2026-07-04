@@ -25,6 +25,16 @@ export function Header() {
             >
               About
             </Link>
+            <Link
+              href="/brain"
+              className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-60" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
+              </span>
+              The Vault
+            </Link>
           </nav>
           <ThemeToggle />
         </div>

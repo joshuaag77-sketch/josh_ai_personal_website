@@ -1,11 +1,48 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { slugify } from "@/lib/slug";
 
 type ChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
+
+// Renders assistant text, turning [[Vault Note Title]] citations into
+// chips that deep-link into the 3D vault with the camera flying to that star.
+function AssistantText({
+  content,
+  knownSlugs,
+}: {
+  content: string;
+  knownSlugs: Map<string, string>;
+}) {
+  const parts = content.split(/\[\[([^\]]+)\]\]/g);
+  return (
+    <p className="text-sm leading-relaxed">
+      {parts.map((part, i) => {
+        if (i % 2 === 1) {
+          const slug = knownSlugs.get(part.trim().toLowerCase());
+          if (slug) {
+            return (
+              <Link
+                key={i}
+                href={`/brain?focus=${slug}`}
+                className="inline-flex items-center gap-1 mx-0.5 rounded-full border border-blue-400/40 bg-blue-500/10 px-2 py-0.5 text-[13px] font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-500/20 transition-colors align-baseline"
+              >
+                <span aria-hidden>✦</span>
+                {part.trim()}
+              </Link>
+            );
+          }
+          return <strong key={i}>{part.trim()}</strong>;
+        }
+        return <span key={i}>{part.replace(/\*\*/g, "")}</span>;
+      })}
+    </p>
+  );
+}
 
 export function ChatWidget() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -18,7 +55,20 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [knownSlugs, setKnownSlugs] = useState<Map<string, string>>(new Map());
   const endRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    fetch("/vault-graph.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((g) => {
+        if (!g?.nodes) return;
+        const m = new Map<string, string>();
+        for (const n of g.nodes) m.set(n.label.toLowerCase(), slugify(n.label));
+        setKnownSlugs(m);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -90,7 +140,11 @@ export function ChatWidget() {
                 : "bg-slate-100/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-100 rounded-2xl px-4 py-3 ml-auto"
             }
           >
-            <p className="text-sm leading-relaxed">{msg.content}</p>
+            {msg.role === "assistant" ? (
+              <AssistantText content={msg.content} knownSlugs={knownSlugs} />
+            ) : (
+              <p className="text-sm leading-relaxed">{msg.content}</p>
+            )}
           </div>
         ))}
         <div ref={endRef} />

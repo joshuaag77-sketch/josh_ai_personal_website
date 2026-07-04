@@ -6,13 +6,19 @@ import { ParticleField } from "@/components/ParticleField";
 import { TypingAnimation } from "@/components/TypingAnimation";
 import { TiltCard } from "@/components/TiltCard";
 import { StatusTicker } from "@/components/StatusTicker";
+import { MagneticButton } from "@/components/MagneticButton";
+import { FlowLine } from "@/components/FlowLine";
+import { DailyThread } from "@/components/DailyThread";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <section className="relative mb-16 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
+    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <FlowLine />
+      <section className="scroll-hero relative mb-16 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
+        <div className="aurora aurora-1" aria-hidden="true" />
+        <div className="aurora aurora-2" aria-hidden="true" />
         <ParticleField />
         <AnimateOnScroll>
           <div className="relative z-10">
@@ -31,23 +37,27 @@ export default function Home() {
               <StatusTicker />
             </div>
             <div className="flex gap-4">
-              <Link
-                href="/posts"
-                className="px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-500 transition-colors shadow-[0_10px_30px_-18px_rgba(37,99,235,0.8)]"
-              >
-                Notebook
-              </Link>
-              <Link
-                href="/about"
-                className="px-6 py-3 border border-slate-300/80 dark:border-slate-700 rounded-full font-medium hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
-              >
-                About
-              </Link>
+              <MagneticButton>
+                <Link
+                  href="/posts"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-500 transition-colors shadow-[0_10px_30px_-18px_rgba(37,99,235,0.8)] inline-block"
+                >
+                  Notebook
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link
+                  href="/about"
+                  className="px-6 py-3 border border-slate-300/80 dark:border-slate-700 rounded-full font-medium hover:bg-white/70 dark:hover:bg-slate-900 transition-colors inline-block"
+                >
+                  About
+                </Link>
+              </MagneticButton>
             </div>
           </div>
         </AnimateOnScroll>
         <AnimateOnScroll delay={200}>
-          <div className="relative z-10 rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_35px_120px_-80px_rgba(15,23,42,0.65)]">
+          <div className="scroll-grow relative z-10 rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_35px_120px_-80px_rgba(15,23,42,0.65)]">
             <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 mb-5">
               Current Thesis
             </p>
@@ -65,8 +75,10 @@ export default function Home() {
         </AnimateOnScroll>
       </section>
 
+      <DailyThread />
+
       <AnimateOnScroll>
-        <div className="mb-20">
+        <div className="scroll-grow mb-20">
           <ChatWidget />
         </div>
       </AnimateOnScroll>
@@ -93,6 +105,7 @@ export default function Home() {
             },
           ].map((item, i) => (
             <AnimateOnScroll key={item.title} delay={i * 120}>
+              <div className="scroll-grow">
               <TiltCard>
                 <div className="rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-6 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
                   <p className="text-xs uppercase tracking-[0.28em] text-blue-600/80 dark:text-blue-300/80 mb-3">
@@ -103,6 +116,7 @@ export default function Home() {
                   </p>
                 </div>
               </TiltCard>
+              </div>
             </AnimateOnScroll>
           ))}
         </div>
@@ -126,6 +140,7 @@ export default function Home() {
           {posts.length > 0 ? (
             posts.map((post, i) => (
               <AnimateOnScroll key={post.slug} delay={i * 120}>
+                <div className="scroll-grow">
                 <TiltCard>
                   <Link
                     href={`/posts/${post.slug}`}
@@ -160,6 +175,7 @@ export default function Home() {
                     </div>
                   </Link>
                 </TiltCard>
+                </div>
               </AnimateOnScroll>
             ))
           ) : (
