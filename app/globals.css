@@ -253,3 +253,82 @@ body {
 .counter-number {
   font-variant-numeric: tabular-nums;
 }
+
+/* ── Aurora glows (hero) ── */
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  will-change: transform;
+  z-index: 0;
+}
+.aurora-1 {
+  width: 420px;
+  height: 420px;
+  left: -120px;
+  top: -100px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 65%);
+  animation: aurora-1 16s ease-in-out infinite alternate;
+}
+.aurora-2 {
+  width: 380px;
+  height: 380px;
+  right: -80px;
+  bottom: -140px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.24), transparent 65%);
+  animation: aurora-2 20s ease-in-out infinite alternate;
+}
+@keyframes aurora-1 {
+  to { transform: translate(60px, 40px) scale(1.15); }
+}
+@keyframes aurora-2 {
+  to { transform: translate(-50px, -30px) scale(1.1); }
+}
+@media (prefers-color-scheme: dark) {
+  .aurora-1 { background: radial-gradient(circle, rgba(59, 130, 246, 0.22), transparent 65%); }
+  .aurora-2 { background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 65%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora { animation: none; }
+}
+
+/* ── Scroll-driven motion (progressive enhancement) ── */
+@keyframes scroll-grow-in {
+  from {
+    transform: scale(0.9) translateY(36px);
+    opacity: 0.25;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes hero-recede {
+  to {
+    transform: scale(0.94) translateY(-24px);
+    opacity: 0.3;
+    filter: blur(2px);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-grow {
+      animation: scroll-grow-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+    .scroll-hero {
+      animation: hero-recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+      transform-origin: 50% 0%;
+    }
+  }
+}
+
+/* ── Magnetic buttons ── */
+.magnetic {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
