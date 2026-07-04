@@ -8,6 +8,7 @@ import { TiltCard } from "@/components/TiltCard";
 import { StatusTicker } from "@/components/StatusTicker";
 import { MagneticButton } from "@/components/MagneticButton";
 import { FlowLine } from "@/components/FlowLine";
+import { DailyThread } from "@/components/DailyThread";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
@@ -73,6 +74,8 @@ export default function Home() {
           </div>
         </AnimateOnScroll>
       </section>
+
+      <DailyThread />
 
       <AnimateOnScroll>
         <div className="scroll-grow mb-20">

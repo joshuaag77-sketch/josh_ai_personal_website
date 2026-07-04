@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { slugify } from "@/lib/slug";
 
 type GNode = {
   id: number;
@@ -156,6 +157,7 @@ export function VaultGraph() {
     );
     scene.add(stars);
 
+    const focus: { q: THREE.Quaternion | null } = { q: null };
     const glow = makeGlowTexture();
     const nodeMeshes: THREE.Mesh[] = [];
     const raycaster = new THREE.Raycaster();
@@ -237,6 +239,20 @@ export function VaultGraph() {
             group.add(label);
           }
         });
+        // deep link: /brain?focus=<slug> — fly to that star
+        const focusSlug = new URLSearchParams(window.location.search).get("focus");
+        if (focusSlug) {
+          const idx = data.nodes.findIndex((n) => slugify(n.label) === focusSlug);
+          if (idx >= 0) {
+            setSelected(data.nodes[idx]);
+            const dir = positions[idx].clone().normalize();
+            focus.q = new THREE.Quaternion().setFromUnitVectors(
+              dir,
+              new THREE.Vector3(0, 0, 1)
+            );
+            targetZoom = Math.min(90, Math.max(14, positions[idx].length() + 13));
+          }
+        }
       });
 
     // interaction
@@ -249,6 +265,7 @@ export function VaultGraph() {
 
     const onDown = (e: PointerEvent) => {
       dragging = true;
+      focus.q = null;
       px = e.clientX;
       py = e.clientY;
     };
@@ -295,7 +312,10 @@ export function VaultGraph() {
     const tick = () => {
       if (disposed) return;
       raf = requestAnimationFrame(tick);
-      if (!dragging) {
+      if (focus.q && !dragging) {
+        group.quaternion.slerp(focus.q, 0.07);
+        if (group.quaternion.angleTo(focus.q) < 0.01) focus.q = null;
+      } else if (!dragging) {
         group.rotation.y += reduceMotion ? 0 : velY;
         group.rotation.x += reduceMotion ? 0 : velX;
         velX *= 0.985;
