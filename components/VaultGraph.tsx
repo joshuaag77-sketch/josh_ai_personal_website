@@ -108,11 +108,22 @@ function makeLabelSprite(text: string, color: string): THREE.Sprite {
   return s;
 }
 
+function fmtDay(iso: string): string {
+  const d = new Date(iso + "T12:00:00");
+  return d
+    .toLocaleDateString("en-US", { month: "short", day: "numeric" })
+    .toLowerCase();
+}
+
 export function VaultGraph() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<GNode | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [stats, setStats] = useState<{ n: number; e: number; date: string } | null>(null);
+  const [heartbeat, setHeartbeat] = useState<{
+    gardener?: { lastRun: string };
+    brief?: { lastIssue: string; date: string };
+  } | null>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -149,6 +160,13 @@ export function VaultGraph() {
     const nodeMeshes: THREE.Mesh[] = [];
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2(-10, -10);
+
+    fetch("/heartbeat.json")
+      .then((r) => r.json())
+      .then((h) => {
+        if (!disposed) setHeartbeat(h);
+      })
+      .catch(() => {});
 
     fetch("/vault-graph.json")
       .then((r) => r.json())
