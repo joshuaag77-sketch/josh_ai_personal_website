@@ -91,7 +91,10 @@ export function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
+        body: JSON.stringify({
+          message: trimmed,
+          audience: window.localStorage.getItem("audience") || undefined,
+        }),
       });
 
       if (!res.ok) {

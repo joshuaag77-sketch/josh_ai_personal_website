@@ -9,6 +9,7 @@ import { StatusTicker } from "@/components/StatusTicker";
 import { MagneticButton } from "@/components/MagneticButton";
 import { FlowLine } from "@/components/FlowLine";
 import { DailyThread } from "@/components/DailyThread";
+import { AudiencePitch } from "@/components/AudiencePitch";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
@@ -28,11 +29,7 @@ export default function Home() {
             <h1 className="display-font text-4xl sm:text-5xl font-semibold mb-5 text-slate-900 dark:text-slate-100">
               Experiments in <TypingAnimation />
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-              Chemical engineer in energy and infrastructure. This site is a public
-              lab notebook: experiments with intelligent systems, what I learn, and
-              how I think about tradeoffs and constraints.
-            </p>
+            <AudiencePitch />
             <div className="mb-6">
               <StatusTicker />
             </div>
