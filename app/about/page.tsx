@@ -1,129 +1,166 @@
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
-import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 export const metadata = {
-  title: "About - Josh",
+  title: "About",
   description:
-    "Chemical engineer. Public lab notebook on leverage, decision-making, and intelligent systems.",
+    "Joshua Agarwal — chemical engineer, P.Eng. Four years building AI and low-carbon systems inside heavy industry; now at Wharton.",
 };
+
+const timeline = [
+  {
+    period: "2016 – 2020",
+    title: "Chemical Engineering, UBC",
+    detail:
+      "Dean's List. Got rejected from UBC out of high school, spent a year at U of C engineering my way in. The rejection built more than the degree did.",
+  },
+  {
+    period: "2020 – 2022",
+    title: "Kiewit — field engineer",
+    detail:
+      "Major pipeline construction, including the Trans Mountain Expansion. Drilling, blasting, dewatering emergencies, subcontractors. I've stood in the excavations I re-planned — it changes how you think about 'implementation.'",
+  },
+  {
+    period: "2022 – 2026",
+    title: "Enbridge — New Energy Technologies, P.Eng",
+    detail:
+      "Senior engineer on hydrogen, carbon capture, and RNG. Ran the early-stage studies that inform major investment decisions — and quietly moved most of that modeling in-house. Along the way I started building the AI tools the team actually adopted, including a fleet-reliability simulator that informed an eight-figure capital decision.",
+  },
+  {
+    period: "2024",
+    title: "Avatar Innovations — venture studio",
+    detail:
+      "Elected to lead a four-person clean-energy venture. Won the opening shark-tank round, licensed tech pathways with Sandia National Labs, pivoted when the economics said so, and took the program's GRIT Award for it.",
+  },
+  {
+    period: "2023 – 2026",
+    title: "Young Professionals in Energy, Calgary",
+    detail:
+      "Volunteer → co-chair of the flagship Future Leaders Dinner → VP → elected 2026 president. Aligning a volunteer board of competing perspectives taught me more about influence than any job title has.",
+  },
+  {
+    period: "2026 →",
+    title: "The Wharton School — MBA",
+    detail:
+      "Philadelphia. Working out how the deployment gap gets closed at scale — and writing it down here as I go.",
+  },
+];
 
 export default function AboutPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
       {/* Hero */}
       <AnimateOnScroll>
-        <div className="flex items-center gap-6 mb-12">
+        <div className="flex items-center gap-6 mb-14">
           <img
             src="/images/joshua-agarwal.jpg"
             alt="Joshua Agarwal"
-            className="w-20 h-20 rounded-full object-cover object-top ring-2 ring-slate-200/80 dark:ring-slate-700/80 shrink-0"
+            className="w-24 h-24 rounded-md object-cover object-top border border-[color:var(--hair)] shrink-0"
           />
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-600/80 dark:text-blue-400/80 mb-1">
-              About
-            </p>
-            <h1 className="display-font text-2xl font-semibold text-slate-900 dark:text-slate-100">
+            <p className="spec-label mb-2">About</p>
+            <h1 className="display-font text-3xl font-semibold text-[color:var(--ink)]">
               Joshua Agarwal
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-              Chemical Engineer · Calgary
+            <p className="text-sm text-[color:var(--ink-muted)] mt-1">
+              Chemical engineer, P.Eng · Wharton MBA &apos;28 · Calgary →
+              Philadelphia
             </p>
           </div>
         </div>
       </AnimateOnScroll>
 
-      {/* Divider */}
-      <hr className="border-slate-200/70 dark:border-slate-800/70 mb-12" />
-
-      {/* Stats */}
+      {/* Story */}
       <AnimateOnScroll>
-        <div className="mb-12 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            <AnimatedCounter end={4} label="Articles Published" />
-            <AnimatedCounter end={1} label="AI Chatbot Built" />
-            <AnimatedCounter end={5} suffix="+" label="Experiments Run" />
-            <AnimatedCounter end={3} suffix="+" label="Systems Built" />
+        <section className="ruled mb-14">
+          <p className="spec-label mb-5">The short version</p>
+          <div className="space-y-4 text-[color:var(--ink-muted)] leading-relaxed">
+            <p>
+              I&apos;m an engineer who kept ending up in the gap between what a
+              technology could do and what an organization would actually
+              deploy. At Enbridge I watched promising low-carbon projects stall
+              — not because the engineering failed, but because risk outran the
+              organization&apos;s tolerance and nobody was positioned to align
+              people around a first-of-a-kind decision.
+            </p>
+            <p>
+              So that became the job I gave myself: run the analysis in-house,
+              build the tools people actually adopt, and translate hard
+              technical work into decisions leadership will act on. It turns
+              out the same gap exists in AI — the models are far ahead of what
+              most organizations can absorb — and closing it is roughly the
+              most interesting problem I can think of.
+            </p>
+            <p>
+              This site is the working notebook: systems I&apos;ve built, what
+              broke, and what I&apos;d tell you over coffee if you asked how it
+              really went.
+            </p>
           </div>
-        </div>
+        </section>
       </AnimateOnScroll>
 
-      {/* Content */}
-      <div className="space-y-12">
-        <AnimateOnScroll>
-          <section>
-            <h2 className="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500 mb-4">
-              Background
-            </h2>
-            <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-              I'm a chemical engineer working in energy and infrastructure.
-              Operator mindset: real systems, real constraints, real
-              accountability. This site isn't a portfolio or a blog — it's a
-              public lab notebook. Experiments with intelligent systems, notes on
-              leverage and decision-making, and what I learn when things work or
-              don't.
-            </p>
-          </section>
-        </AnimateOnScroll>
-
-        <AnimateOnScroll delay={100}>
-          <section>
-            <h2 className="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500 mb-4">
-              Intent
-            </h2>
-            <ul className="space-y-3 text-slate-700 dark:text-slate-300 leading-relaxed">
-              {[
-                "Understand where intelligent systems create leverage and where they don't",
-                "Run experiments in the open and capture what works, what fails, and why",
-                "Improve decision-making and clarity in constrained, real-world systems",
-                "Keep the notebook high-signal: no hype, no filler",
-              ].map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-2 w-1 h-1 rounded-full bg-blue-500 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </AnimateOnScroll>
-
-        <AnimateOnScroll delay={200}>
-          <section>
-            <h2 className="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500 mb-6">
-              FAQ
-            </h2>
-            <div className="space-y-8">
-              {[
-                {
-                  q: "What's your background?",
-                  a: "Chemical engineer. I work in energy and infrastructure — real systems with tradeoffs, constraints, and accountability. I study leverage and decision-making through intelligent systems; I'm not an AI influencer or a generic developer.",
-                },
-                {
-                  q: "What are you working on?",
-                  a: "Experiments and writing live in the notebook (the posts). No single project — it's a running log of what I'm testing and thinking about.",
-                },
-                {
-                  q: "How can I get in touch?",
-                  a: "GitHub and LinkedIn are in the footer. No contact form for now.",
-                },
-                {
-                  q: "What do you do?",
-                  a: "Chemical engineering. Operations. Systems thinking. I use intelligent systems as a lever in that context — not as a standalone specialty.",
-                },
-              ].map(({ q, a }) => (
-                <div key={q}>
-                  <h3 className="font-medium text-slate-900 dark:text-slate-100 mb-1.5">
-                    {q}
+      {/* Timeline */}
+      <AnimateOnScroll delay={100}>
+        <section className="ruled mb-14">
+          <p className="spec-label mb-6">The record</p>
+          <div className="space-y-0">
+            {timeline.map((item) => (
+              <div
+                key={item.period}
+                className="grid sm:grid-cols-[0.25fr,0.75fr] gap-2 sm:gap-8 py-5 border-b border-[color:var(--hair-soft)] last:border-b-0"
+              >
+                <p className="font-mono text-xs text-[color:var(--ink-faint)] pt-1">
+                  {item.period}
+                </p>
+                <div>
+                  <h3 className="display-font text-lg font-semibold text-[color:var(--ink)] mb-1.5">
+                    {item.title}
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[0.95rem]">
-                    {a}
+                  <p className="text-sm text-[color:var(--ink-muted)] leading-relaxed">
+                    {item.detail}
                   </p>
                 </div>
-              ))}
-            </div>
-          </section>
-        </AnimateOnScroll>
-      </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </AnimateOnScroll>
+
+      {/* FAQ */}
+      <AnimateOnScroll delay={150}>
+        <section className="ruled">
+          <p className="spec-label mb-6">Straight answers</p>
+          <div className="space-y-8">
+            {[
+              {
+                q: "What are you actually good at?",
+                a: "Taking something ambiguous and high-stakes — a fleet-reliability question, an undefined claims file, a first-of-a-kind study — and turning it into structure, a number, and a decision. Then building the tool so it keeps happening without me.",
+              },
+              {
+                q: "Are you an AI person or an energy person?",
+                a: "Both, on purpose. Energy is where I have a decade of scar tissue and a professional license; AI is the lever. The bet is that the intersection is worth more than either alone.",
+              },
+              {
+                q: "What are you working on right now?",
+                a: "The MBA, consulting recruiting, this notebook, and a small fleet of personal agents that maintain my knowledge base and publish to this site. The agents are the experiment; the notebook is the data.",
+              },
+              {
+                q: "How do I reach you?",
+                a: "Email or LinkedIn in the footer. If you're working on AI deployment in the physical economy — energy, infrastructure, industrials — I will almost certainly reply.",
+              },
+            ].map(({ q, a }) => (
+              <div key={q}>
+                <h3 className="display-font font-semibold text-[color:var(--ink)] mb-1.5">
+                  {q}
+                </h3>
+                <p className="text-sm text-[color:var(--ink-muted)] leading-relaxed">
+                  {a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </AnimateOnScroll>
     </div>
   );
 }

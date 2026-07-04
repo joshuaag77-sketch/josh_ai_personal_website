@@ -21,9 +21,20 @@ const editorial = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Josh",
+  title: {
+    default: "Joshua Agarwal — field notes from the deployment gap",
+    template: "%s — Joshua Agarwal",
+  },
   description:
-    "Chemical engineer. Public lab notebook on leverage, decision-making, and intelligent systems.",
+    "Chemical engineer building AI systems inside heavy industry. Four years turning frontier AI into tools pipeline operators actually use; now at Wharton. A public lab notebook on what survives contact with the field.",
+  openGraph: {
+    title: "Joshua Agarwal — field notes from the deployment gap",
+    description:
+      "Chemical engineer building AI systems inside heavy industry. A public lab notebook on what survives contact with the field.",
+    url: "https://josh-ai-personal-website.vercel.app",
+    siteName: "Joshua Agarwal",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -34,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${editorial.variable} antialiased min-h-screen flex flex-col text-zinc-900 dark:text-zinc-100`}
+        className={`${geistSans.variable} ${geistMono.variable} ${editorial.variable} antialiased min-h-screen flex flex-col`}
       >
         <ThemeProvider>
           <Header />

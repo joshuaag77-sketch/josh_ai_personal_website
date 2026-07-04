@@ -70,7 +70,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <article className="relative overflow-hidden">
       <ReadingProgress />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.12),_transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgba(194,65,12,0.10),_transparent_60%)] dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.08),_transparent_60%)]" />
       <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative">
         <header className="mb-10">
           <Link

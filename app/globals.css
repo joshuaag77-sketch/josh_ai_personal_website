@@ -1,17 +1,44 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* ─────────────────────────────────────────────
+   Field Notes design system
+   Warm paper · ink · industrial orange accent
+   Engineering-notebook texture, editorial type
+   ───────────────────────────────────────────── */
+
 :root {
-  --background: #f6f9ff;
-  --foreground: #0f172a;
-  --page-bg: #f6f9ff;
-  --page-bg-secondary: #eef4ff;
-  --page-bg-dark: #0b1120;
-  --page-bg-secondary-dark: #0f172a;
-  --accent: #2563eb;
-  --accent-soft: #dbeafe;
-  --accent-strong: #1d4ed8;
-  --ring: rgba(37, 99, 235, 0.18);
+  --paper: #f7f3ec;
+  --paper-raised: #fdfbf7;
+  --ink: #201d18;
+  --ink-muted: #6b645a;
+  --ink-faint: #98917f;
+  --hair: rgba(32, 29, 24, 0.14);
+  --hair-soft: rgba(32, 29, 24, 0.08);
+  --grid: rgba(32, 29, 24, 0.05);
+  --accent: #c2410c;
+  --accent-deep: #9a3412;
+  --accent-wash: rgba(194, 65, 12, 0.07);
+  --background: var(--paper);
+  --foreground: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161411;
+    --paper-raised: #1d1a16;
+    --ink: #ece7dd;
+    --ink-muted: #a49c8f;
+    --ink-faint: #7c7466;
+    --hair: rgba(236, 231, 221, 0.16);
+    --hair-soft: rgba(236, 231, 221, 0.09);
+    --grid: rgba(236, 231, 221, 0.045);
+    --accent: #fb923c;
+    --accent-deep: #fdba74;
+    --accent-wash: rgba(251, 146, 60, 0.08);
+    --background: var(--paper);
+    --foreground: var(--ink);
+  }
 }
 
 @theme inline {
@@ -22,49 +49,55 @@
   --font-display: var(--font-editorial);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b1120;
-    --foreground: #e2e8f0;
-  }
-}
-
 body {
-  background: radial-gradient(
-      circle at top left,
-      var(--page-bg-secondary),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(59, 130, 246, 0.08),
-      transparent 45%
-    ),
-    var(--page-bg);
-  color: var(--foreground);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 36px 36px;
+  color: var(--ink);
   font-family: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background: radial-gradient(
-        circle at top left,
-        var(--page-bg-secondary-dark),
-        transparent 55%
-      ),
-      radial-gradient(
-        circle at 20% 20%,
-        rgba(56, 189, 248, 0.12),
-        transparent 45%
-      ),
-      var(--page-bg-dark);
-  }
+/* subtle vignette so the grid recedes at the top */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 60% at 50% 0%,
+    var(--paper) 0%,
+    transparent 70%
+  );
+  z-index: -1;
 }
 
 .display-font {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
+
+/* mono spec-sheet label */
+.spec-label {
+  font-family: var(--font-mono);
+  font-size: 0.675rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+
+.spec-label--muted {
+  color: var(--ink-faint);
+}
+
+/* hairline-ruled section heading */
+.ruled {
+  border-top: 1px solid var(--hair);
+  padding-top: 1.25rem;
+}
+
+/* ── Article typography ─────────────────────── */
 
 .prose h1,
 .prose h2,
@@ -85,7 +118,7 @@ body {
   line-height: 1;
   padding-right: 0.5rem;
   padding-top: 0.2rem;
-  color: #1d4ed8;
+  color: var(--accent);
 }
 
 .article-content a {
@@ -95,6 +128,7 @@ body {
   background-repeat: no-repeat;
   transition: background-size 200ms ease;
   text-decoration: none;
+  color: var(--accent-deep);
 }
 
 .article-content a:hover {
@@ -102,42 +136,26 @@ body {
 }
 
 .article-content hr {
-  border-color: rgba(148, 163, 184, 0.35);
+  border-color: var(--hair);
 }
 
 .article-content blockquote {
-  border-left: 3px solid #2563eb;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.04), rgba(37, 99, 235, 0.01));
-  border-radius: 0 12px 12px 0;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-wash);
+  border-radius: 0 10px 10px 0;
   padding: 1.25rem 1.5rem;
   margin: 2rem 0;
   font-style: italic;
   font-size: 1.15rem;
   line-height: 1.8;
-  color: #334155;
+  color: var(--ink-muted);
 }
 
-@media (prefers-color-scheme: dark) {
-  .article-content > p:first-of-type::first-letter {
-    color: #93c5fd;
-  }
-
-  .article-content hr {
-    border-color: rgba(51, 65, 85, 0.8);
-  }
-
-  .article-content blockquote {
-    border-left-color: #60a5fa;
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), rgba(96, 165, 250, 0.02));
-    color: #cbd5e1;
-  }
-}
-
-/* ── Scroll Animations ── */
+/* ── Scroll animations ───────────────────────── */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
 }
 .animate-on-scroll.animate-in {
   opacity: 1;
@@ -152,104 +170,96 @@ body {
   }
 }
 
-/* ── Particle Field ── */
-@keyframes particle-drift {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: var(--particle-opacity-start); }
-  50% { transform: translateY(var(--drift-y)) translateX(var(--drift-x)); opacity: var(--particle-opacity-end); }
+/* ── Buttons — spec-sheet style ──────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 0.8rem 1.4rem;
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  transition: background 160ms ease, color 160ms ease;
+}
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  animation: particle-drift var(--duration) ease-in-out infinite;
-  pointer-events: none;
-  will-change: transform, opacity;
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 0.8rem 1.4rem;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--hair);
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent-deep);
 }
 
-/* ── Typing Animation ── */
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+/* ── System rows ─────────────────────────────── */
+.system-row {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: 1.25rem;
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--hair-soft);
+  transition: background 180ms ease;
+}
+.system-row:last-child {
+  border-bottom: 1px solid var(--hair-soft);
 }
 
-.typing-cursor {
-  animation: cursor-blink 1s step-end infinite;
+/* ── Post list rows ──────────────────────────── */
+.entry-row {
+  display: block;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--hair-soft);
+  transition: opacity 160ms ease;
+}
+.entry-row:hover .entry-title {
+  color: var(--accent-deep);
+}
+.entry-title {
+  transition: color 160ms ease;
 }
 
-.typing-word {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.typing-word.exiting {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-.typing-word.entering {
-  opacity: 0;
-  transform: translateY(8px);
-}
-.typing-word.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── Tilt Card ── */
-.tilt-card {
-  transition: transform 0.15s ease-out;
-  transform-style: preserve-3d;
-}
-.tilt-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at var(--glow-x, 50%) var(--glow-y, 50%),
-    rgba(59, 130, 246, 0.06),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-.tilt-card:hover::after {
-  opacity: 1;
-}
-
-@media (prefers-color-scheme: dark) {
-  .tilt-card::after {
-    background: radial-gradient(
-      circle at var(--glow-x, 50%) var(--glow-y, 50%),
-      rgba(96, 165, 250, 0.1),
-      transparent 60%
-    );
-  }
-}
-
-/* ── Status Ticker ── */
+/* ── Status dot ──────────────────────────────── */
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.6); opacity: 0.4; }
+  50% { transform: scale(1.5); opacity: 0.4; }
 }
-
 .pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+  background: var(--accent);
 }
 
-/* ── Tag Filter Transitions ── */
+/* ── Tag filter transitions (posts page) ─────── */
 .post-card-filter {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .post-card-filter.hidden-card {
   opacity: 0;
-  transform: scale(0.95);
+  transform: scale(0.98);
   max-height: 0;
   overflow: hidden;
   padding: 0;
   margin: 0;
   border: none;
-}
-
-/* ── Animated Counter ── */
-.counter-number {
-  font-variant-numeric: tabular-nums;
 }

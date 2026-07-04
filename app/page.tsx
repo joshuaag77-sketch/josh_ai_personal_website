@@ -2,172 +2,212 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { ChatWidget } from "@/components/ChatWidget";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
-import { ParticleField } from "@/components/ParticleField";
-import { TypingAnimation } from "@/components/TypingAnimation";
-import { TiltCard } from "@/components/TiltCard";
-import { StatusTicker } from "@/components/StatusTicker";
+
+const systems = [
+  {
+    num: "01",
+    name: "Fleet Sparing Simulator",
+    what: "A probabilistic model of gas-turbine fleet reliability for a major pipeline operator — spare counts, failure risk, overhaul scheduling, ten-year NPV per scenario.",
+    outcome:
+      "Built with the reliability engineers who run the fleet, validated within 2% of the specialist vendor's simulator, and adopted in place of a five-figure annual software subscription. It informed an eight-figure sparing decision.",
+    status: "Deployed · in use",
+  },
+  {
+    num: "02",
+    name: "A Second Brain That Runs Itself",
+    what: "A plain-text knowledge graph tended by scheduled agents: a gardener that maintains it, a weekly brief that mines it for connections I can't see myself, a foundry that turns them into things worth writing.",
+    outcome:
+      "Runs on a schedule whether I show up or not. Everything it learns compounds in one place — including the ideas that become the posts below.",
+    status: "Running daily",
+    href: "/posts/ai-second-brain-obsidian",
+  },
+  {
+    num: "03",
+    name: "This Site's Chatbot",
+    what: "A small agent trained on my notes and bio, wired into this page. The cheapest way to test whether an AI system represents you honestly is to let strangers interrogate it.",
+    outcome: "Live at the bottom of this page. Ask it something hard.",
+    status: "Live below",
+    href: "#ask",
+  },
+];
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <section className="relative mb-16 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
-        <ParticleField />
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+      {/* ── Hero ─────────────────────────────────── */}
+      <section className="mb-20 sm:mb-28">
         <AnimateOnScroll>
-          <div className="relative z-10">
-            <p className="text-xs uppercase tracking-[0.35em] text-blue-600/80 dark:text-blue-300/80 mb-4">
-              Lab Notebook
-            </p>
-            <h1 className="display-font text-4xl sm:text-5xl font-semibold mb-5 text-slate-900 dark:text-slate-100">
-              Experiments in <TypingAnimation />
-            </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-              Chemical engineer in energy and infrastructure. This site is a public
-              lab notebook: experiments with intelligent systems, what I learn, and
-              how I think about tradeoffs and constraints.
-            </p>
-            <div className="mb-6">
-              <StatusTicker />
-            </div>
-            <div className="flex gap-4">
-              <Link
-                href="/posts"
-                className="px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-500 transition-colors shadow-[0_10px_30px_-18px_rgba(37,99,235,0.8)]"
-              >
-                Notebook
-              </Link>
-              <Link
-                href="/about"
-                className="px-6 py-3 border border-slate-300/80 dark:border-slate-700 rounded-full font-medium hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
-              >
-                About
-              </Link>
-            </div>
+          <p className="spec-label mb-6">Field notes from the deployment gap</p>
+          <h1 className="display-font text-4xl sm:text-6xl font-semibold leading-[1.05] text-[color:var(--ink)] max-w-3xl mb-8">
+            AI&apos;s hardest problems aren&apos;t in the models.{" "}
+            <em className="text-[color:var(--accent-deep)]">
+              They&apos;re in the field.
+            </em>
+          </h1>
+          <p className="text-lg sm:text-xl text-[color:var(--ink-muted)] leading-relaxed max-w-2xl mb-10">
+            I&apos;m Joshua Agarwal — chemical engineer, P.Eng. I spent four
+            years at Enbridge turning frontier AI into tools that operators
+            actually use, and I write down what survives contact with reality.
+            Now at Wharton, working out how to do it at scale.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/posts" className="btn-primary">
+              Read the notebook
+            </Link>
+            <Link href="#systems" className="btn-secondary">
+              What I&apos;ve built ↓
+            </Link>
           </div>
         </AnimateOnScroll>
-        <AnimateOnScroll delay={200}>
-          <div className="relative z-10 rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_35px_120px_-80px_rgba(15,23,42,0.65)]">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 mb-5">
-              Current Thesis
-            </p>
-            <p className="display-font text-2xl text-slate-900 dark:text-slate-100 mb-4">
-              AI is infrastructure, not a feature.
-            </p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              I build systems that absorb messy input, structure it, and execute
-              with accountability. The goal is leverage, not novelty.
-            </p>
-            <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
-              Calgary. Energy. Systems.
+
+        {/* Proof strip */}
+        <AnimateOnScroll delay={150}>
+          <div className="mt-14 grid sm:grid-cols-3 border-y border-[color:var(--hair)] divide-y sm:divide-y-0 sm:divide-x divide-[color:var(--hair-soft)]">
+            {[
+              ["Capital decision informed", "Eight figures, one model"],
+              ["Validation vs. specialist vendor", "Within 2%"],
+              ["Credentials", "P.Eng · Wharton MBA '28"],
+            ].map(([label, value]) => (
+              <div key={label} className="py-5 sm:px-6 first:sm:pl-0">
+                <p className="spec-label spec-label--muted mb-2">{label}</p>
+                <p className="display-font text-lg text-[color:var(--ink)]">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </AnimateOnScroll>
+      </section>
+
+      {/* ── Thesis ───────────────────────────────── */}
+      <section className="mb-20 sm:mb-28">
+        <AnimateOnScroll>
+          <div className="ruled grid gap-6 lg:grid-cols-[0.35fr,0.65fr]">
+            <p className="spec-label">The thesis</p>
+            <div>
+              <p className="display-font text-2xl sm:text-3xl text-[color:var(--ink)] leading-snug mb-5">
+                AI is infrastructure, not a feature.
+              </p>
+              <p className="text-[color:var(--ink-muted)] leading-relaxed max-w-xl">
+                The bottleneck isn&apos;t the models — it&apos;s the last mile:
+                getting intelligence into real workflows, in organizations with
+                real constraints, where a wrong answer costs actual money. That
+                gap between what&apos;s possible and what&apos;s deployed is
+                where I work, and most of what&apos;s written here is a field
+                report from inside it.
+              </p>
             </div>
           </div>
         </AnimateOnScroll>
       </section>
 
-      <AnimateOnScroll>
-        <div className="mb-20">
-          <ChatWidget />
-        </div>
-      </AnimateOnScroll>
-
-      <section className="mb-20">
+      {/* ── Systems ──────────────────────────────── */}
+      <section id="systems" className="mb-20 sm:mb-28 scroll-mt-24">
         <AnimateOnScroll>
-          <h2 className="display-font text-3xl font-semibold mb-8 text-slate-900 dark:text-slate-100">
-            What this is
-          </h2>
+          <div className="flex items-baseline justify-between mb-2">
+            <h2 className="display-font text-3xl font-semibold text-[color:var(--ink)]">
+              Systems in production
+            </h2>
+            <p className="spec-label spec-label--muted hidden sm:block">
+              Not demos
+            </p>
+          </div>
+          <p className="text-[color:var(--ink-muted)] mb-8 max-w-xl">
+            Things I&apos;ve built that are still running without me.
+          </p>
         </AnimateOnScroll>
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            {
-              title: "Focus",
-              text: "Leverage inside real systems. Not demos, not hype.",
-            },
-            {
-              title: "Method",
-              text: "Small experiments, fast feedback, ruthless clarity.",
-            },
-            {
-              title: "Output",
-              text: "Notes, builds, and systems that actually run.",
-            },
-          ].map((item, i) => (
-            <AnimateOnScroll key={item.title} delay={i * 120}>
-              <TiltCard>
-                <div className="rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-6 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
-                  <p className="text-xs uppercase tracking-[0.28em] text-blue-600/80 dark:text-blue-300/80 mb-3">
-                    {item.title}
+        <div>
+          {systems.map((s, i) => {
+            const inner = (
+              <div className="system-row group">
+                <span className="display-font text-2xl text-[color:var(--ink-faint)]">
+                  {s.num}
+                </span>
+                <div>
+                  <h3 className="display-font text-xl font-semibold text-[color:var(--ink)] group-hover:text-[color:var(--accent-deep)] transition-colors mb-2">
+                    {s.name}
+                  </h3>
+                  <p className="text-sm text-[color:var(--ink-muted)] leading-relaxed max-w-2xl mb-2">
+                    {s.what}
                   </p>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    {item.text}
+                  <p className="text-sm text-[color:var(--ink)] leading-relaxed max-w-2xl">
+                    {s.outcome}
                   </p>
                 </div>
-              </TiltCard>
+                <span className="spec-label whitespace-nowrap hidden sm:flex items-center gap-2">
+                  <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full" />
+                  {s.status}
+                </span>
+              </div>
+            );
+            return (
+              <AnimateOnScroll key={s.num} delay={i * 100}>
+                {s.href ? (
+                  <Link href={s.href} className="block">
+                    {inner}
+                  </Link>
+                ) : (
+                  inner
+                )}
+              </AnimateOnScroll>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Writing ──────────────────────────────── */}
+      <section className="mb-20 sm:mb-28">
+        <AnimateOnScroll>
+          <div className="flex items-baseline justify-between mb-8">
+            <h2 className="display-font text-3xl font-semibold text-[color:var(--ink)]">
+              Recent entries
+            </h2>
+            <Link
+              href="/posts"
+              className="spec-label hover:text-[color:var(--accent-deep)] transition-colors"
+            >
+              All entries →
+            </Link>
+          </div>
+        </AnimateOnScroll>
+        <div>
+          {posts.map((post, i) => (
+            <AnimateOnScroll key={post.slug} delay={i * 100}>
+              <Link href={`/posts/${post.slug}`} className="entry-row group">
+                <div className="grid gap-2 sm:grid-cols-[0.28fr,0.72fr] sm:gap-8">
+                  <div>
+                    <p className="spec-label mb-1.5">{post.kicker || "Entry"}</p>
+                    <p className="text-xs text-[color:var(--ink-faint)] font-mono">
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                      {post.readingTime ? ` · ${post.readingTime}` : ""}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="entry-title display-font text-xl sm:text-2xl font-semibold text-[color:var(--ink)] mb-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-[color:var(--ink-muted)] leading-relaxed max-w-2xl">
+                      {post.summary}
+                    </p>
+                  </div>
+                </div>
+              </Link>
             </AnimateOnScroll>
           ))}
         </div>
       </section>
 
-      <section>
+      {/* ── Chat ─────────────────────────────────── */}
+      <section id="ask" className="scroll-mt-24">
         <AnimateOnScroll>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="display-font text-3xl font-semibold text-slate-900 dark:text-slate-100">
-              Recent entries
-            </h2>
-            <Link
-              href="/posts"
-              className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-            >
-              All entries -&gt;
-            </Link>
-          </div>
+          <ChatWidget />
         </AnimateOnScroll>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.length > 0 ? (
-            posts.map((post, i) => (
-              <AnimateOnScroll key={post.slug} delay={i * 120}>
-                <TiltCard>
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    className="group block p-6 sm:p-7 border border-slate-200/70 dark:border-slate-800/70 rounded-2xl bg-white/60 dark:bg-slate-950/40 hover:border-blue-300/70 dark:hover:border-blue-700/70 transition-colors shadow-[0_18px_70px_-60px_rgba(15,23,42,0.6)]"
-                  >
-                    {post.heroImage && (
-                      <div className="mb-4 -mx-1 -mt-1 rounded-xl overflow-hidden h-[120px]">
-                        <img
-                          src={post.heroImage}
-                          alt={post.heroAlt || post.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <p className="text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70 mb-3">
-                      {post.kicker || "Entry"}
-                    </p>
-                    <h3 className="display-font text-xl font-semibold mb-3 text-slate-900 dark:text-slate-100">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed line-clamp-2">
-                      {post.summary}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
-                      <time>{new Date(post.date).toLocaleDateString()}</time>
-                      {post.readingTime && (
-                        <>
-                          <span>•</span>
-                          <span>{post.readingTime}</span>
-                        </>
-                      )}
-                    </div>
-                  </Link>
-                </TiltCard>
-              </AnimateOnScroll>
-            ))
-          ) : (
-            <p className="text-slate-600 dark:text-slate-400">
-              No posts yet. Check back soon!
-            </p>
-          )}
-        </div>
       </section>
     </div>
   );

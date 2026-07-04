@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -12,7 +12,7 @@ export function ChatWidget() {
     {
       role: "assistant",
       content:
-        "Ask me about my work, focus areas, or why I build systems the way I do.",
+        "I'm trained on Josh's notes and bio. Ask me what he's built, why he left a good engineering job for Wharton, or what he'd say to your hardest AI-deployment question.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -55,57 +55,62 @@ export function ChatWidget() {
         { role: "assistant", content: data.answer || "" },
       ]);
     } catch (err: any) {
-      setError(err?.message ?? "The chatbot is temporarily unavailable. Try again later!");
+      setError(
+        err?.message ?? "The chatbot is temporarily unavailable. Try again later!"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-6 shadow-[0_30px_120px_-90px_rgba(15,23,42,0.6)]">
-      <div className="flex items-start justify-between gap-4 mb-4">
+    <section className="border border-[color:var(--hair)] rounded-md bg-[color:var(--paper-raised)] p-6 sm:p-8">
+      <div className="flex items-start justify-between gap-4 mb-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-blue-600/80 dark:text-blue-300/80 mb-2">
-            Ask Josh
-          </p>
-          <h3 className="display-font text-2xl font-semibold text-slate-900 dark:text-slate-100">
-            Personal chatbot
+          <p className="spec-label mb-2">Interrogate this site</p>
+          <h3 className="display-font text-2xl font-semibold text-[color:var(--ink)] mb-1">
+            Ask the resident agent
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-300">
-            Built from my public bio and notes. Quick answers, no fluff.
+          <p className="text-sm text-[color:var(--ink-muted)] max-w-md">
+            The fastest way to judge whether someone can build useful AI systems
+            is to talk to one they built. This one answers for me.
           </p>
         </div>
-        <span className="text-[10px] uppercase tracking-[0.35em] text-slate-400">
-          Beta
+        <span className="spec-label spec-label--muted whitespace-nowrap hidden sm:flex items-center gap-2">
+          <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full" />
+          Online
         </span>
       </div>
 
-      <div className="space-y-4 max-h-64 overflow-y-auto pr-2 scroll-smooth">
+      <div className="space-y-3 max-h-64 overflow-y-auto pr-2 scroll-smooth">
         {messages.map((msg, index) => (
           <div
             key={`${msg.role}-${index}`}
             className={
               msg.role === "assistant"
-                ? "bg-blue-50/60 dark:bg-slate-900/60 text-slate-700 dark:text-slate-200 rounded-2xl px-4 py-3"
-                : "bg-slate-100/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-100 rounded-2xl px-4 py-3 ml-auto"
+                ? "border border-[color:var(--hair-soft)] bg-[color:var(--accent-wash)] rounded-md px-4 py-3 max-w-[85%]"
+                : "border border-[color:var(--hair-soft)] bg-[color:var(--paper)] rounded-md px-4 py-3 ml-auto max-w-[85%]"
             }
           >
-            <p className="text-sm leading-relaxed">{msg.content}</p>
+            <p className="text-sm leading-relaxed text-[color:var(--ink)]">
+              {msg.content}
+            </p>
           </div>
         ))}
+        {loading && (
+          <p className="spec-label spec-label--muted px-1">Thinking…</p>
+        )}
         <div ref={endRef} />
       </div>
 
-      {error && (
-        <p className="text-sm text-rose-500 mt-3">{error}</p>
-      )}
+      {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
 
-      <div className="mt-4 flex items-center gap-3">
+      <div className="mt-5 flex items-center gap-3">
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          placeholder="Ask about focus areas, projects, or career goals"
-          className="flex-1 rounded-full border border-slate-200/70 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="e.g. What has Josh actually shipped?"
+          className="flex-1 rounded-sm border border-[color:var(--hair)] bg-[color:var(--paper)] px-4 py-2.5 text-sm text-[color:var(--ink)] placeholder:text-[color:var(--ink-faint)] focus:outline-none focus:border-[color:var(--accent)]"
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               event.preventDefault();
@@ -117,9 +122,9 @@ export function ChatWidget() {
           type="button"
           onClick={sendMessage}
           disabled={loading}
-          className="rounded-full bg-blue-600 text-white px-4 py-2 text-sm font-medium shadow-[0_10px_30px_-18px_rgba(37,99,235,0.8)] hover:bg-blue-500 transition disabled:opacity-60"
+          className="btn-primary disabled:opacity-50"
         >
-          {loading ? "..." : "Send"}
+          {loading ? "…" : "Send"}
         </button>
       </div>
     </section>
