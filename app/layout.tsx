@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -21,9 +22,19 @@ const editorial = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Josh",
+  metadataBase: new URL("https://josh-ai-personal-website.vercel.app"),
+  title: {
+    default: "Josh Agarwal — engineer, MBA candidate, builder of AI-native systems",
+    template: "%s · Josh Agarwal",
+  },
   description:
-    "Chemical engineer. Public lab notebook on leverage, decision-making, and intelligent systems.",
+    "P.Eng and Wharton MBA candidate. A public lab notebook on AI deployment, energy infrastructure, and knowledge systems — with a live 3D map of my second brain.",
+  openGraph: {
+    title: "Josh Agarwal — lab notebook",
+    description:
+      "Experiments in AI deployment, energy, and knowledge systems. Fly through my second brain at /brain.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -41,6 +52,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
