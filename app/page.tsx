@@ -54,20 +54,8 @@ export default function Home() {
           </div>
         </AnimateOnScroll>
         <AnimateOnScroll delay={200}>
-          <div className="scroll-grow relative z-10 rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_35px_120px_-80px_rgba(15,23,42,0.65)]">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 mb-5">
-              Current Thesis
-            </p>
-            <p className="display-font text-2xl text-slate-900 dark:text-slate-100 mb-4">
-              AI is infrastructure, not a feature.
-            </p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              I build systems that absorb messy input, structure it, and execute
-              with accountability. The goal is leverage, not novelty.
-            </p>
-            <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
-              Calgary. Energy. Systems.
-            </div>
+          <div className="scroll-grow relative z-10">
+            <ChatWidget />
           </div>
         </AnimateOnScroll>
       </section>
@@ -75,8 +63,20 @@ export default function Home() {
       <DailyThread />
 
       <AnimateOnScroll>
-        <div className="scroll-grow mb-20">
-          <ChatWidget />
+        <div className="scroll-grow mb-20 rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_35px_120px_-80px_rgba(15,23,42,0.65)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 mb-5">
+            Current Thesis
+          </p>
+          <p className="display-font text-2xl text-slate-900 dark:text-slate-100 mb-4">
+            AI is infrastructure, not a feature.
+          </p>
+          <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+            I build systems that absorb messy input, structure it, and execute
+            with accountability. The goal is leverage, not novelty.
+          </p>
+          <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
+            Calgary. Energy. Systems.
+          </div>
         </div>
       </AnimateOnScroll>
 
