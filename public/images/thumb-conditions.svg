@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="bgk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1733"/>
+      <stop offset="100%" stop-color="#101c33"/>
+    </linearGradient>
+    <radialGradient id="glowk" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="conek" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#93c5fd" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="240" fill="url(#bgk)"/>
+  <ellipse cx="200" cy="80" rx="150" ry="90" fill="url(#glowk)"/>
+
+  <!-- spotlight falling on the one we all watch -->
+  <path d="M200 8 L142 96 L258 96 Z" fill="url(#conek)"/>
+
+  <!-- the leader: bright, obvious, over-credited -->
+  <circle cx="200" cy="84" r="17" fill="#0b1733" stroke="#60a5fa" stroke-width="1.6"/>
+  <circle cx="200" cy="84" r="8" fill="#60a5fa"/>
+
+  <!-- five conditions: quieter, load-bearing -->
+  <line x1="60" y1="176" x2="340" y2="176" stroke="#2563eb" stroke-width="0.9" opacity="0.4"/>
+  <g fill="#0b1733" stroke="#3b82f6" stroke-width="1.2" opacity="0.9">
+    <circle cx="60" cy="176" r="9"/>
+    <circle cx="130" cy="176" r="9"/>
+    <circle cx="200" cy="176" r="9"/>
+    <circle cx="270" cy="176" r="9"/>
+    <circle cx="340" cy="176" r="9"/>
+  </g>
+  <g fill="#3b82f6" opacity="0.55">
+    <circle cx="60" cy="176" r="3.4"/>
+    <circle cx="130" cy="176" r="3.4"/>
+    <circle cx="200" cy="176" r="3.4"/>
+    <circle cx="270" cy="176" r="3.4"/>
+    <circle cx="340" cy="176" r="3.4"/>
+  </g>
+
+  <!-- what actually carries the weight -->
+  <g stroke="#3b82f6" stroke-width="0.7" opacity="0.3" fill="none">
+    <path d="M60 167 L196 98"/>
+    <path d="M130 167 L198 100"/>
+    <path d="M200 167 L200 101"/>
+    <path d="M270 167 L202 100"/>
+    <path d="M340 167 L204 98"/>
+  </g>
+
+  <!-- baseline -->
+  <line x1="40" y1="206" x2="360" y2="206" stroke="#1e3a8a" stroke-width="1" opacity="0.55"/>
+</svg>
