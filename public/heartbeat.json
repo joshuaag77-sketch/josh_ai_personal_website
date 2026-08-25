@@ -1,12 +1,12 @@
 {
   "gardener": {
-    "lastRun": "2026-08-19"
+    "lastRun": "2026-08-25"
   },
   "brief": {
     "lastIssue": "W32",
     "date": "2026-08-10"
   },
-  "updated": "2026-08-19T04:32:31.438Z",
+  "updated": "2026-08-25T17:27:32.165Z",
   "nodes": 45,
   "links": 128
 }
