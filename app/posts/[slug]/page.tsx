@@ -7,6 +7,7 @@ import { ReadingProgress } from "@/components/ReadingProgress";
 import { MbaRoiCalculator } from "@/components/MbaRoiCalculator";
 import { WorkflowDemo } from "@/components/WorkflowDemo";
 import { PipelineSection } from "@/components/PipelineSection";
+import { MhsBench } from "@/components/MhsBench";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -110,7 +111,7 @@ export default async function PostPage({ params }: Props) {
           )}
         </header>
 
-        {post.heroImage && (
+        {post.heroImage && !post.hideHero && (
           <figure className="mb-12 -mx-4 sm:-mx-6 lg:-mx-12">
             <div className="rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-[0_20px_80px_-30px_rgba(15,23,42,0.25)] dark:shadow-[0_20px_80px_-30px_rgba(0,0,0,0.5)]">
               <img
@@ -137,6 +138,7 @@ export default async function PostPage({ params }: Props) {
             "<p>===ROI_CALCULATOR===</p>": <MbaRoiCalculator />,
             "<p>===WORKFLOW_DEMO===</p>": <WorkflowDemo />,
             "<p>===PIPELINE_SECTION===</p>": <PipelineSection />,
+            "<p>===MHS_BENCH===</p>": <MhsBench />,
           };
 
           // Split html on every marker and rebuild as interleaved html+components
