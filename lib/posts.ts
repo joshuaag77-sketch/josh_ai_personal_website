@@ -73,6 +73,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     heroImage: data.heroImage ?? "",
     heroAlt: data.heroAlt ?? "",
     heroCaption: data.heroCaption ?? "",
+    hideHero: data.hideHero === true,
     readingTime: estimateReadingTime(content),
     interactive: data.interactive ?? "",
     content,

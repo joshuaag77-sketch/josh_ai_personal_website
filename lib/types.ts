@@ -7,6 +7,7 @@ export interface PostFrontmatter {
   heroImage?: string;
   heroAlt?: string;
   heroCaption?: string;
+  hideHero?: boolean;
   status?: "draft" | "published";
   interactive?: string;
   featured?: boolean;
@@ -22,6 +23,7 @@ export interface Post {
   heroImage?: string;
   heroAlt?: string;
   heroCaption?: string;
+  hideHero?: boolean;
   readingTime?: string;
   interactive?: string;
   featured?: boolean;
