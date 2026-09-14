@@ -1,0 +1,71 @@
+/* MHS factory explainer: inline SVG, two modes, one illustrative workflow. Tokens follow globals.css. */
+.wrap {
+  --ink: #0f172a; --ink2: #475569; --muted: #64748b; --line: #cbd5e1; --line2: #e2e8f0;
+  --card: rgba(255, 255, 255, .7); --panel: #f8fafc; --blue: #2563eb; --blue2: #dbeafe; --amber: #d97706; --amber2: #fef3c7;
+  --vendorA: #94a3b8; --vendorB: #a78bfa; --vendorC: #34d399; --vendorD: #f87171; --vendorE: #fb923c;
+  position: relative; left: 50%; transform: translateX(-50%); width: min(100vw - 32px, 1040px); margin-block: 8px 40px;
+}
+:global(.dark) .wrap {
+  --ink: #e2e8f0; --ink2: #cbd5e1; --muted: #94a3b8; --line: #334155; --line2: #1e293b;
+  --card: rgba(15, 23, 42, .6); --panel: #0f172a; --blue: #60a5fa; --blue2: #1e3a8a; --amber: #f59e0b; --amber2: #3b2a0a;
+}
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.eyebrow { font-size: 11px; letter-spacing: .35em; text-transform: uppercase; color: var(--blue); opacity: .85; }
+.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--card); backdrop-filter: blur(8px); }
+.toggle button { font: 500 13px/1 var(--font-geist-sans), sans-serif; color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: background .2s, color .2s; }
+.toggle button.on { background: var(--ink); color: var(--panel); }
+.toggle button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.frame { border: 1px solid var(--line); border-radius: 16px; background: var(--card); backdrop-filter: blur(8px); padding: 14px 10px 8px; overflow-x: auto; }
+.svg { display: block; width: 100%; height: auto; min-width: 640px; font-family: var(--font-geist-sans), sans-serif; }
+
+/* SVG text and shapes take the tokens */
+.t { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.ts { fill: var(--muted); font-size: 10.5px; }
+.tm { fill: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 9.5px; letter-spacing: .06em; }
+.stroke { stroke: var(--ink2); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.panel { fill: var(--panel); stroke: var(--line); }
+.driver { fill: var(--amber2); stroke: var(--amber); }
+.driverT { fill: var(--amber); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.agent { fill: var(--blue2); stroke: var(--blue); stroke-width: 1.5; }
+.agentT { fill: var(--ink); font-size: 15px; font-weight: 700; }
+.agentS { fill: var(--muted); font-size: 11px; }
+.link { stroke: var(--amber); stroke-width: 1.5; fill: none; opacity: .75; }
+.linkHot { stroke: var(--blue); stroke-width: 2.5; opacity: 1; }
+.vendor { stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; opacity: .85; }
+.vendorBox { stroke-width: 1.4; fill: var(--panel); }
+.vendorT { font-family: var(--font-geist-mono), monospace; font-size: 9px; letter-spacing: .04em; }
+.dim { opacity: .35; }
+.pulse { fill: var(--blue); }
+.hotCard { stroke: var(--blue); stroke-width: 2; }
+
+/* mode transitions */
+.layer { transition: opacity .45s ease; }
+.hide { opacity: 0; pointer-events: none; }
+
+/* workflow strip */
+.flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 12px; }
+.goal { font-family: var(--font-editorial), Georgia, serif; font-size: 17px; color: var(--ink); margin-right: 4px; }
+.goal em { color: var(--blue); font-style: italic; }
+.steps { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.step { font-family: var(--font-geist-mono), monospace; font-size: 11px; letter-spacing: .06em; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; transition: all .25s; }
+.stepOn { color: var(--panel); background: var(--blue); border-color: var(--blue); }
+.arrow { color: var(--line); font-size: 12px; }
+.note { flex-basis: 100%; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.caption { font-size: 14px; color: var(--ink2); line-height: 1.55; margin: 12px 4px 0; max-width: 70ch; }
+.caption b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 700px) { .goal { font-size: 15px; } .caption { font-size: 13.5px; } }
+@media (prefers-reduced-motion: reduce) { .layer, .step { transition: none; } }
+
+/* evidence strip */
+.evidence { margin-top: 22px; }
+.evidence .eyebrow { margin-bottom: 12px; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.ev { padding: 14px 14px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); backdrop-filter: blur(8px); display: flex; flex-direction: column; gap: 5px; }
+.n { font-family: var(--font-editorial), Georgia, serif; font-weight: 500; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+.n small { font-family: var(--font-geist-mono), monospace; font-size: 10px; color: var(--muted); letter-spacing: .12em; margin-left: 5px; }
+.w { font-size: 12.5px; color: var(--ink2); line-height: 1.45; }
+.s { font-family: var(--font-geist-mono), monospace; font-size: 9.5px; color: var(--muted); letter-spacing: .16em; text-transform: uppercase; margin-top: auto; padding-top: 4px; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .n { font-size: 34px; } .w { font-size: 13.5px; } }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
