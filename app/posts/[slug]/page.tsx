@@ -7,7 +7,7 @@ import { ReadingProgress } from "@/components/ReadingProgress";
 import { MbaRoiCalculator } from "@/components/MbaRoiCalculator";
 import { WorkflowDemo } from "@/components/WorkflowDemo";
 import { PipelineSection } from "@/components/PipelineSection";
-import { MhsBench } from "@/components/MhsBench";
+import { MhsFactory } from "@/components/MhsFactory";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -138,7 +138,7 @@ export default async function PostPage({ params }: Props) {
             "<p>===ROI_CALCULATOR===</p>": <MbaRoiCalculator />,
             "<p>===WORKFLOW_DEMO===</p>": <WorkflowDemo />,
             "<p>===PIPELINE_SECTION===</p>": <PipelineSection />,
-            "<p>===MHS_BENCH===</p>": <MhsBench />,
+            "<p>===MHS_FACTORY===</p>": <MhsFactory />,
           };
 
           // Split html on every marker and rebuild as interleaved html+components
