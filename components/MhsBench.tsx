@@ -318,6 +318,7 @@ export function MhsBench() {
       function frame(now: number) {
         if (!alive) return;
         const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        readScroll(); // progress is read every frame, never only on scroll events
         const k = reduced ? 1 : 1 - Math.pow(0.0005, dt);
         const T = stateAt(progress);
         for (let i = 0; i < 3; i++) { S.mx[i] = lerp(S.mx[i], T.mx[i], k); S.mvis[i] = lerp(S.mvis[i], T.mvis[i], k); }
