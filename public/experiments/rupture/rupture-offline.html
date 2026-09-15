@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101919">
+<meta name="description" content="A high-speed water balloon experiment. Explore a rupture in slow motion, orbit the scene and shape the physics.">
+<title>Rupture — Water in motion</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121d1e'/%3E%3Cpath d='M16 5C13 11 7 15 7 21a9 9 0 0018 0c0-6-6-10-9-16' fill='%23bcf0d6'/%3E%3Cpath d='M22 9L10 26' stroke='%23121d1e' stroke-width='3'/%3E%3C/svg%3E">
+<style>:root{color-scheme:dark;--bg:#101818;--panel:#152021;--line:#2c3a3a;--muted:#93a7a7;--mint:#c2f2d9;--white:#ebf1ed;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--white);background:var(--bg)}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,select{cursor:pointer}button{color:inherit;border:0;background:none}button:focus-visible,select:focus-visible,canvas:focus-visible{outline:2px solid var(--mint);outline-offset:5px}button:hover{color:var(--mint)}.studio{max-width:1800px;margin:auto;padding:0 40px}.masthead{height:96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.wordmark{font:800 39px 'Manrope',sans-serif;letter-spacing:-2px;text-decoration:none;color:var(--white)}.wordmark span{vertical-align:top;font-size:14px;letter-spacing:0;display:inline-block;margin:8px 0 0 5px}.edition,.live-label,.eyebrow,.take,.panel-title,.camera-bar>span,.timeline-header,.timeline-labels,.playback-rate label,footer{font-size:12px;font-weight:550;letter-spacing:1.5px}.edition{margin-left:-56px;color:#bdcbc7}.slash{margin:0 14px;color:#506363}.live-label{color:var(--muted);letter-spacing:1px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 288px}.scene{position:relative;min-height:645px;overflow:hidden;border-right:1px solid var(--line);background:#142324}.scene canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none;cursor:grab}.scene canvas:active{cursor:grabbing}.scene-top{pointer-events:none;position:absolute;top:30px;left:30px;right:28px;display:flex;justify-content:space-between;align-items:flex-start}.eyebrow{color:#bbd1cc;font-size:11px;letter-spacing:2px}h1{font:500 clamp(22px,2.1vw,32px) 'Manrope',sans-serif;letter-spacing:-1px;margin:9px 0;color:#e0e9e6}.take{text-align:right;color:#8fa7a2;line-height:1.8}.take span{color:#dae7e0;margin-left:10px}.take small{font-size:10px;letter-spacing:1px}.scene-caption{pointer-events:none;position:absolute;left:30px;bottom:99px}.caption-line{display:block;height:1px;width:28px;background:var(--mint);margin-bottom:15px}.scene-caption div{font:500 20px 'Manrope',sans-serif;letter-spacing:-.3px}.scene-caption small{display:block;color:#a9c2bc;font-size:13px;margin-top:7px}.camera-bar{position:absolute;bottom:22px;left:30px;right:24px;display:flex;align-items:center;justify-content:space-between;gap:8px}.camera-bar>span{font-size:10px;letter-spacing:1px;color:#91a9a4}.camera-bar b{margin:0 9px}.views{display:flex;background:#111e21c9;border:1px solid #45636388;border-radius:6px;padding:4px;gap:2px}.views button{font-size:12px;padding:8px 11px;border-radius:3px;color:#96b3ac}.views button.selected{background:#c2f2d9;color:#16322d}.controls{padding:30px 0 21px 26px}.panel-title{display:flex;justify-content:space-between;font-size:10px;color:#a9bdb7;letter-spacing:1.4px}.panel-title span:last-child{color:#607a74}h2{font:500 19px/1.5 'Manrope',sans-serif;letter-spacing:-.4px;margin:19px 0 26px}.control{display:grid;grid-template-columns:1fr auto;align-items:center;margin:0 0 21px}.control label{font-size:14px;color:#cbd9d3}.control output{font-size:13px;font-variant-numeric:tabular-nums;color:var(--mint)}input[type=range]{--fill:40%;appearance:none;-webkit-appearance:none;display:block;width:100%;height:3px;border:0;background:linear-gradient(to right,#9cc6b4 var(--fill),#344845 var(--fill));border-radius:4px;cursor:pointer;outline-offset:8px;margin:18px 0 0;grid-column:1/-1}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:#cdf0df;box-shadow:0 0 0 4px #bce9d508}input[type=range]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:#cdf0df}input[type=range]:focus-visible{outline:2px solid var(--mint)}.range-ends{grid-column:1/-1;display:flex;justify-content:space-between;color:#829a93;font-size:10px;margin-top:10px}.divider{height:1px;background:var(--line);margin:23px 0}.light-control{display:flex;justify-content:space-between;margin-top:26px;gap:10px}select{color:var(--mint);background:#1a2d2b;border:1px solid #35534a;border-radius:4px;padding:8px;font-size:12px;max-width:100%}.reset{font-size:15px;margin:1px 0 0;display:flex;align-items:center;gap:10px;color:#adcbc1;padding:5px 0}.reset>span{font-size:12px}.model-note{font-size:11px;line-height:1.6;color:#819b91;margin:14px 0 0}.transport{min-height:128px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:26px;align-items:center;padding:22px 0}.play-block{display:flex;align-items:center;gap:13px}.play{width:48px;height:48px;border-radius:50%;background:var(--mint);color:#12342b;display:grid;place-items:center;font-size:17px}.play:hover{background:#e2ffee;color:#12342b}.replay{font-size:28px;color:#adc3ba;padding:5px}.timeline-wrap{flex:1}.timeline-header{display:flex;justify-content:space-between;align-items:center;color:#97ada4;font-size:10px}.timeline-header output{font-size:23px;letter-spacing:-1px;color:var(--white);font-variant-numeric:tabular-nums}.timeline-header output span{font-size:12px;color:#8da99e;letter-spacing:0}.timeline-wrap input{margin:15px 0 12px;height:3px}.timeline-wrap input::-webkit-slider-thumb{width:8px;height:16px;border-radius:2px}.timeline-labels{display:flex;justify-content:space-between;position:relative;font-size:9px;letter-spacing:1px}.timeline-labels button{font-size:9px;padding:0;letter-spacing:1.1px;color:#8fa99e}.timeline-labels button:nth-child(2){position:absolute;left:18%;color:var(--mint)}.timeline-labels button:nth-child(3){position:absolute;left:50%}.playback-rate{border-left:1px solid var(--line);padding-left:26px;min-width:190px}.playback-rate label{display:block;color:#809b8d;font-size:10px;margin-bottom:12px}.playback-rate select{padding:0;background:transparent;border:0;color:#dcecdf;font-size:13px}footer{display:flex;justify-content:space-between;gap:15px;color:#7c9689;font-size:9px;letter-spacing:1.1px;line-height:1.7;padding:20px 0}.error{position:absolute;left:10%;right:10%;top:44%;border:1px solid #ac806a;background:#231d19;padding:24px;border-radius:8px;color:#ffe1ce;font-size:16px}
+@media(min-width:1500px){.scene{min-height:720px}.controls{padding-top:36px}.control{margin-bottom:28px}}@media(max-width:1100px){.studio{padding:0 24px}.workspace{grid-template-columns:minmax(0,1fr) 250px}.controls{padding-left:20px}.live-label{display:none}.edition{margin:0}.scene-top{left:22px}.scene{min-height:645px}.camera-bar{left:22px;flex-wrap:wrap}.camera-bar>span{font-size:9px}.scene-caption{left:22px}.playback-rate{min-width:160px;padding-left:18px}.transport{gap:17px}}@media(max-width:760px){.studio{padding:0 16px}.masthead{height:78px}.wordmark{font-size:32px}.edition{font-size:8px;letter-spacing:1px;max-width:140px;line-height:1.8;text-align:right}.edition .slash{margin:0 5px}.workspace{display:flex;flex-direction:column}.scene{min-height:500px;border-right:0;margin:0 -16px}.scene-top{top:24px}.scene-top .eyebrow{font-size:9px}h1{font-size:24px}.take{font-size:10px}.scene-caption{bottom:100px}.camera-bar{bottom:20px;right:18px}.camera-bar>span{font-size:8px;max-width:100px;line-height:1.8}.camera-bar b{margin:0 4px}.views button{font-size:11px;padding:9px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:4px 25px;padding:24px 0 20px;border-top:1px solid var(--line)}.panel-title,h2,.divider{grid-column:1/-1}.panel-title{margin-bottom:10px}h2{display:none}.control{margin-bottom:20px}.control label{font-size:13px}.control output{font-size:12px}.divider{margin:0 0 20px}.light-control{grid-column:1/-1;margin:0 0 16px}.light-control select{width:50%;font-size:14px}.reset{margin:0}.model-note{margin:0;font-size:10px}.transport{flex-wrap:wrap;gap:20px 16px;padding:21px 0;min-height:150px}.play-block{gap:8px}.play{width:40px;height:40px}.replay{font-size:23px}.timeline-wrap{min-width:190px}.playback-rate{border-left:0;display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:0;width:100%}.playback-rate label{margin:0}.timeline-labels button{font-size:8px;letter-spacing:.4px}.timeline-header output{font-size:20px}footer{font-size:8px}footer>span:last-child{display:none}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+@media(max-width:760px){.studio{display:flex;flex-direction:column}.masthead{order:0}.workspace{display:contents}.scene{order:1;min-height:470px}.transport{order:2}.controls{order:3}footer{order:4}.timeline-labels button:first-child{font-size:0}.timeline-labels button:first-child::after{content:"START";font-size:9px}.timeline-labels button{font-size:9px}.control label{font-size:14px}.views button{font-size:12px}}
+.simulation-status{position:absolute;top:120px;left:30px;padding:8px 12px;background:#13272ddd;color:#d6eadf;border-radius:4px;font-size:12px}
+</style><script type="module">// Deterministic particle-volume model. Runs in a worker; contains no dependencies.
+function buildSimulation(settings) {
+ const s={density:65,...settings},r=s.size/14,spacing=.11*r,H=spacing*1.85,H2=H*H,invH=1/H;
+ const initial=[];
+ for(let iy=-9;iy<=9;iy++)for(let iz=-9;iz<=9;iz++)for(let ix=-9;ix<=9;ix++){
+  const x=(ix+(iy%2)*.5)*.11,y=iy*.11,z=(iz+(ix%2)*.5)*.11;
+  if(x*x+y*y+z*z<.89*.89)initial.push((x+.010*Math.sin(iy*14+iz*7))*r,(y*(1.03-.09*y)+.01*Math.sin(ix*13+iz*4))*r+2.7,(z+.01*Math.sin(ix*9+iy*7))*r);
+ }
+ const n=initial.length/3,p=new Float32Array(initial),v=new Float32Array(n*3),prev=new Float32Array(n*3),rho=new Float32Array(n),near=new Float32Array(n),hit=new Uint8Array(n);
+ const cellCount=32768,head=new Int32Array(cellCount),next=new Int32Array(n),cx=new Int32Array(n),cy=new Int32Array(n),cz=new Int32Array(n);
+ const hash=(x,y,z)=>((x*73856093)^(y*19349663)^(z*83492791))&(cellCount-1);
+ const g=s.gravity/.14,energy=Math.sqrt(s.speed/35),tension=s.tension/72,entry=-Math.sqrt(1-(s.height/100)**2)*r,impactY=2.7+s.height/100*r;
+ const frames=[p.slice()],radiusFrames=[new Float32Array(n).fill(1)],times=[0];let t=0,step=0,rest=0;
+ function buckets(){head.fill(-1);for(let i=0;i<n;i++){const k=i*3;cx[i]=Math.floor(p[k]*invH);cy[i]=Math.floor(p[k+1]*invH);cz[i]=Math.floor(p[k+2]*invH);const h=hash(cx[i],cy[i],cz[i]);next[i]=head[h];head[h]=i;}}
+ function density(){for(let i=0;i<n;i++){const k=i*3;let d=0,nd=0;for(let z=-1;z<=1;z++)for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++){for(let j=head[hash(cx[i]+x,cy[i]+y,cz[i]+z)];j!==-1;j=next[j]){if(j===i||Math.abs(cx[j]-cx[i])>1||Math.abs(cy[j]-cy[i])>1||Math.abs(cz[j]-cz[i])>1)continue;const a=j*3,dx=p[a]-p[k],dy=p[a+1]-p[k+1],dz=p[a+2]-p[k+2],d2=dx*dx+dy*dy+dz*dz;if(d2<H2){const q=1-Math.sqrt(d2)*invH;d+=q*q;nd+=q*q*q;}}}rho[i]=d;near[i]=nd;}}
+ buckets();density();let interior=0;for(let i=0;i<n;i++)if(Math.hypot(p[i*3],p[i*3+1]-2.7,p[i*3+2])<r*.55){rest+=rho[i]+near[i]*.6;interior++;}rest/=interior;
+ while(t<1.1){const dt=t<.018?.0005:t<.09?.0015:t<.3?.003:.004;prev.set(p);const nose=entry+(t+dt)*s.speed/.14;
+  for(let i=0;i<n;i++){const k=i*3;
+   // The swept projectile excites a localized pressure pulse, not a global explosion.
+   if(!hit[i]&&nose>=p[k]){hit[i]=1;const dy=p[k+1]-impactY,dz=p[k+2],d=Math.hypot(dy,dz),q=Math.exp(-(d*d)/(r*r*.085));const az=Math.atan2(dz,dy);v[k]+=energy*q*(52+4*Math.sin(i*7));v[k+1]+=Math.cos(az)*energy*q*(9+s.density*.065);v[k+2]+=Math.sin(az)*energy*q*(9+s.density*.065);}
+   v[k+1]-=g*dt;p[k]+=v[k]*dt;p[k+1]+=v[k+1]*dt;p[k+2]+=v[k+2]*dt;
+  }
+  buckets();density();
+  const pressureScale=dt*dt*750,nearScale=dt*dt*950;
+  for(let i=0;i<n;i++){const k=i*3;for(let z=-1;z<=1;z++)for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)for(let j=head[hash(cx[i]+x,cy[i]+y,cz[i]+z)];j!==-1;j=next[j]){if(j<=i||Math.abs(cx[j]-cx[i])>1||Math.abs(cy[j]-cy[i])>1||Math.abs(cz[j]-cz[i])>1)continue;const a=j*3,dx=p[a]-p[k],dy=p[a+1]-p[k+1],dz=p[a+2]-p[k+2],d2=dx*dx+dy*dy+dz*dz;if(d2>H2||d2<1e-9)continue;const d=Math.sqrt(d2),q=1-d*invH;
+   const pressure=Math.max(-.08*tension,rho[i]+rho[j]-rest*2),corr=Math.max(-spacing*.01,Math.min(spacing*.11,pressureScale*pressure*q+nearScale*(near[i]+near[j])*q*q));const scale=corr/d*.5;
+   p[k]-=dx*scale;p[k+1]-=dy*scale;p[k+2]-=dz*scale;p[a]+=dx*scale;p[a+1]+=dy*scale;p[a+2]+=dz*scale;
+  }}
+  for(let i=0;i<n;i++){const k=i*3;
+   // The unpeeled far side still confines the fluid during the first milliseconds.
+   if(t<.014){const x=p[k],y=p[k+1]-2.7,z=p[k+2],d=Math.hypot(x,y,z),angle=Math.acos(Math.max(-1,Math.min(1,-x/(d||1))));if(angle>t/.014*Math.PI&&d>r&&((p[k+1]-impactY)**2+z*z)>r*r*.06){const f=r/d;p[k]*=f;p[k+1]=2.7+y*f;p[k+2]*=f;}}
+   const floor=.04*r;if(p[k+1]<floor){p[k+1]=floor;p[k]=prev[k]+(p[k]-prev[k])*.94;p[k+2]=prev[k+2]+(p[k+2]-prev[k+2])*.94;}
+   for(let a=0;a<3;a++)v[k+a]=Math.max(-35,Math.min(35,(p[k+a]-prev[k+a])/dt))*(rho[i]<rest*.15?.980:.995)*(p[k+1]<spacing?.96:1);
+  }
+  t+=dt;step++;frames.push(p.slice());radiusFrames.push(Float32Array.from(rho,d=>Math.max(.23,Math.min(1,Math.sqrt(d/rest*2.8)))));times.push(t);
+ }
+ const packed=new Float32Array(frames.length*n*3);frames.forEach((frame,i)=>packed.set(frame,i*n*3));
+ const radii=new Float32Array(radiusFrames.length*n);radiusFrames.forEach((frame,i)=>radii.set(frame,i*n));
+ return {count:n,spacing,positions:packed,radii,times:new Float32Array(times),steps:step,model:'Particle density relaxation with pressure pulse, cohesion and floor collisions; an approximate fluid model.'};
+}
+
+// A labelled non-linear editing timeline reserves space for the very short impact.
+function physicalTime(ms){if(ms<=180)return (ms-180)/180*.012;if(ms<=400)return (ms-180)/220*.020;if(ms<=650)return .020+(ms-400)/250*.13;return .15+(ms-650)/350*.95;}
+
+const Renderer = (() => { const TAU=Math.PI*2,clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const smooth=(a,b,v)=>{const x=clamp((v-a)/(b-a));return x*x*(3-2*x)};
+const norm=v=>{const l=Math.hypot(...v)||1;return v.map(x=>x/l)};
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0);
+function perspective(fov,aspect,near,far){const f=1/Math.tan(fov/2),nf=1/(near-far);return new Float32Array([f/aspect,0,0,0,0,f,0,0,0,0,(far+near)*nf,-1,0,0,2*far*near*nf,0])}
+function lookAt(eye,target){const z=norm(eye.map((v,i)=>v-target[i])),x=norm(cross([0,1,0],z)),y=cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1])}
+function multiply(a,b){const o=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[c*4+r]+=a[k*4+r]*b[c*4+k];return o}
+class Mesh{
+ constructor(gl,nu,nv){this.gl=gl;this.nu=nu;this.nv=nv;this.count=(nu+1)*(nv+1);this.vertices=new Float32Array(this.count*8);const ids=[];for(let j=0;j<nv;j++)for(let i=0;i<nu;i++){const a=j*(nu+1)+i,b=a+1,c=a+nu+1,d=c+1;ids.push(a,c,b,b,c,d)}this.indices=new Uint16Array(ids);this.vao=gl.createVertexArray();gl.bindVertexArray(this.vao);this.buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.vertices.byteLength,gl.DYNAMIC_DRAW);for(const [slot,n,offset]of [[0,3,0],[1,3,12],[2,2,24]]){gl.enableVertexAttribArray(slot);gl.vertexAttribPointer(slot,n,gl.FLOAT,false,32,offset)}this.ibo=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,this.indices,gl.STATIC_DRAW);}
+ update(fn){const {nu,nv,vertices:v}=this;for(let j=0;j<=nv;j++)for(let i=0;i<=nu;i++){const k=(j*(nu+1)+i)*8,u=i/nu,w=Math.min(.9999,Math.max(.0001,j/nv)),p=fn(u,w);v[k]=p[0];v[k+1]=p[1];v[k+2]=p[2];v[k+6]=u;v[k+7]=w;}for(let j=0;j<=nv;j++)for(let i=0;i<=nu;i++){const k=(j*(nu+1)+i)*8,a=(j*(nu+1)+Math.max(0,i-1))*8,b=(j*(nu+1)+Math.min(nu,i+1))*8,c=(Math.max(0,j-1)*(nu+1)+i)*8,d=(Math.min(nv,j+1)*(nu+1)+i)*8;const ax=v[b]-v[a],ay=v[b+1]-v[a+1],az=v[b+2]-v[a+2],bx=v[d]-v[c],by=v[d+1]-v[c+1],bz=v[d+2]-v[c+2];const x=ay*bz-az*by,y=az*bx-ax*bz,z=ax*by-ay*bx,l=Math.hypot(x,y,z)||1;v[k+3]=x/l;v[k+4]=y/l;v[k+5]=z/l;}const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferSubData(gl.ARRAY_BUFFER,0,v);}
+ draw(){const gl=this.gl;gl.bindVertexArray(this.vao);gl.drawElements(gl.TRIANGLES,this.indices.length,gl.UNSIGNED_SHORT,0)}
+}
+const meshVS=`#version 300 es
+precision highp float;
+layout(location=0) in vec3 position;layout(location=1) in vec3 normal;layout(location=2) in vec2 uv;
+uniform mat4 vp;out vec3 P;out vec3 N;out vec2 U;
+void main(){P=position;N=normal;U=uv;gl_Position=vp*vec4(P,1.);}`;
+const environment=`
+vec3 env(vec3 d){
+ vec3 c=mix(vec3(.025,.04,.052),vec3(.24,.34,.40),smoothstep(-.5,.95,d.y));
+ float key=smoothstep(.27,.21,abs(d.x+.48))*smoothstep(.58,.50,abs(d.y-.28))*smoothstep(.0,.5,d.z);
+ float rim=pow(max(0.,dot(d,normalize(vec3(.8,.35,-.7)))),85.);
+ c+=key*vec3(1.6,1.75,1.9)+rim*vec3(2.2,2.7,3.);
+ if(lighting==1)c*=vec3(1.45,1.05,.64);if(lighting==2)c*=vec3(.8,1.0,1.4);return c;
+}`;
+const meshFS=`#version 300 es
+precision highp float;in vec3 P;in vec3 N;in vec2 U;out vec4 color;
+uniform vec3 eye;uniform int material;uniform int lighting;uniform float t;uniform float radius;
+${environment}
+void main(){vec3 n=normalize(N),v=normalize(eye-P);if(dot(n,v)<0.)n=-n;vec3 l=normalize(vec3(-.6,1.,1.));float diff=max(0.,dot(n,l));vec3 c;
+ if(material==0){float d=length(P.xz);c=mix(vec3(.36,.385,.40),vec3(.20,.225,.24),smoothstep(0.,18.,d));float shadow=exp(-dot(P.xz-vec2(max(t,0.)*1.7,0.),P.xz-vec2(max(t,0.)*1.7,0.))/(radius*radius*1.9));c*=1.-shadow*.42;vec2 grid=abs(fract(P.xz*.5-.5)-.5)/max(fwidth(P.xz*.5),vec2(.001));c+=(1.-min(min(grid.x,grid.y),1.))*.007;}
+ else if(material==1){c=vec3(.68,.022,.035)*(.25+diff*.75);c+=env(reflect(-v,n))*.09+pow(max(0.,dot(n,normalize(l+v))),90.)*.45;c+=pow(1.-abs(dot(n,v)),3.)*vec3(.16,.015,.018);}
+ else{vec3 refl=env(reflect(-v,n));c=vec3(.52,.22,.072)*(.2+diff*.65)+refl*vec3(.85,.51,.25)*.65;float bands=smoothstep(.009,.003,abs(U.y-.12))+smoothstep(.009,.003,abs(U.y-.20));c*=1.-bands*.35;c+=pow(max(0.,dot(n,normalize(l+v))),120.)*vec3(1.,.75,.45);}
+ color=vec4(c/(1.+c*.18),1.);}`;
+const quadVS=`#version 300 es
+precision highp float;out vec2 uv;void main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);uv=p;gl_Position=vec4(p*2.-1.,0.,1.);}`;
+const particleVS=`#version 300 es
+precision highp float;layout(location=0) in vec4 position;uniform mat4 view;uniform mat4 projection;uniform float pointRadius;uniform float pixelScale;out vec3 center;out float rad;
+void main(){center=(view*vec4(position.xyz,1.)).xyz;rad=pointRadius*position.w;gl_Position=projection*vec4(center,1.);gl_PointSize=2.*rad*pixelScale/max(.1,-center.z);}`;
+const particleFS=`#version 300 es
+precision highp float;in vec3 center;in float rad;uniform mat4 projection;uniform int thicknessPass;out vec4 color;
+void main(){vec2 q=gl_PointCoord*2.-1.;float d=dot(q,q);if(d>1.)discard;float z=sqrt(1.-d)*rad;float depth=-center.z-z;vec4 clip=projection*vec4(0.,0.,-depth,1.);gl_FragDepth=.5+.5*clip.z/clip.w;color=thicknessPass==1?vec4(vec3(z*.12),1.):vec4(depth,0.,0.,1.);}`;
+const blurFS=`#version 300 es
+precision highp float;in vec2 uv;uniform sampler2D source;uniform vec2 stepSize;uniform float threshold;out vec4 color;
+void main(){float c=texture(source,uv).r;if(c==0.){color=vec4(0.);return;}float sum=0.,weight=0.;for(int i=-5;i<=5;i++){float d=texture(source,uv+stepSize*float(i)).r;if(d==0.)continue;float delta=(d-c)/threshold;float w=exp(-float(i*i)/14.-delta*delta);sum+=d*w;weight+=w;}color=vec4(sum/weight,0.,0.,1.);}`;
+const fluidFS=`#version 300 es
+precision highp float;in vec2 uv;uniform sampler2D depthMap;uniform sampler2D thicknessMap;uniform sampler2D backdrop;uniform vec2 texel;uniform vec2 projectScale;uniform mat4 projection;uniform mat3 cameraWorld;uniform vec3 fluidCenter;uniform float coherentNormal;uniform float radius;uniform int lighting;out vec4 color;
+${environment}
+vec3 point(vec2 coord,float d){return vec3((coord*2.-1.)*d/projectScale,-d);}
+void main(){float d=texture(depthMap,uv).r;if(d<=0.)discard;vec3 p=point(uv,d);float dl=texture(depthMap,uv-vec2(texel.x,0.)).r,dr=texture(depthMap,uv+vec2(texel.x,0.)).r,db=texture(depthMap,uv-vec2(0.,texel.y)).r,dt=texture(depthMap,uv+vec2(0.,texel.y)).r;
+ vec3 dx=abs(dr-d)<abs(d-dl)?point(uv+vec2(texel.x,0.),dr)-p:p-point(uv-vec2(texel.x,0.),dl);vec3 dy=abs(dt-d)<abs(d-db)?point(uv+vec2(0.,texel.y),dt)-p:p-point(uv-vec2(0.,texel.y),db);
+ vec3 n=normalize(cross(dx,dy));if(n.z<0.)n=-n;vec3 macro=normalize(p-fluidCenter);n=normalize(mix(n,macro,coherentNormal*(1.-smoothstep(radius*.95,radius*1.3,length(p-fluidCenter)))));vec3 v=normalize(-p);float nv=max(0.,dot(n,v)),f=.025+.975*pow(1.-nv,5.);float thick=max(.08,texture(thicknessMap,uv).r*8.);
+ vec2 offset=n.xy*.09*min(thick,1.6);vec3 trans=texture(backdrop,clamp(uv+offset,vec2(.001),vec2(.999))).rgb;trans*=exp(-vec3(.045,.022,.012)*thick);trans+=vec3(.015,.025,.03)*(1.-exp(-thick*.6));
+ vec3 refl=env(cameraWorld*reflect(-v,n));vec3 c=mix(trans,refl,clamp(f,0.,1.));c+=pow(max(0.,dot(n,normalize(v+vec3(-.6,.8,1.)))),220.)*vec3(1.5,1.75,1.9);c+=pow(1.-nv,3.)*vec3(.13,.16,.18);
+ color=vec4(mix(texture(backdrop,uv).rgb,c/(1.+c*.2),.38+.62*f),1.);vec4 clip=projection*vec4(p,1.);gl_FragDepth=.5+.5*clip.z/clip.w;}`;
+
+class Renderer {
+ constructor(canvas,invalidate=()=>{}){
+  this.canvas=canvas;this.invalidate=invalidate;const gl=this.gl=canvas.getContext('webgl2',{alpha:false,antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});if(!gl||!gl.getExtension('EXT_color_buffer_float'))throw Error('WebGL 2 floating-point rendering is unavailable.');
+  this.meshProgram=this.program(meshVS,meshFS);this.particleProgram=this.program(particleVS,particleFS);this.blurProgram=this.program(quadVS,blurFS);this.fluidProgram=this.program(quadVS,fluidFS);this.emptyVao=gl.createVertexArray();this.membrane=new Mesh(gl,80,52);this.object=new Mesh(gl,48,28);this.floor=new Mesh(gl,1,1);this.floor.update((u,v)=>[(u-.5)*180,-.025,(v-.5)*180]);this.particleVao=gl.createVertexArray();gl.bindVertexArray(this.particleVao);this.particleBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.particleBuffer);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,4,gl.FLOAT,false,16,0);this.drawCount=0;this.cache=new Map();this.ready=false;this.computing=false;
+ }
+ program(vs,fs){const gl=this.gl,p=gl.createProgram();for(const [type,source]of [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]]){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));gl.attachShader(p,s);gl.deleteShader(s);}gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));return p;}
+ loc(p,n){return this.gl.getUniformLocation(p,n)}
+ f(p,n,v){this.gl.uniform1f(this.loc(p,n),v)}
+ i(p,n,v){this.gl.uniform1i(this.loc(p,n),v)}
+ matrix(p,n,v){this.gl.uniformMatrix4fv(this.loc(p,n),false,v)}
+ texture(float=false){const g=this.gl,t=g.createTexture();g.bindTexture(g.TEXTURE_2D,t);g.texImage2D(g.TEXTURE_2D,0,float?g.RGBA32F:g.RGBA8,this.w,this.h,0,g.RGBA,float?g.FLOAT:g.UNSIGNED_BYTE,null);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.NEAREST);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.NEAREST);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);return t;}
+ target(depth=false,float=true){const g=this.gl,texture=this.texture(float),fbo=g.createFramebuffer();g.bindFramebuffer(g.FRAMEBUFFER,fbo);g.framebufferTexture2D(g.FRAMEBUFFER,g.COLOR_ATTACHMENT0,g.TEXTURE_2D,texture,0);let rb=null;if(depth){rb=g.createRenderbuffer();g.bindRenderbuffer(g.RENDERBUFFER,rb);g.renderbufferStorage(g.RENDERBUFFER,g.DEPTH_COMPONENT24,this.w,this.h);g.framebufferRenderbuffer(g.FRAMEBUFFER,g.DEPTH_ATTACHMENT,g.RENDERBUFFER,rb);}if(g.checkFramebufferStatus(g.FRAMEBUFFER)!==g.FRAMEBUFFER_COMPLETE)throw Error('Fluid framebuffer incomplete');return {texture,fbo,rb};}
+ resize(w,h){const g=this.gl;if(this.w===w&&this.h===h)return;for(const t of this.targets||[]){g.deleteTexture(t.texture);g.deleteFramebuffer(t.fbo);if(t.rb)g.deleteRenderbuffer(t.rb);}if(this.backdrop)g.deleteTexture(this.backdrop);this.w=w;this.h=h;this.canvas.width=w;this.canvas.height=h;this.depth=this.target(true);this.blurA=this.target();this.blurB=this.target();this.thickness=this.target(false,false);this.targets=[this.depth,this.blurA,this.blurB,this.thickness];this.backdrop=this.texture();g.bindFramebuffer(g.FRAMEBUFFER,null);}
+ prepare(s){const key=JSON.stringify([s.size,s.speed,s.height,s.gravity,s.tension,s.density]);if(key===this.key)return;this.key=key;if(this.worker)this.worker.terminate();if(this.cache.has(key)){this.data=this.cache.get(key);this.ready=true;this.computing=false;return;}this.ready=false;this.computing=true;const script=`const buildSimulation=${buildSimulation.toString()};onmessage=e=>{try{const data=buildSimulation(e.data);postMessage(data,[data.positions.buffer,data.times.buffer,data.radii.buffer]);}catch(error){postMessage({error:error.message});}}`;const url=URL.createObjectURL(new Blob([script],{type:'text/javascript'}));const worker=this.worker=new Worker(url);URL.revokeObjectURL(url);worker.onmessage=e=>{if(key!==this.key)return;if(e.data.error){this.failure=e.data.error;this.computing=false;this.invalidate();return;}this.data=e.data;this.cache.set(key,this.data);if(this.cache.size>4)this.cache.delete(this.cache.keys().next().value);this.ready=true;this.computing=false;worker.terminate();this.invalidate();};worker.onerror=e=>{this.failure=e.message;this.computing=false;this.invalidate();};worker.postMessage({...s});}
+ mesh(material,mesh){const g=this.gl,p=this.meshProgram;g.useProgram(p);this.matrix(p,'vp',this.vp);g.uniform3fv(this.loc(p,'eye'),this.eye);this.i(p,'material',material);this.i(p,'lighting',this.light);this.f(p,'t',this.t);this.f(p,'radius',this.r);mesh.draw();}
+ bindTexture(p,name,texture,unit){const g=this.gl;g.activeTexture(g.TEXTURE0+unit);g.bindTexture(g.TEXTURE_2D,texture);this.i(p,name,unit);}
+ particles(){const g=this.gl,d=this.data,t=Math.max(0,this.t),times=d.times;let k=0;while(k<times.length-2&&times[k+1]<t)k++;const mix=clamp((t-times[k])/(times[k+1]-times[k]));
+  const exitX=Math.sqrt(1-(this.s.height/100)**2)*this.r,exitTime=exitX*2*.14/this.s.speed,jetAge=t-exitTime,jetCount=jetAge>-.001&&jetAge<.09?72:0,count=d.count+jetCount;
+  if(!this.points||this.points.length!==count*4)this.points=new Float32Array(count*4);const n=d.count*3,a=k*n,b=(k+1)*n;
+  for(let i=0;i<d.count;i++){for(let axis=0;axis<3;axis++)this.points[i*4+axis]=d.positions[a+i*3+axis]*(1-mix)+d.positions[b+i*3+axis]*mix;this.points[i*4+3]=d.radii[k*d.count+i]*(1-mix)+d.radii[(k+1)*d.count+i]*mix;}
+  // A short sub-grid exit stream joins the resolved volume to the puncture.
+  for(let j=0;j<jetCount;j++){const u=j/(jetCount-1),age=Math.max(0,jetAge),length=Math.min(1.35,age*80+.08)*Math.sqrt(this.s.speed/35),fade=1-smooth(.03,.09,age),w=(.55*(1-u)+.16)*fade,angle=j*2.399;this.points.set([exitX*.86+length*u+age*2,2.7+this.s.height/100*this.r+Math.sin(angle)*.025*u-.5*this.s.gravity/.14*age*age,Math.cos(angle)*.025*u,w],(d.count+j)*4);}
+  g.bindBuffer(g.ARRAY_BUFFER,this.particleBuffer);g.bufferData(g.ARRAY_BUFFER,this.points,g.DYNAMIC_DRAW);const p=this.particleProgram;g.useProgram(p);this.matrix(p,'view',this.view);this.matrix(p,'projection',this.projection);this.f(p,'pointRadius',d.spacing*1.08);this.f(p,'pixelScale',this.h*this.projection[5]*.5);g.bindVertexArray(this.particleVao);
+  g.bindFramebuffer(g.FRAMEBUFFER,this.depth.fbo);g.clearColor(0,0,0,0);g.clear(g.COLOR_BUFFER_BIT|g.DEPTH_BUFFER_BIT);g.enable(g.DEPTH_TEST);g.depthMask(true);g.disable(g.BLEND);this.i(p,'thicknessPass',0);g.drawArrays(g.POINTS,0,count);
+  g.bindFramebuffer(g.FRAMEBUFFER,this.thickness.fbo);g.clear(g.COLOR_BUFFER_BIT);g.disable(g.DEPTH_TEST);g.enable(g.BLEND);g.blendFunc(g.ONE,g.ONE);this.i(p,'thicknessPass',1);g.drawArrays(g.POINTS,0,count);g.disable(g.BLEND);
+  const blur=this.blurProgram;g.useProgram(blur);g.bindVertexArray(this.emptyVao);this.f(blur,'threshold',d.spacing*1.8);let source=this.depth.texture;for(let pass=0;pass<(t<.045?16:8);pass++){const target=pass%2===0?this.blurA:this.blurB;g.bindFramebuffer(g.FRAMEBUFFER,target.fbo);this.bindTexture(blur,'source',source,0);g.uniform2f(this.loc(blur,'stepSize'),pass%2===0?1/this.w:0,pass%2?1/this.h:0);g.drawArrays(g.TRIANGLES,0,3);source=target.texture;}
+  g.bindFramebuffer(g.FRAMEBUFFER,null);g.enable(g.DEPTH_TEST);g.depthMask(true);const fluid=this.fluidProgram;g.useProgram(fluid);this.bindTexture(fluid,'depthMap',source,0);this.bindTexture(fluid,'thicknessMap',this.thickness.texture,1);this.bindTexture(fluid,'backdrop',this.backdrop,2);this.i(fluid,'lighting',this.light);g.uniform2f(this.loc(fluid,'texel'),1/this.w,1/this.h);g.uniform2f(this.loc(fluid,'projectScale'),this.projection[0],this.projection[5]);this.matrix(fluid,'projection',this.projection);const v=this.view;g.uniform3fv(this.loc(fluid,'fluidCenter'),new Float32Array([v[4]*2.7+v[12],v[5]*2.7+v[13],v[6]*2.7+v[14]]));this.f(fluid,'coherentNormal',.82*(1-smooth(.025,.09,t)));this.f(fluid,'radius',this.r);g.uniformMatrix3fv(this.loc(fluid,'cameraWorld'),false,new Float32Array([v[0],v[4],v[8],v[1],v[5],v[9],v[2],v[6],v[10]]));g.drawArrays(g.TRIANGLES,0,3);
+ }
+ draw(ms,s,camera){const start=performance.now(),g=this.gl;this.prepare(s);this.s=s;this.r=s.size/14;this.t=physicalTime(ms);this.light=['studio','golden','rim'].indexOf(s.lighting);const t=this.t,age=Math.max(0,t),r=this.r;
+  const dpr=Math.min(devicePixelRatio,1.35);this.resize(Math.max(1,Math.round(this.canvas.clientWidth*dpr)),Math.max(1,Math.round(this.canvas.clientHeight*dpr)));g.bindFramebuffer(g.FRAMEBUFFER,null);g.viewport(0,0,this.w,this.h);const dist=(camera.distance+smooth(.10,.45,age)*6.5)*(this.w/this.h<.85?1.36:1),focus=[Math.min(1.35,age*3),2.32-1.0*smooth(.12,.4,age),0];this.eye=[focus[0]+Math.sin(camera.yaw)*Math.cos(camera.pitch)*dist,focus[1]+Math.sin(camera.pitch)*dist,Math.cos(camera.yaw)*Math.cos(camera.pitch)*dist];this.view=lookAt(this.eye,focus);this.projection=perspective(.64,this.w/this.h,.05,250);this.vp=multiply(this.projection,this.view);g.clearColor(.20,.225,.24,1);g.clear(g.COLOR_BUFFER_BIT|g.DEPTH_BUFFER_BIT);g.enable(g.DEPTH_TEST);g.depthMask(true);g.disable(g.BLEND);g.disable(g.CULL_FACE);this.mesh(0,this.floor);
+  g.activeTexture(g.TEXTURE0);g.bindTexture(g.TEXTURE_2D,this.backdrop);g.copyTexImage2D(g.TEXTURE_2D,0,g.RGB,0,0,this.w,this.h,0);
+  if(t>0&&this.ready)this.particles();
+  const entryDir=[-Math.sqrt(1-(s.height/100)**2),s.height/100,0],perp=[-entryDir[1],entryDir[0],0],front=t<0?0:smooth(0,.016,t)*Math.PI;
+  if(t<.016){this.membrane.update((u,v)=>{const a=u*TAU,edge=clamp(front+Math.sin(front)*(.16*Math.sin(a*5)+.07*Math.cos(a*9)),0,Math.PI),b=edge+(Math.PI-edge)*v,c=Math.cos(b),sn=Math.sin(b),x=entryDir[0]*c+perp[0]*sn*Math.cos(a),y=entryDir[1]*c+perp[1]*sn*Math.cos(a),z=sn*Math.sin(a),curl=t>0?Math.exp(-v*35)*Math.sin(front)*.07:0;const dent=t<.002?smooth(-.0014,0,t)*(1-smooth(0,.002,t))*.18*Math.exp(-b*b*26):0;return [x*r*(1.016+curl)+(-entryDir[0])*dent*r,2.7+y*r*(1.04-.08*y)*(1+curl)+(-entryDir[1])*dent*r,z*r*(1.016+curl)];});this.mesh(1,this.membrane);}
+  const knotAge=Math.max(0,t-.010),travel=Math.min(knotAge,.25),knot=[travel*3.8,Math.max(.035,2.7+r*.962+knotAge*2-.5*s.gravity/.14*knotAge*knotAge),travel*1.5];this.object.update((u,v)=>{const a=u*TAU,rad=r*(.027+.012*Math.sin(v*Math.PI)+.025*Math.exp(-(((v-.7)*12)**2)));return [knot[0]+Math.cos(a)*rad,knot[1]+v*r*.17,knot[2]+Math.sin(a)*rad];});this.mesh(1,this.object);if(t>.004){this.object.update((u,v)=>{const a=u*TAU,rr=(.025+.16*v)*r;return [knot[0]+Math.cos(a)*rr,knot[1]-.10*r*v+.055*r*Math.sin(v*5)*Math.sin(a*2),knot[2]+Math.sin(a)*rr];});this.mesh(1,this.object);}
+  if(t>.006)for(let j=0;j<5;j++){const a=j*2.399+.4,birth=.006+j*.0015,dt=Math.max(0,t-birth),fade=1-smooth(.01,.05,dt);this.object.update((u,v)=>{const length=r*(.42*fade+.18),q=v-.5,radial=r+Math.min(dt,.22)*(5+j*.3),angle=a+q*length/Math.max(radial,.1),curl=q*6+dt*25,width=(.08+.17*fade)*Math.sin(v*Math.PI);return [Math.cos(angle)*radial*.8+dt*1.8+Math.sin(curl)*length*.15,Math.max(.025,2.7+Math.sin(angle)*radial-.5*s.gravity/.14*dt*dt+q*length+(u-.5)*width*Math.cos(a)),Math.sin(a)*radial*.55+(u-.5)*width+Math.cos(curl)*length*.12];});this.mesh(1,this.object);}
+  const nose=-Math.sqrt(1-(s.height/100)**2)*r+t*s.speed/.14+smooth(-.0014,0,t)*(1-smooth(0,.002,t))*.16*r;this.bulletX=nose;if(nose>-20&&nose<30){this.object.update((u,v)=>{const a=u*TAU,rr=.078*(v<.03?v/.03:v<.55?1:Math.pow(Math.max(0,1-((v-.55)/.45)**1.3),.65));return [nose-.52+Math.max(0,(v-.03)/.97)*.52,2.7+s.height/100*r+Math.cos(a)*rr,Math.sin(a)*rr];});this.mesh(2,this.object);}
+  this.lastDuration=performance.now()-start;this.drawCount++;this.error=g.getError();
+ }
+ diagnostics(){return {renderer:'native WebGL 2 screen-space fluid',draws:this.drawCount,cpu_frame_ms:this.lastDuration,particles:this.data?.count||0,ready:this.ready,computing:this.computing,simulation_error:this.failure||null,webgl_error:this.error,width:this.w,height:this.h,bullet_nose_x:this.bulletX,physical_time_s:this.t,model:this.data?.model||'preparing particle trajectories'};}
+}
+; return Renderer; })();
+
+// Every state is evaluated from absolute time: seeking backwards is exact.
+const $ = (id) => document.getElementById(id);
+const defaults = { speed:35, size:14, height:0, gravity:9.8, tension:72, density:65, lighting:'studio' };
+const settings = { ...defaults };
+const camera = { yaw:-0.28, pitch:0.18, distance:8.1 };
+let renderer, time=110, playing=false, rate=.25, last=0, take=1, dirty=true;
+const canvas=$('scene');
+try { renderer=new Renderer(canvas,()=>{dirty=true;updateUI();}); }
+catch(error) { $('error').hidden=false; $('error').textContent=`The 3D scene could not start. Enable WebGL 2 / hardware acceleration and reload. ${error.message}`; console.error(error); }
+const bounds = {speed:[15,70],size:[10,19],height:[-65,65],gravity:[0,20],tension:[20,100],density:[10,100]};
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+function phaseAt(t) {
+ if(t<168)return ['The approach','Copper in flight. Water held in red latex.'];
+ if(t<185)return ['First contact','The point presses into the membrane.'];
+ const physical=physicalTime(t),exit=2*Math.sqrt(1-(settings.height/100)**2)*(settings.size/14)*.14/settings.speed;
+ if(physical<exit)return ['Through the balloon','A narrow path. A pressure pulse.'];
+ if(physical<Math.max(.022,exit+.008))return ['Exit & recoil','The bullet escapes. The latex peels away.'];
+ if(t<650)return ['Water, unbound','The volume opens and separates.'];
+ if(t<850)return ['Gravity takes over','The burst becomes a fall.'];
+ return settings.gravity===0?['Drifting','Without gravity, the water keeps moving.']:['After the impact','Motion finds its resting place.'];
+}
+function paintRange(input){input.style.setProperty('--fill',`${100*(+input.value-+input.min)/(+input.max-+input.min)}%`)}
+function updateUI() {
+ $('timeline').value=String(time);paintRange($('timeline'));
+ const physical=physicalTime(time)*1000;
+ $('time-value').innerHTML=`${physical<0?'−':'+'}${Math.abs(physical).toFixed(1)} <span>ms</span>`;
+ $('simulation-status').hidden=!renderer?.computing;
+ $('play-state').textContent=playing?'MOTION IN PROGRESS':time>=1000?'EXPERIMENT COMPLETE':'FROZEN IN TIME';
+ $('play-icon').textContent=playing?'Ⅱ':'▶';$('play').setAttribute('aria-label',playing?'Pause simulation':'Play simulation');
+ $('frame').textContent=`FRAME ${Math.round(time*2).toString().padStart(4,'0')}`;
+ const [name,detail]=phaseAt(time);$('phase').textContent=name;$('phase-detail').textContent=detail;
+ const units={speed:' m/s',size:' cm',height:'%',gravity:' m/s²',tension:' mN/m',density:'%'};
+ for(const key of Object.keys(bounds)){const el=$(key);el.value=settings[key];paintRange(el);$(key+'-value').textContent=(key==='gravity'?settings[key].toFixed(1):settings[key])+units[key];}
+ $('lighting').value=settings.lighting;$('rate').value=String(rate);
+}
+function seek(value){time=clamp(value,0,1000);playing=false;dirty=true;updateUI();}
+function toggle(){if(!renderer)return;if(time>=1000)time=0;playing=!playing;last=performance.now();dirty=true;updateUI();}
+function replay(){if(!renderer)return;time=0;playing=true;take++;document.querySelector('.take span').textContent=String(take).padStart(3,'0');last=performance.now();dirty=true;updateUI();}
+function setView(name){const views={perspective:[-.28,.18,8.1],side:[0,0,8.4],top:[0,1.48,8.4]};const v=views[name];if(!v)throw Error('Unknown camera view');[camera.yaw,camera.pitch,camera.distance]=v;document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('selected',b.dataset.view===name);b.setAttribute('aria-pressed',String(b.dataset.view===name))});dirty=true;}
+function customView(){document.querySelectorAll('[data-view]').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false')});dirty=true;}
+function reset(){Object.assign(settings,defaults);time=0;playing=false;rate=.25;take=1;document.querySelector('.take span').textContent='001';setView('perspective');updateUI();}
+for(const key of Object.keys(bounds))$(key).addEventListener('input',()=>{settings[key]=Number($(key).value);dirty=true;updateUI();});
+$('lighting').addEventListener('change',()=>{settings.lighting=$('lighting').value;dirty=true;});
+$('timeline').addEventListener('input',()=>seek(Number($('timeline').value)));
+$('play').addEventListener('click',toggle);$('replay').addEventListener('click',replay);$('reset').addEventListener('click',reset);
+$('rate').addEventListener('change',()=>{rate=Number($('rate').value);});
+document.querySelectorAll('[data-time]').forEach(b=>b.addEventListener('click',()=>seek(Number(b.dataset.time))));
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+const pointers=new Map();let pinch=0;
+canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const [a,b]=[...pointers.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);}});
+canvas.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;const old=pointers.get(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const [a,b]=[...pointers.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);camera.distance=clamp(camera.distance*pinch/Math.max(d,1),4.2,16);pinch=d;}else{camera.yaw-=(e.clientX-old[0])*.006;camera.pitch=clamp(camera.pitch+(e.clientY-old[1])*.006,-1.48,1.48);}customView();});
+for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,e=>pointers.delete(e.pointerId));
+canvas.addEventListener('wheel',e=>{e.preventDefault();camera.distance=clamp(camera.distance*Math.exp(e.deltaY*.001),4.2,16);customView();},{passive:false});
+canvas.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.code)){e.preventDefault();camera.yaw+=(e.code==='ArrowLeft'?.12:e.code==='ArrowRight'?-.12:0);camera.pitch=clamp(camera.pitch+(e.code==='ArrowUp'?.10:e.code==='ArrowDown'?-.10:0),-1.48,1.48);customView();}});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!['INPUT','SELECT','BUTTON'].includes(e.target.tagName)){e.preventDefault();toggle();}});
+new ResizeObserver(()=>{dirty=true}).observe(canvas);
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();playing=false;updateUI();$('error').hidden=false;$('error').textContent='The graphics context was interrupted. Reload to resume the experiment.';});
+function frame(now){if(playing&&!renderer?.computing){time=Math.min(1000,time+Math.min(now-last,80)*rate);if(time===1000)playing=false;dirty=true;updateUI();}last=now;if(dirty&&renderer){try{renderer.draw(time,settings,camera);if(renderer.failure)throw Error(renderer.failure);}catch(error){playing=false;$('error').hidden=false;$('error').textContent=error.message;}dirty=false;updateUI();}requestAnimationFrame(frame)}
+updateUI();requestAnimationFrame(frame);
+
+// Page automation uses the same validated actions as visible controls.
+const state=()=>({time_ms:time,impact_relative_ms:physicalTime(time)*1000,playing,rate,settings:{...settings},camera:{...camera},phase:phaseAt(time)[0]});
+const configure=(input)=>{if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Expected an object');for(const [key,value] of Object.entries(input)){if(key==='lighting'){if(!['studio','golden','rim'].includes(value))throw Error('Invalid lighting');}else if(!bounds[key]||typeof value!=='number'||!Number.isFinite(value)||value<bounds[key][0]||value>bounds[key][1])throw Error(`Invalid ${key}`);}Object.assign(settings,input);dirty=true;updateUI();return state();};
+const tools=[{name:'read_experiment',description:'Read the current Rupture experiment state.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:state},{name:'configure_experiment',description:'Change water balloon and lighting settings without starting playback.',inputSchema:{type:'object',properties:Object.fromEntries([...Object.entries(bounds).map(([k,[min,max]])=>[k,{type:'number',minimum:min,maximum:max}]),['lighting',{enum:['studio','golden','rim']}]]),additionalProperties:false},execute:configure},{name:'seek_experiment',description:'Pause and inspect the cinematic timeline at a position from 0 to 1000. Contact is at 180; the returned impact_relative_ms is physical time.',inputSchema:{type:'object',properties:{time_ms:{type:'number',minimum:0,maximum:1000}},required:['time_ms'],additionalProperties:false},execute:input=>{if(!input||typeof input.time_ms!=='number'||!Number.isFinite(input.time_ms)||input.time_ms<0||input.time_ms>1000)throw Error('time_ms must be 0–1000');seek(input.time_ms);return state();}}];
+if(document.modelContext?.registerTool){const lifecycle=new AbortController();for(const tool of tools){try{Promise.resolve(document.modelContext.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch{}}addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
+Object.defineProperty(window,'rupture',{value:Object.freeze({getState:state,getDiagnostics:()=>renderer?.diagnostics()})});
+</script>
+</head>
+<body>
+<main class="studio">
+ <header class="masthead"><a class="wordmark" href="./" aria-label="Rupture home">rupture<span>®</span></a><span class="edition">WATER IN MOTION <span class="slash">/</span> EXPERIMENT 001</span><span class="live-label">INTERACTIVE PHYSICS STUDY</span></header>
+ <div class="workspace">
+  <section class="scene" aria-label="Interactive water balloon simulation">
+   <canvas id="scene" tabindex="0" aria-label="3D water balloon. Drag to orbit, scroll to zoom. Arrow keys rotate the camera. Space plays or pauses."></canvas>
+   <div class="scene-top"><div><span class="eyebrow">A FRACTION OF A SECOND.</span><h1>A world of motion.</h1></div><div class="take">TAKE <span>001</span><br><small id="frame">FRAME 0000</small></div></div>
+   <div class="scene-caption"><span class="caption-line"></span><div id="phase">Suspended</div><small id="phase-detail">Before everything changes.</small></div>
+   <div id="error" class="error" role="alert" hidden></div>
+   <div id="simulation-status" class="simulation-status" role="status" hidden>Preparing water motion…</div>
+   <div class="camera-bar"><span>DRAG TO ORBIT <b>·</b> SCROLL TO ZOOM</span><div class="views" aria-label="Camera views"><button data-view="perspective" class="selected" aria-pressed="true">Perspective</button><button data-view="side" aria-pressed="false">Side</button><button data-view="top" aria-pressed="false">Top</button></div></div>
+  </section>
+  <aside class="controls" aria-label="Experiment settings"><div class="panel-title"><span>THE EXPERIMENT</span><span>01—07</span></div><h2>Change the conditions.<br>Watch what follows.</h2>
+   <div class="control"><label for="speed">Projectile speed</label><output for="speed" id="speed-value">35 m/s</output><input id="speed" type="range" min="15" max="70" step="1" value="35"><div class="range-ends"><span>15 m/s</span><span>70 m/s</span></div></div>
+   <div class="control"><label for="size">Balloon radius</label><output for="size" id="size-value">14 cm</output><input id="size" type="range" min="10" max="19" step="1" value="14"></div>
+   <div class="control"><label for="height">Impact height</label><output for="height" id="height-value">0%</output><input id="height" type="range" min="-65" max="65" step="1" value="0"><div class="range-ends"><span>Below centre</span><span>Above centre</span></div></div>
+   <div class="control"><label for="gravity">Gravity</label><output for="gravity" id="gravity-value">9.8 m/s²</output><input id="gravity" type="range" min="0" max="20" step="0.2" value="9.8"></div>
+   <div class="divider"></div>
+   <div class="control"><label for="tension">Surface tension</label><output for="tension" id="tension-value">72 mN/m</output><input id="tension" type="range" min="20" max="100" step="1" value="72"></div>
+   <div class="control"><label for="density">Spray density</label><output for="density" id="density-value">65%</output><input id="density" type="range" min="10" max="100" step="1" value="65"></div>
+   <div class="control light-control"><label for="lighting">Lighting</label><select id="lighting"><option value="studio">Cool studio</option><option value="golden">Golden hour</option><option value="rim">Silver rim</option></select></div>
+   <button id="reset" class="reset">↺ <span>Reset experiment</span></button><p class="model-note">A particle-based fluid study.<br>Impact expanded on the timeline.</p>
+  </aside>
+ </div>
+ <section class="transport" aria-label="Playback controls"><div class="play-block"><button id="play" class="play" aria-label="Play simulation"><span id="play-icon">▶</span></button><button id="replay" class="replay" aria-label="Replay simulation">↺</button></div><div class="timeline-wrap"><div class="timeline-header"><span id="play-state">FROZEN IN TIME</span><output id="time-value" for="timeline">−180 <span>ms</span></output></div><input id="timeline" aria-label="Simulation timeline" type="range" min="0" max="1000" step="0.5" value="0"><div class="timeline-labels"><button data-time="0">APPROACH</button><button data-time="180" class="impact-tick">IMPACT</button><button data-time="500">DISPERSAL</button><button data-time="1000">SETTLE</button></div></div><div class="playback-rate"><label for="rate">CINEMATIC PLAYBACK</label><select id="rate"><option value="0.1">0.1× Slow motion</option><option value="0.25" selected>0.25× Slow motion</option><option value="0.5">0.5× Half speed</option><option value="1">1× Cinematic</option></select></div></section>
+ <footer><span>RUPTURE LAB <span class="slash">/</span> THE BEAUTY BETWEEN CAUSE & EFFECT</span><span>SPACE TO PLAY / PAUSE</span></footer>
+</main>
+</body></html>
