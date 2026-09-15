@@ -9,6 +9,7 @@ import { WorkflowDemo } from "@/components/WorkflowDemo";
 import { PipelineSection } from "@/components/PipelineSection";
 import { MhsFactory } from "@/components/MhsFactory";
 import { RuptureExperiment } from "@/components/RuptureExperiment";
+import { RuptureResults } from "@/components/RuptureResults";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -141,6 +142,7 @@ export default async function PostPage({ params }: Props) {
             "<p>===PIPELINE_SECTION===</p>": <PipelineSection />,
             "<p>===MHS_FACTORY===</p>": <MhsFactory />,
             "<p>===RUPTURE_EXPERIMENT===</p>": <RuptureExperiment />,
+            "<p>===RUPTURE_RESULTS===</p>": <RuptureResults />,
           };
 
           // Split html on every marker and rebuild as interleaved html+components

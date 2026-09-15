@@ -15,6 +15,19 @@
 .frame { overflow: hidden; border: 1px solid #334155; border-radius: 16px; background: #101818; box-shadow: 0 25px 70px -40px rgba(15,23,42,.5); }
 .frame iframe { display: block; width: 100%; height: 1040px; border: 0; color-scheme: dark; }
 .caption { margin: 12px 4px 0; color: #64748b; font-size: 13px; line-height: 1.65; max-width: 88ch; }
+.results { margin: 24px 0 32px; font-family: var(--font-geist-sans), sans-serif; }
+.results table { width: 100%; border-collapse: collapse; font-size: 14px; color: #334155; }
+.results caption { text-align: left; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #64748b; padding-bottom: 12px; }
+.results th, .results td { padding: 12px 8px; border-bottom: 1px solid #e2e8f0; }
+.results th { font-weight: 500; text-align: left; }
+.results thead th { background: #eff6ff; font-size: 12px; color: #2563eb; }
+.results td, .results thead th:not(:first-child) { text-align: center; font-variant-numeric: tabular-nums; width: 14%; }
+.results td:last-child { font-weight: 650; color: #0f172a; }
+:global(.dark) .results table { color: #cbd5e1; }
+:global(.dark) .results caption { color: #94a3b8; }
+:global(.dark) .results th, :global(.dark) .results td { border-color: #334155; }
+:global(.dark) .results thead th { background: #172033; color: #93c5fd; }
+:global(.dark) .results td:last-child { color: #f1f5f9; }
 :global(.dark) .eyebrow { color: #93c5fd; }
 :global(.dark) .hint, :global(.dark) .caption { color: #94a3b8; }
 :global(.dark) .toolbar a { border-color: #475569; color: #cbd5e1; }

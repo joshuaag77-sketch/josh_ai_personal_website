@@ -1,6 +1,6 @@
 ---
 title: "The Balloon Test: Building With GPT-6 Astra"
-date: "2026-09-15"
+date: "2026-09-15T12:00:00Z"
 tags: ["ai", "experiments", "learning-log"]
 summary: "I asked GPT-6 Astra to build a convincing slow-motion water-balloon rupture. It produced a working interactive app, survived six critic rounds, and still missed the visual goal. Here's the full result and what I learned."
 kicker: "Experiment Log"
@@ -11,15 +11,15 @@ status: "published"
 featured: false
 ---
 
+===RUPTURE_EXPERIMENT===
+
 I asked GPT-6 Astra to build a slow-motion scene of a bullet passing through a water balloon. I wanted the high-speed-camera moment: the skin gives way, the water briefly holds its shape, then stretches, breaks apart, and falls.
 
 It produced a polished little experiment called **Rupture**. You could orbit the camera, change the conditions, pause the motion, and scrub through the impact. The controls worked. The page looked considered.
 
 The central visual was disappointing. At one point I rated it roughly **1/10** because it barely read as a proper bullet hitting a balloon. I asked for a fundamental fix and three more critic rounds. The result improved, but it never became the convincing shot I had in mind.
 
-I'm putting the actual result here because a description of the work makes it sound more successful than watching it does.
-
-===RUPTURE_EXPERIMENT===
+I've kept the actual result above because a description of the work makes it sound more successful than watching it does.
 
 ## What I was testing
 
@@ -27,7 +27,7 @@ This was a practical test of GPT-6 Astra as a coding agent in Codex: could I des
 
 The brief had two parts. One was a usable application: replay, slow motion, camera controls, and settings for projectile speed, balloon size, impact height, gravity, surface tension, spray, and lighting. The other was the physical scene itself: an identifiable projectile, a local puncture, recoiling latex, and water that looked like water.
 
-I also constrained the build to native browser graphics, without Three.js or an external physics library. That made the task harder. The agent had to construct the rendering and motion rather than assemble a ready-made fluid effect.
+The build used native browser graphics, without Three.js or an external physics library. That constraint made the task harder. The agent had to construct the rendering and motion rather than assemble a ready-made fluid effect.
 
 This was one experiment with a particular brief, tool setup, and sequence of feedback. It wasn't a controlled comparison with another model, and it doesn't establish a general limit on Astra's capabilities.
 
@@ -67,13 +67,7 @@ The causal moment is also weak. A real-looking shot needs the point of contact t
 
 The last critic's scores captured that split:
 
-| Criterion | First extra review | Second extra review | Third extra review |
-| --- | ---: | ---: | ---: |
-| Visual realism | 3/10 | 4.5/10 | 4.5/10 |
-| Perceived physics | 3.5/10 | 4.5/10 | 4.5/10 |
-| Impact and deformation | 3/10 | 5/10 | 5/10 |
-| Lighting and cinematography | 4.5/10 | 5/10 | 5/10 |
-| Visual interface quality | 8/10 | 8.5/10 | 8.5/10 |
+===RUPTURE_RESULTS===
 
 These were the **three additional reviews**, after the first three had already happened. They were AI-generated judgments of screenshots, not independent human ratings, a blind benchmark, or measurements of physical accuracy. The final critic put recognition of the objects and action at about 7/10. Some small shading and knot corrections followed that review; they did not receive another independent score.
 
@@ -103,4 +97,4 @@ The render above is the result. I think it's better evidence than another paragr
 
 *Experiment conducted September 14–15, 2026. This account draws on the saved build log, source checkpoints, test receipts, and all six critic rounds. The model name is the one used for this experiment. No elapsed-time, cost, or comparative model-performance claim is made.*
 
-**For a closer look:** [open the complete experiment](/experiments/rupture/index.html), [download the offline render](/experiments/rupture/rupture-offline.html), or read the [review and verification notes](/experiments/rupture/review-notes.md). The rendering approach drew on NVIDIA's [Screen Space Fluid Rendering](https://developer.download.nvidia.com/tools/docs/Fluid_Rendering_Alice.pdf). This implementation remains an approximate, partly art-directed fluid study; it does not establish conservation of water volume or validated physical prediction.
+**For a closer look:** [open the complete experiment](/experiments/rupture/index.html), [open the offline HTML](/experiments/rupture/rupture-offline.html), or read the [review and verification notes](/experiments/rupture/review-notes.md). The rendering approach drew on NVIDIA's [Screen Space Fluid Rendering](https://developer.download.nvidia.com/tools/docs/Fluid_Rendering_Alice.pdf). This implementation remains an approximate, partly art-directed fluid study; it does not establish conservation of water volume or validated physical prediction.
