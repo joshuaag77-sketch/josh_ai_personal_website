@@ -6,7 +6,7 @@ const ITEMS = [
   "Building AI-powered tools",
   "Writing about intelligent systems",
   "Experimenting with Claude",
-  "Studying for MBA applications",
+  "Wharton MBA, Year 1",
 ];
 
 const INTERVAL = 4000;
