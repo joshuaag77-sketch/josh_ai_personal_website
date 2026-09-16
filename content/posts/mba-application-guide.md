@@ -11,13 +11,13 @@ featured: false
 status: "published"
 ---
 
-There is a lot of noise online about how to get into business school. Most of it will not help you. I know because I spent a year swimming in it — the Reddit threads, the admissions consultant blogs, the GMAT Club forums — trying to figure out what actually moves the needle.
+There is a lot of noise online about how to get into business school. Most of it will not help you. I know because I spent a year swimming in it, the Reddit threads, the admissions consultant blogs, the GMAT Club forums, trying to figure out what moves the needle.
 
 I scored a 655 on the GMAT Focus Edition. I was admitted to Wharton, Booth, Yale SOM, and Cornell Johnson, with over $210K in scholarships spread across those four schools. I am Canadian. I did not have a flawless profile. What I had was a clear strategy and a willingness to work that system hard.
 
-This is what I learned. I am going to give you the high-signal version with no filler.
+This is what I learned, the short version.
 
-> The goal is not a perfect GMAT score. The goal is a business school admit. Those are very different objectives, and confusing them will cost you a year.
+> The goal is a business school admit, not a perfect GMAT score. Confusing the two will cost you a year.
 
 ## Before You Start: The Question Nobody Asks First
 
@@ -25,13 +25,13 @@ Before you open a prep book or look at school rankings, sit with this question h
 
 Most people do not think about this until they have offers in hand and a 30-day deadline to decide. By then the financial pressure warps the decision. Do the math now, before you are emotionally invested in specific schools.
 
-The total cost of a top MBA is not just tuition. It is two years of lost income. It is interest on loans. It is the cost of living in Philadelphia or Chicago or New Haven while you are not earning. For most applicants, the real number is somewhere between $250,000 and $350,000 when you account for everything. That is not a reason not to go. It is a reason to go with your eyes open and a plan to minimize unnecessary cost.
+The total cost of a top MBA is not just tuition. It is two years of lost income. It is interest on loans. It is the cost of living in Philadelphia or Chicago or New Haven while you are not earning. For most applicants, the real number is somewhere between $250,000 and $350,000 when you account for everything. Go with your eyes open and a plan to cut unnecessary cost.
 
-And nobody talks about the cost of the preparation journey itself. GMAT prep courses, private coaching, practice exams, score sends, application fees, interview prep — we are talking thousands of dollars before you even submit a single application. Budget for it.
+And nobody talks about the cost of the preparation journey itself. GMAT prep courses, private coaching, practice exams, score sends, application fees, interview prep. You are looking at thousands of dollars before you submit a single application. Budget for it.
 
 ===ROI_CALCULATOR===
 
-Use that calculator as a gut check. The point is not to scare you out of applying. The point is to make sure you are applying with full clarity on what you are signing up for, and with a plan to negotiate every dollar of scholarship you possibly can.
+Use that calculator as a gut check, so you apply knowing what you are signing up for and with a plan to negotiate every dollar of scholarship you can.
 
 Start building a contact log of people from schools you are interested in as early as possible. Reach out on LinkedIn. Take notes on what they say. What they tell you about the culture, the recruiting, the day-to-day will be more valuable than any brochure. And those conversations become ammunition for your essays and interviews later.
 
@@ -53,9 +53,9 @@ My 655 sits at roughly the 90th percentile. That is the score that got me into W
 
 The GMAT Focus Edition is adaptive by section. The exam starts at a medium difficulty level and adjusts based on how you perform. Answer correctly and the questions get harder. Answer incorrectly and they get easier. Your final score reflects both how many you got right and the difficulty level you were answering at. This has major strategic implications that most people completely ignore.
 
-The most important one: because the exam is adaptive, guessing quickly on a question you genuinely cannot solve and moving on is almost always better than spending four minutes on it. A question you spend too long on that you eventually get wrong has cost you both the points and the time. Flag it, make your best call, move on. Never leave a question blank — blank answers carry a double penalty.
+The most important one: because the exam is adaptive, guessing quickly on a question you genuinely cannot solve and moving on is almost always better than spending four minutes on it. A question you spend too long on that you eventually get wrong has cost you both the points and the time. Flag it, make your best call, move on. Never leave a question blank: blank answers carry a double penalty.
 
-The second implication: strong performance early in a section matters more than strong performance late, because early answers determine the difficulty band you are placed in. This does not mean you should rush — it means you should be deliberate and composed at the start of each section rather than warming up slowly.
+The second implication: strong performance early in a section matters more than strong performance late, because early answers determine the difficulty band you are placed in. This does not mean you should rush. It means you should be deliberate and composed at the start of each section rather than warming up slowly.
 
 ### What actually moves the score
 
@@ -70,9 +70,9 @@ The second implication: strong performance early in a section matters more than 
 
 Once your GMAT score is locked in, the application phase is a completely different game. The test was about demonstrating cognitive ability under pressure. Applications are about demonstrating self-awareness, narrative clarity, and fit. These are skills that belong to you and nobody can manufacture them in a few weeks.
 
-### Authenticity is not a platitude, it is a strategy
+### Authenticity is a strategy
 
-Every admissions consultant says be authentic. It is true and also vague. What it means in practice: avoid jargon, write like you actually talk, and use AI tools for refinement rather than idea generation. Admissions committees read hundreds of applications. The ones that stand out do not try to sound impressive. They try to sound real. The most overused word in MBA essays is "impact." Think differently about how you describe what you do and why you do it.
+Every admissions consultant says be authentic. It is true and also vague. What it means in practice: avoid jargon, write like you actually talk, and use AI tools for refinement rather than idea generation. Admissions committees read hundreds of applications. The ones that stand out sound like a real person rather than an impressive one. The most overused word in MBA essays is "impact." Think differently about how you describe what you do and why you do it.
 
 ### Your resume is the linchpin
 
@@ -80,7 +80,7 @@ Everything in your application flows from your resume. It is the first document 
 
 ### Essays: tell the story only you can tell
 
-The essay question is asking one thing in different formats: who are you, why do you want an MBA, and why this school specifically? The strongest essays do not answer these generically. They give the reader something specific and memorable. Think about what you have done that nobody else in the applicant pool has done. That is your material. School-specific essays need to be genuinely specific. Name programs, clubs, professors, and courses that actually connect to what you want to do. Generic "why school X" answers are immediately visible and immediately forgettable.
+The essay question is asking one thing in different formats: who are you, why do you want an MBA, and why this school specifically? The strongest essays do not answer these generically. They give the reader something specific and memorable. Think about what you have done that nobody else in the applicant pool has done. That is your material. School-specific essays need to be specific. Name programs, clubs, professors, and courses that actually connect to what you want to do. Generic "why school X" answers are immediately visible and immediately forgettable.
 
 ### Recommendations: choose people who know your work, not your title
 
@@ -88,15 +88,15 @@ Your recommenders should be people who have seen you do the actual work, not the
 
 ## Interviews: You Already Have the Offer
 
-This is the reframe that changed everything for me. By the time you are in an MBA interview, you already have the admit. The interview is not an audition. It is a fit conversation. The school is deciding whether you belong in their community. You are deciding the same thing about them. Walking in with that frame changes how you carry yourself entirely. You are not trying to impress anyone. You are validating a mutual decision that has already been made in your favor.
+This is the reframe that changed everything for me. By the time you are in an MBA interview, you already have the admit. The interview is a fit conversation, not an audition. The school is deciding whether you belong in their community. You are deciding the same thing about them. Walking in with that frame changes how you carry yourself entirely. You are confirming a decision that has already gone your way.
 
-### Study your interviewer like your score depends on it. Because it does.
+### Study your interviewer
 
-Before every interview I did, I spent serious time researching my interviewer. Everything publicly available: their career history, what they had built, what they had written, where they had spoken, what they cared about. I was not looking for small talk fodder. I was looking for genuine overlap between their perspective and mine, so that when we were in the room, the conversation felt less like an interview and more like two people who already had things in common figuring out whether they should be in the same community.
+Before every interview I did, I spent serious time researching my interviewer. Everything publicly available: their career history, what they had built, what they had written, where they had spoken, what they cared about. I was not looking for small talk fodder. I was looking for real overlap between their perspective and mine, so that when we were in the room, the conversation felt less like an interview and more like two people who already had things in common figuring out whether they should be in the same community.
 
-The concept for this, if you want a clean way to think about it, is contextual intelligence: understanding the specific person in front of you well enough to communicate your ideas through a frame they will actually connect with. This is not manipulation. It is the highest form of communication.
+The concept for this, if you want a clean way to think about it, is contextual intelligence: understanding the specific person in front of you well enough to communicate your ideas through a frame they will actually connect with. Some people hear manipulation. I think it is what good communication looks like.
 
-- **Enter with the right frame.** You already have the offer. This is a fit conversation. Calm, composed, not trying to impress — just validating a mutual decision.
+- **Enter with the right frame.** You already have the offer. This is a fit conversation. Calm, composed, confirming a mutual decision.
 - **Control the conversation without dominating it.** Do not just answer questions. Build on them, ask your own, create natural transitions. Leadership shows up in how you communicate, not just what you say.
 - **Match their energy.** If they are relaxed and conversational, be natural. If they are analytical and structured, be precise. Reading the room and adjusting in real time is a skill very few candidates consciously use.
 - **Use proof, not claims.** Do not say "Booth has a collaborative culture." Say "every student I spoke to mentioned the same specific thing about how people operate here, and one told me about X directly." First-hand specificity is worth ten times the generic observation.
@@ -105,7 +105,7 @@ The concept for this, if you want a clean way to think about it, is contextual i
 
 ## School Selection: The Strategic Layer Most People Skip
 
-Where you apply matters as much as how you apply. A brilliant application to the wrong school is wasted effort. The goal is to identify a portfolio of schools where you are genuinely competitive, where you would genuinely thrive, and where the structure of the program fits what you want to do afterward.
+Where you apply matters as much as how you apply. A brilliant application to the wrong school is wasted effort. The goal is to identify a portfolio of schools where you are competitive, where you would thrive, and where the structure of the program fits what you want to do afterward.
 
 Think about this in three layers. The first is fit: does the culture, pedagogy, and community match how you learn and who you are? The second is outcome: where do graduates go, and does that align with your actual goals? The third is financial: what is the realistic cost, and does the ROI hold up for your specific situation?
 
@@ -113,7 +113,7 @@ Most people think hard about the first two and barely think about the third unti
 
 > Application fees at top programs run $250 to $275 per school. If you apply to six schools, that is roughly $1,500 to $1,600. Say you get into Booth with $100K in scholarship and Kellogg with $50K, and Kellogg is your first choice. You can go back to Kellogg with the Booth offer. Kellogg may well close that gap. Your $275 Kellogg application just potentially returned tens of thousands of dollars in additional scholarship. Apply broadly to competitive peer schools. The application cost is not the variable to optimize on.
 
-What I would do differently: I would have started the school-specific research earlier, not to build a list, but to genuinely understand the differences between programs. By the time I was writing essays, some of the nuance that makes a great school-specific answer felt rushed. The candidates who do this well start having coffee chats twelve to eighteen months before they apply, not six weeks before the deadline.
+What I would do differently: I would have started the school-specific research earlier, not to build a list, but to understand the differences between programs. By the time I was writing essays, some of the nuance that makes a great school-specific answer felt rushed. The candidates who do this well start having coffee chats twelve to eighteen months before they apply, not six weeks before the deadline.
 
 ## Scholarships and Negotiation: The Move Most Applicants Miss
 
@@ -123,12 +123,12 @@ Let me be direct here. Most admitted candidates do attempt to negotiate their sc
 
 The most important principle is this: use peer school offers as leverage. A competing offer from a program at a similar ranking tier is the clearest and most credible thing you can bring into a negotiation. Wharton and Booth can leverage each other. A lower-ranked offer used against an M7 school is unlikely to move anything meaningful. The tier match matters.
 
-When you reach out, lead with genuine enthusiasm for the program. Be specific about the competing offer — give them a real number. Explain clearly why the gap creates a real barrier for you. Ask directly whether there is any opportunity to reconsider. Keep the tone professional, concise, and free of ultimatums. You are not threatening. You are giving them a credible reason to re-evaluate your award, which is genuinely in their interest if they want you enrolled.
+When you reach out, lead with enthusiasm for the program. Be specific about the competing offer: give them a real number. Explain clearly why the gap creates a real barrier for you. Ask directly whether there is any opportunity to reconsider. Keep the tone professional, concise, and free of ultimatums. You are giving them a credible reason to re-evaluate your award, which is in their interest if they want you enrolled.
 
 - **Document the offer.** Be ready to share the competing offer letter in writing. Schools may ask. Showing it builds credibility and signals you are negotiating in good faith.
 - **Timing is everything.** Negotiate before you commit. Once you accept and pay a deposit, your leverage is gone. The window between offer and decision deadline is your negotiating window.
 - **Ask for a specific number.** Do not ask vaguely for "more support." Give them a target. A specific, justified number is far easier for the admissions committee to act on than a general request.
-- **Stay humble.** Negotiate with the tone of someone who genuinely wants to attend, not someone making demands. Arrogance kills negotiations. Enthusiasm and a clear ask wins them.
+- **Stay humble.** Negotiate with the tone of someone who wants to attend, not someone making demands. Arrogance kills negotiations. Enthusiasm and a clear ask wins them.
 
 I negotiated at multiple schools. Some moved significantly. Some did not move at all. The act of asking costs nothing if you do it with the right tone. Know your number, know your leverage, and make the ask.
 
@@ -136,9 +136,9 @@ I negotiated at multiple schools. Some moved significantly. Some did not move at
 
 Everything above is strategy. It is learnable, it is replicable, and if you execute it well it gives you a real edge over the large majority of applicants who are going through this process without a clear framework.
 
-But the thing that actually got me into these programs is harder to put in a guide. I had a genuine story. I knew why I wanted an MBA, what I wanted to do with it, and why these specific programs were the right places for me to do that. I had done the actual work: not just the application work, but the career reflection, the hard conversations with people who gave me honest feedback, the deep research into what each school actually offers.
+But the thing that actually got me into these programs is harder to put in a guide. I had a real story. I knew why I wanted an MBA, what I wanted to do with it, and why these specific programs were the right places for me to do that. I had done the actual work: not just the application work, but the career reflection, the hard conversations with people who gave me honest feedback, the deep research into what each school actually offers.
 
-You can have a 720 GMAT and a generic story and get dinged from your dream school. You can have a 655 and a clear, differentiated narrative and get in with scholarship. The score matters. The essays matter. The interview matters. But underneath all of it, the question the entire application is asking is this: do you know who you are and where you are going?
+You can have a 720 GMAT and a generic story and get dinged from your dream school. You can have a 655 and a clear, differentiated narrative and get in with scholarship. The score, the essays and the interview all matter. But underneath all of it, the question the entire application is asking is this: do you know who you are and where you are going?
 
 That is the question worth spending the most time on.
 
