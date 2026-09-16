@@ -1,5 +1,21 @@
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { getAllPosts } from "@/lib/posts";
+import fs from "fs";
+import path from "path";
+
+// Nightly agents running on a schedule (gsr-keeper, curated-calendar, weekly-brief,
+// case-room, vault-gardener, lecture-to-knowledge, system-health). Update when one is added or retired.
+const AGENTS_ON_SCHEDULE = 7;
+
+function liveVaultNodes(): number {
+  try {
+    const hb = JSON.parse(fs.readFileSync(path.join(process.cwd(), "public", "heartbeat.json"), "utf-8"));
+    return typeof hb.nodes === "number" ? hb.nodes : 0;
+  } catch {
+    return 0;
+  }
+}
 
 export const metadata = {
   title: "About",
@@ -8,6 +24,8 @@ export const metadata = {
 };
 
 export default function AboutPage() {
+  const postCount = getAllPosts().length;
+  const vaultNodes = liveVaultNodes();
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
 
@@ -40,9 +58,9 @@ export default function AboutPage() {
       <AnimateOnScroll>
         <div className="mb-12 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 backdrop-blur p-8 shadow-[0_20px_80px_-70px_rgba(15,23,42,0.6)]">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            <AnimatedCounter end={7} label="Posts Published" />
-            <AnimatedCounter end={51} label="Vault Notes Live in 3D" />
-            <AnimatedCounter end={3} label="Agents on Schedule" />
+            <AnimatedCounter end={postCount} label="Posts Published" />
+            <AnimatedCounter end={vaultNodes} label="Vault Notes Live in 3D" />
+            <AnimatedCounter end={AGENTS_ON_SCHEDULE} label="Agents on Schedule" />
             <AnimatedCounter end={4} label="Years Building in Energy" />
           </div>
         </div>
