@@ -92,7 +92,9 @@ export function PostsFilter({ posts, allTags, initialTag }: Props) {
                       {post.summary}
                     </p>
                     <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
-                      <time>{new Date(post.date).toLocaleDateString()}</time>
+                      <time dateTime={post.date}>
+                        {new Date(post.date).toLocaleDateString("en-US", { timeZone: "UTC" })}
+                      </time>
                       {post.readingTime && <span>{post.readingTime}</span>}
                       {post.tags.length > 0 && (
                         <div className="flex gap-2">
