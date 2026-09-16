@@ -1,4 +1,4 @@
-﻿---
+---
 title: "I Didn't Know How to Code. So I Built an AI Agent Anyway."
 date: "2026-02-20"
 tags: ["builds", "agents", "automation", "raspberry-pi"]
@@ -6,7 +6,7 @@ summary: "From zero to a working Telegram-to-email agent in one day on a Raspber
 kicker: "First Project"
 heroImage: "/images/thumb-agent.svg"
 heroAlt: "Diagram of an AI agent pipeline running on a Raspberry Pi."
-heroCaption: "Text in. Actions out. A tiny box doing real work."
+heroCaption: "A tiny box doing real work."
 status: "published"
 ---
 
@@ -16,11 +16,11 @@ Everyone online was flexing these insane ClawDBot setups running on Mac Minis. L
 
 Problem: I was not about to drop a stack just to experiment.
 
-So instead I bought a Raspberry Pi and said screw it -- I am building my own.
+So instead I bought a Raspberry Pi and said screw it, I am building my own.
 
 ## The chaos phase
 
-I opened Cursor, fired up Claude Code, barely knew what I was doing, and just started wiring things together. APIs, keys, errors, crashes, things breaking for no reason -- the usual chaos.
+I opened Cursor, fired up Claude Code, barely knew what I was doing, and just started wiring things together. APIs, keys, errors, crashes, things breaking for no reason, the usual chaos.
 
 Somehow, it started to click. The small wins stacked up.
 
@@ -56,15 +56,9 @@ Telegram
 
 ## The real shift
 
-What's wild is not that it works.
-
-It's that I built it in a day, starting basically from zero.
+The part that gets me is that I built it in a day, starting from zero.
 
 I used to think building systems like this required years of coding. Turns out it mostly requires curiosity and the willingness to break things until they work.
 
-This is just version one. Next I am adding memory, more tools, more context -- basically turning it into a real agent instead of a one-trick script.
-
-> AI is not just a tool you use anymore. It is infrastructure you can build.
-
-And once you realize that, you start seeing systems everywhere.
+This is just version one. Next I am adding memory, more tools and more context, turning it into a real agent instead of a one-trick script.
 
