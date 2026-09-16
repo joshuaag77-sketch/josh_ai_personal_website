@@ -7,7 +7,7 @@
 export const COLD_OPEN = {
   question: "Why did an Enbridge engineer go to Wharton?",
   answer:
-    "Four years building first-of-a-kind hydrogen and carbon-capture assets taught him something the job description never mentioned: the projects that stall are not failing on engineering. They stall on capital, risk tolerance, and who is willing to own the last mile. He kept ending up as that person without the title for it. Wharton is the bet that the title is worth having. The argument is in [[The Deployment Gap - My AI Career Thesis]] and the trust half of it is in [[The Five Layers of Trust]].",
+    "Three years building first-of-a-kind hydrogen and carbon-capture assets at Enbridge taught him that the projects that stall usually stall on capital, risk tolerance and ownership of the last mile, and rarely on the engineering. He kept ending up as the person who closed that gap, without a title for it. Wharton is the bet that the title is worth having. The argument is in [[The Deployment Gap - My AI Career Thesis]] and the trust half of it is in [[The Five Layers of Trust]].",
 };
 
 // Questions the hero input types by itself while idle. Enter sends whatever is showing.
@@ -47,9 +47,9 @@ export const SUGGESTIONS: Record<AudienceKey | "default", string[]> = {
 
 export const PITCHES: Record<AudienceKey, string> = {
   recruiter:
-    "Engineer first. Four years turning first-of-a-kind energy projects into operating assets, and building the tools my teams actually adopted. Now at Wharton, recruiting consulting with an energy focus.",
+    "Engineer first. Six years in energy, three of them at Enbridge turning first-of-a-kind projects into operating assets and building the tools my teams used. Now at Wharton, recruiting for consulting with an energy focus.",
   classmate:
     "WG'28, Philadelphia. I build systems that remember things so I don't have to. This site is the public window into one of them.",
   builder:
-    "Everything here is built, not bought: Next.js on Vercel, a WebGL map of a real Obsidian vault, seven scheduled agents, and Claude behind a hard privacy sandbox.",
+    "Everything here is built by hand: Next.js on Vercel, a WebGL map of a real Obsidian vault, seven scheduled agents, and Claude behind a hard privacy sandbox.",
 };

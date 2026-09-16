@@ -25,7 +25,7 @@ const CLUSTER_NAMES: Record<string, string> = {
   moc: "Map of Content",
 };
 
-// Simple 3D force layout — 35 nodes, runs in a few ms
+// Simple 3D force layout, 35 nodes, runs in a few ms
 function layout(nodes: GNode[], edges: [number, number][]): THREE.Vector3[] {
   const anchors: Record<string, THREE.Vector3> = {
     learnings: new THREE.Vector3(-14, 4, 0),
@@ -182,7 +182,7 @@ export function VaultGraph() {
           deg[b]++;
         });
 
-        // edges — idea-links bright, theme-links dim
+        // edges: idea-links bright, theme-links dim
         const isTheme = (i: number) => data.nodes[i].cluster === "theme";
         const ideaEdges = data.edges.filter(([a, b]) => !isTheme(a) && !isTheme(b));
         const themeEdges = data.edges.filter(([a, b]) => isTheme(a) || isTheme(b));
@@ -239,7 +239,7 @@ export function VaultGraph() {
             group.add(label);
           }
         });
-        // deep link: /brain?focus=<slug> — fly to that star
+        // deep link: /brain?focus=<slug>, fly to that star
         const focusSlug = new URLSearchParams(window.location.search).get("focus");
         if (focusSlug) {
           const idx = data.nodes.findIndex((n) => slugify(n.label) === focusSlug);
@@ -357,7 +357,7 @@ export function VaultGraph() {
           Fly through my second brain
         </h1>
         <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-          These are {stats?.n ?? "…"} real notes from my Obsidian knowledge graph — the system my
+          These are {stats?.n ?? "…"} real notes from my Obsidian knowledge graph, the system my
           posts come from. Drag to look around, scroll to dive, click a star to read it.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
@@ -391,7 +391,7 @@ export function VaultGraph() {
             <p className="mt-2 text-sm text-slate-400 leading-relaxed">{selected.summary}</p>
           ) : (
             <p className="mt-2 text-sm text-slate-500 italic">
-              This one stays in the vault — title only.
+              This one stays in the vault, title only.
             </p>
           )}
           <button
@@ -413,8 +413,8 @@ export function VaultGraph() {
             </span>
             system live
           </span>
-          <span>gardener last tended · jul 2</span>
-          <span>brief w27 issued · jul 1</span>
+          <span>gardener last tended · {heartbeat?.gardener?.lastRun ?? "…"}</span>
+          <span>brief {heartbeat?.brief?.lastIssue?.toLowerCase() ?? "…"} issued · {heartbeat?.brief?.date ?? "…"}</span>
           <span>
             {stats ? `${stats.n} notes · ${stats.e} links` : "loading graph…"}
           </span>

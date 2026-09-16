@@ -39,7 +39,7 @@ export function DailyThread() {
       </span>
       <span className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
         {star(t.a)} <span className="text-slate-400 mx-1">×</span> {star(t.b)}
-        <span className="text-slate-500 dark:text-slate-400"> — {t.line}</span>
+        <span className="text-slate-500 dark:text-slate-400">: {t.line}</span>
       </span>
     </div>
   );

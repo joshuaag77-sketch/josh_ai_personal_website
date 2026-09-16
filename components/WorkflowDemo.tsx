@@ -52,7 +52,7 @@ tags: [compounding, decision-making, mental-models, long-term]
 ---
 
 ## Summary
-Explores why most people systematically underestimate long-term thinking —
+Explores why most people systematically underestimate long-term thinking,
 and why the gap between short and long-term returns keeps widening.
 
 ## Key Ideas
@@ -218,7 +218,7 @@ export function WorkflowDemo() {
                   : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
               }`}
             >
-              Before — dead link
+              Before: dead link
             </button>
             <button
               onClick={() => setTab("after")}
@@ -229,7 +229,7 @@ export function WorkflowDemo() {
                   : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
               }`}
             >
-              After — structured note {showOutput ? "✓" : ""}
+              After: structured note {showOutput ? "✓" : ""}
             </button>
           </div>
 

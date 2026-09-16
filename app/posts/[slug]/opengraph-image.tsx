@@ -79,7 +79,7 @@ export default async function OgImage({
           );
         })}
 
-        {/* ── Neural net nodes — layered circles to fake blur/glow ── */}
+        {/* ── Neural net nodes, layered circles to fake blur/glow ── */}
         {allLayers.flat().map((node, i) => (
           <div key={i} style={{ display: "flex", position: "absolute", left: 0, top: 0, width: 0, height: 0 }}>
             {/* outer halo */}

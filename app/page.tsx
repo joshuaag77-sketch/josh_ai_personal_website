@@ -66,14 +66,14 @@ export default function Home() {
             Current Thesis
           </p>
           <p className="display-font text-2xl text-slate-900 dark:text-slate-100 mb-4">
-            AI is infrastructure, not a feature.
+            Getting AI to work inside a real organization is the hard part.
           </p>
           <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-            I build systems that absorb messy input, structure it, and execute
-            with accountability. The goal is leverage, not novelty.
+            I build systems that take in messy input, structure it, and act on
+            it. The point is leverage inside a real organization.
           </p>
           <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
-            Energy. Systems. Philadelphia by way of Calgary.
+            Energy and AI. Philadelphia, by way of Calgary.
           </div>
         </div>
       </AnimateOnScroll>
@@ -88,15 +88,15 @@ export default function Home() {
           {[
             {
               title: "Focus",
-              text: "Leverage inside real systems. Not demos, not hype.",
+              text: "AI that runs inside a real workflow, with real constraints.",
             },
             {
               title: "Method",
-              text: "Small experiments, fast feedback, ruthless clarity.",
+              text: "Small experiments, written up as they happen.",
             },
             {
               title: "Output",
-              text: "Notes, builds, and systems that actually run.",
+              text: "Notes, builds and systems that run on a schedule.",
             },
           ].map((item, i) => (
             <AnimateOnScroll key={item.title} delay={i * 120}>
