@@ -1,61 +1,59 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { ChatWidget } from "@/components/ChatWidget";
+import { HeroChat } from "@/components/HeroChat";
+import { ChatLauncher } from "@/components/ChatLauncher";
 import { AnimateOnScroll } from "@/components/AnimateOnScroll";
 import { ParticleField } from "@/components/ParticleField";
-import { TypingAnimation } from "@/components/TypingAnimation";
 import { TiltCard } from "@/components/TiltCard";
-import { StatusTicker } from "@/components/StatusTicker";
 import { MagneticButton } from "@/components/MagneticButton";
 import { FlowLine } from "@/components/FlowLine";
 import { DailyThread } from "@/components/DailyThread";
-import { AudiencePitch } from "@/components/AudiencePitch";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
-    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <FlowLine />
-      <section className="scroll-hero relative mb-16 grid gap-10 lg:grid-cols-[1.15fr,0.85fr] items-center">
+      <ChatLauncher />
+
+      {/* Hero: the chat is the headline. */}
+      <section className="scroll-hero relative mb-8 min-h-[70vh] flex flex-col justify-center">
         <div className="aurora aurora-1" aria-hidden="true" />
         <div className="aurora aurora-2" aria-hidden="true" />
         <ParticleField />
         <AnimateOnScroll>
-          <div className="relative z-10">
-            <p className="text-xs uppercase tracking-[0.35em] text-blue-600/80 dark:text-blue-300/80 mb-4">
-              Lab Notebook
-            </p>
-            <h1 className="display-font text-4xl sm:text-5xl font-semibold mb-5 text-slate-900 dark:text-slate-100">
-              Experiments in <TypingAnimation />
-            </h1>
-            <AudiencePitch />
-            <div className="mb-6">
-              <StatusTicker />
-            </div>
-            <div className="flex gap-4">
-              <MagneticButton>
-                <Link
-                  href="/posts"
-                  className="px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-500 transition-colors shadow-[0_10px_30px_-18px_rgba(37,99,235,0.8)] inline-block"
-                >
-                  Notebook
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link
-                  href="/about"
-                  className="px-6 py-3 border border-slate-300/80 dark:border-slate-700 rounded-full font-medium hover:bg-white/70 dark:hover:bg-slate-900 transition-colors inline-block"
-                >
-                  About
-                </Link>
-              </MagneticButton>
-            </div>
+          <div className="relative z-10 max-w-4xl mx-auto w-full">
+            <HeroChat />
           </div>
         </AnimateOnScroll>
         <AnimateOnScroll delay={200}>
-          <div className="scroll-grow relative z-10">
-            <ChatWidget />
+          <div className="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <span className="hidden sm:inline text-slate-400">Or browse:</span>
+            <MagneticButton>
+              <Link
+                href="/posts"
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/80 dark:border-slate-700 px-4 py-2 hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
+              >
+                Notebook <span aria-hidden>-&gt;</span>
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <Link
+                href="/brain"
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/80 dark:border-slate-700 px-4 py-2 hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
+              >
+                Fly through the vault <span aria-hidden>-&gt;</span>
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/80 dark:border-slate-700 px-4 py-2 hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
+              >
+                About <span aria-hidden>-&gt;</span>
+              </Link>
+            </MagneticButton>
           </div>
         </AnimateOnScroll>
       </section>
@@ -75,7 +73,7 @@ export default function Home() {
             with accountability. The goal is leverage, not novelty.
           </p>
           <div className="mt-6 text-xs uppercase tracking-[0.28em] text-blue-600/70 dark:text-blue-300/70">
-            Calgary. Energy. Systems.
+            Energy. Systems. Philadelphia by way of Calgary.
           </div>
         </div>
       </AnimateOnScroll>

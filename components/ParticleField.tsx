@@ -35,6 +35,14 @@ export function ParticleField() {
     const mouse = { x: -9999, y: -9999 };
     let particles: P[] = [];
     let running = true;
+    // When the chat cites a vault note, the field flares for ~1.4s.
+    let pulseAt = -1e9;
+    const PULSE_MS = 1400;
+    const onCite = () => {
+      pulseAt = performance.now();
+      if (reduced) draw();
+    };
+    window.addEventListener("vault-cite", onCite);
 
     const isDark = () =>
       document.documentElement.classList.contains("dark") ||
@@ -69,6 +77,9 @@ export function ParticleField() {
       const dark = isDark();
       const dot = dark ? "147,197,253" : "71,85,105";
       const line = dark ? "96,165,250" : "37,99,235";
+      const age = performance.now() - pulseAt;
+      const pulse = age < PULSE_MS ? Math.sin((1 - age / PULSE_MS) * Math.PI * 0.5) : 0;
+      const linkDist = LINK_DIST * (1 + pulse * 0.6);
 
       for (const p of particles) {
         if (!reduced) {
@@ -89,7 +100,9 @@ export function ParticleField() {
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${dot},${dark ? 0.35 : 0.3})`;
+        ctx.fillStyle = pulse
+          ? `rgba(${line},${(dark ? 0.35 : 0.3) + pulse * 0.5})`
+          : `rgba(${dot},${dark ? 0.35 : 0.3})`;
         ctx.fill();
       }
 
@@ -99,8 +112,8 @@ export function ParticleField() {
           const a = particles[i];
           const b = particles[j];
           const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < LINK_DIST) {
-            const alpha = (1 - d / LINK_DIST) * (dark ? 0.22 : 0.16);
+          if (d < linkDist) {
+            const alpha = (1 - d / linkDist) * ((dark ? 0.22 : 0.16) + pulse * 0.35);
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -166,6 +179,7 @@ export function ParticleField() {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
+      window.removeEventListener("vault-cite", onCite);
       window.removeEventListener("mousemove", onMouse);
       document.removeEventListener("mouseleave", onLeave);
     };

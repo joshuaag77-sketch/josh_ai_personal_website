@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { getAllPosts } from "@/lib/posts";
 import { getProfileMarkdown } from "@/lib/profile";
@@ -16,6 +16,30 @@ function rateLimited(ip: string): boolean {
   if (hits.size > 5000) hits.clear();
   hits.set(ip, arr);
   return arr.length > 10;
+}
+
+// Plain-text streaming response. The client appends chunks as they arrive.
+function textStream(chunks: AsyncIterable<string>) {
+  const encoder = new TextEncoder();
+  const body = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        for await (const chunk of chunks) controller.enqueue(encoder.encode(chunk));
+      } catch (err) {
+        console.error("Chat stream error", err);
+        controller.enqueue(encoder.encode("\n\n[The answer was cut short. Ask again.]"));
+      } finally {
+        controller.close();
+      }
+    },
+  });
+  return new Response(body, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+      "X-Accel-Buffering": "no",
+    },
+  });
 }
 
 function buildVaultContext(): string {
@@ -135,7 +159,9 @@ export async function POST(req: Request) {
 
     const direct = cannedAnswer(message);
     if (direct) {
-      return NextResponse.json({ answer: direct });
+      return textStream((async function* () {
+        yield direct;
+      })());
     }
 
     const context = buildContext();
@@ -151,19 +177,23 @@ Hard boundaries: do not answer or speculate about Josh's personal life, relation
 
     const client = new Anthropic({ apiKey });
 
-    const response = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 320,
       system: systemPrompt + audienceNote,
       messages: [{ role: "user", content: message }],
     });
 
-    const answer = response.content
-      .filter((block) => block.type === "text")
-      .map((block) => block.text)
-      .join("");
-
-    return NextResponse.json({ answer });
+    return textStream((async function* () {
+      for await (const event of stream) {
+        if (
+          event.type === "content_block_delta" &&
+          event.delta.type === "text_delta"
+        ) {
+          yield event.delta.text;
+        }
+      }
+    })());
   } catch (error: any) {
     console.error("Chat error", error);
     return NextResponse.json(
