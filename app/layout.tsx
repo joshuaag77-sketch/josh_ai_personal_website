@@ -24,15 +24,15 @@ const editorial = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL("https://joshagarwal.com"),
   title: {
-    default: "Josh Agarwal — engineer, MBA candidate, builder of AI-native systems",
+    default: "Josh Agarwal: engineer, Wharton MBA candidate, builder of AI systems",
     template: "%s · Josh Agarwal",
   },
   description:
-    "P.Eng and Wharton MBA candidate. A public lab notebook on AI deployment, energy infrastructure, and knowledge systems — with a live 3D map of my second brain.",
+    "P.Eng and Wharton MBA candidate. A public lab notebook on AI deployment, energy infrastructure and knowledge systems, with a live 3D map of my second brain.",
   openGraph: {
-    title: "Josh Agarwal — lab notebook",
+    title: "Josh Agarwal: lab notebook",
     description:
-      "Experiments in AI deployment, energy, and knowledge systems. Fly through my second brain at /brain.",
+      "Experiments in AI deployment, energy and knowledge systems. Fly through my second brain at /brain.",
     type: "website",
   },
 };

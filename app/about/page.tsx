@@ -20,7 +20,7 @@ function liveVaultNodes(): number {
 export const metadata = {
   title: "About",
   description:
-    "P.Eng and Wharton MBA candidate. Four years building first-of-a-kind energy infrastructure; now writing a public lab notebook on AI, energy, and knowledge systems.",
+    "P.Eng and Wharton MBA candidate. Six years in energy, three of them building first-of-a-kind low-carbon assets at Enbridge. A public lab notebook on AI, energy and knowledge systems.",
 };
 
 export default function AboutPage() {
@@ -61,7 +61,7 @@ export default function AboutPage() {
             <AnimatedCounter end={postCount} label="Posts Published" />
             <AnimatedCounter end={vaultNodes} label="Vault Notes Live in 3D" />
             <AnimatedCounter end={AGENTS_ON_SCHEDULE} label="Agents on Schedule" />
-            <AnimatedCounter end={4} label="Years Building in Energy" />
+            <AnimatedCounter end={6} label="Years Building in Energy" />
           </div>
         </div>
       </AnimateOnScroll>
@@ -74,13 +74,13 @@ export default function AboutPage() {
               Background
             </h2>
             <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-              I'm a professional engineer who spent four years at Enbridge
-              working on first-of-a-kind energy infrastructure — hydrogen,
-              carbon capture, renewable natural gas — and building the AI tools
-              my teams actually used. Now I'm at Wharton (Class of 2028),
-              headed for energy and infrastructure strategy. This site isn't a
-              portfolio or a blog — it's a public lab notebook, and it's alive:
-              my real knowledge graph renders in 3D at{" "}
+              I'm a professional engineer. I spent three years at Kiewit
+              building the Trans Mountain pipeline, then three at Enbridge
+              working on first-of-a-kind energy infrastructure (hydrogen,
+              carbon capture, renewable natural gas) and building the AI tools
+              my teams used. Now I'm at Wharton (Class of 2028), recruiting
+              for consulting with an energy focus. This site is a public lab
+              notebook. My real knowledge graph renders in 3D at{" "}
               <a href="/brain" className="text-blue-600 dark:text-blue-300 underline decoration-dotted underline-offset-4">
                 /brain
               </a>
@@ -96,10 +96,10 @@ export default function AboutPage() {
             </h2>
             <ul className="space-y-3 text-slate-700 dark:text-slate-300 leading-relaxed">
               {[
-                "Understand where intelligent systems create leverage and where they don't",
-                "Run experiments in the open and capture what works, what fails, and why",
-                "Improve decision-making and clarity in constrained, real-world systems",
-                "Keep the notebook high-signal: no hype, no filler",
+                "Work out where AI creates leverage inside real organizations, and where it doesn't",
+                "Run experiments in the open and write down what happened",
+                "Get better at decisions in systems with real constraints",
+                "Keep the notebook short and specific",
               ].map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-2 w-1 h-1 rounded-full bg-blue-500 shrink-0" />
@@ -119,19 +119,19 @@ export default function AboutPage() {
               {[
                 {
                   q: "What's your background?",
-                  a: "Chemical engineer (P.Eng), four years in Enbridge's New Energy Technologies group — hydrogen, CCS, RNG — after construction engineering at Kiewit. Real systems with tradeoffs, constraints, and accountability. Now an MBA candidate at Wharton, Class of 2028.",
+                  a: "Chemical engineer (P.Eng). Three years of construction engineering at Kiewit on the Trans Mountain Expansion, then three years in Enbridge's New Energy Technologies group on hydrogen, CCS and RNG. Now an MBA candidate at Wharton, Class of 2028, majoring in AI for Business and Finance.",
                 },
                 {
                   q: "What are you working on?",
-                  a: "A second brain that runs itself — scheduled agents that tend my knowledge graph, write me weekly briefs, and keep this site alive. The notebook posts are the running log; /brain is the live window. Recruiting for energy & infrastructure strategy in parallel.",
+                  a: "A second brain that runs itself: scheduled agents that tend my knowledge graph, write me a weekly brief, score my case practice and keep this site alive. The posts are the running log and /brain is the live window. In parallel, recruiting for management consulting with an energy focus.",
                 },
                 {
                   q: "How can I get in touch?",
-                  a: "GitHub and LinkedIn are in the footer. If you want a head start, ask the chatbot on the homepage what we'd have in common — it knows my public work cold.",
+                  a: "GitHub and LinkedIn are in the footer. If you want a head start, ask the chatbot on the homepage what we'd have in common. It has read my public work.",
                 },
                 {
                   q: "Why should I trust anything here?",
-                  a: "Because you can see the working. Every idea traces to dated, linked notes in a real knowledge graph, and the site shows its own heartbeat. No hype, no filler — that's the whole point of a lab notebook.",
+                  a: "Because you can see the working. Every idea traces to dated, linked notes in a real knowledge graph, and the site shows its own heartbeat.",
                 },
               ].map(({ q, a }) => (
                 <div key={q}>

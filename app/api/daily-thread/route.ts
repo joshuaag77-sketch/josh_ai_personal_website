@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { slugify } from "@/lib/slug";
 
-// One generation per day — cached by Next's data cache.
+// One generation per day, cached by Next's data cache.
 export const revalidate = 86400;
 
 type GNode = { id: number; label: string; cluster: string };
@@ -25,7 +25,7 @@ export async function GET() {
     );
     const g: Graph = JSON.parse(raw);
     const isNote = (i: number) => g.nodes[i].cluster !== "theme";
-    // prefer note-to-note edges across different galaxies — the interesting threads
+    // prefer note-to-note edges across different galaxies, the interesting threads
     const cross = g.edges.filter(
       ([a, b]) => isNote(a) && isNote(b) && g.nodes[a].cluster !== g.nodes[b].cluster
     );
@@ -36,7 +36,7 @@ export async function GET() {
     const a = g.nodes[ai];
     const b = g.nodes[bi];
 
-    let line = "Two notes, one thread — follow it into the vault.";
+    let line = "Two notes, one thread. Follow it into the vault.";
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (apiKey) {
       const client = new Anthropic({ apiKey });
@@ -44,11 +44,11 @@ export async function GET() {
         model: "claude-haiku-4-5-20251001",
         max_tokens: 90,
         system:
-          "You write one intriguing sentence (max 140 characters) hinting at what could connect two note titles from a personal knowledge graph. You only know the titles — write it as a thoughtful hint or question, never a factual claim about the notes' contents. No quotes, no emoji, no preamble.",
+          "You write one intriguing sentence (max 140 characters) hinting at what could connect two note titles from a personal knowledge graph. You only know the titles, so write it as a hint or a question, never a factual claim about the notes' contents. No quotes, no emoji, no preamble, no em dashes.",
         messages: [
           {
             role: "user",
-            content: `Note A: "${a.label}" — Note B: "${b.label}". These notes are actually linked in the graph. One sentence.`,
+            content: `Note A: "${a.label}". Note B: "${b.label}". These notes are actually linked in the graph. One sentence.`,
           },
         ],
       });
