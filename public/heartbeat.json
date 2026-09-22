@@ -1,12 +1,12 @@
 {
   "gardener": {
-    "lastRun": "2026-09-21"
+    "lastRun": "2026-09-22"
   },
   "brief": {
     "lastIssue": "W38",
     "date": "2026-09-21"
   },
-  "updated": "2026-09-21T02:13:23.326Z",
-  "nodes": 55,
-  "links": 163
+  "updated": "2026-09-22T01:58:56.769Z",
+  "nodes": 56,
+  "links": 169
 }
