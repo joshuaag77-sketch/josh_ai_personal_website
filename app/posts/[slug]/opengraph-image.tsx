@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
@@ -36,6 +38,21 @@ export default async function OgImage({
 }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
+
+  if (slug === "what-a-car-sees-what-an-owl-sees") {
+    const cover = await readFile(path.join(process.cwd(), "public/images/the-world-we-miss.png"));
+    return new ImageResponse(
+      <div style={{ display: "flex", position: "relative", width: 1200, height: 630, background: "#0b1120" }}>
+        <img src={`data:image/png;base64,${cover.toString("base64")}`} alt="" width={1200} height={630} style={{ objectFit: "cover" }} />
+        <div style={{ display: "flex", position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(5,12,25,.96), transparent 65%)" }} />
+        <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: 60, bottom: 48, color: "#f8fafc", gap: 12 }}>
+          <div style={{ fontSize: 18, color: "#bfdbfe", letterSpacing: "0.12em" }}>JOSH AGARWAL · INTERACTIVE ESSAY</div>
+          <div style={{ fontSize: 70, fontWeight: 700 }}>{post?.title}</div>
+        </div>
+      </div>,
+      size
+    );
+  }
 
   const title = post?.title ?? "Josh Agarwal";
   const kicker = post?.kicker ?? "Field Notes";

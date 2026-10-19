@@ -1,0 +1,7 @@
+# The World We Miss — cover
+
+Created with the built-in image-generation tool. Final asset: `dist/assets/article-cover.png`; website thumbnail: `/images/the-world-we-miss.png`. The picture is an editorial illustration, not a screenshot or measured sensor output.
+
+## Final generation prompt
+
+Create a sophisticated editorial cover illustration for a personal essay titled The World We Miss, about animal perception and autonomous vehicle sensing. NO TEXT, letters, logos or UI. Landscape 16:9 composition suitable for a website article thumbnail, recognizable at 320px wide and center-crop safe. The central subject is a striking great horned owl, chest-up three-quarter portrait, amber eye and precise tactile feather detail. Across the owl and the surrounding dusk woodland, part of the visible scene dissolves into a beautifully sparse measured 3D point cloud in ice blue and indigo, suggesting two ways of sensing one environment. A subtle street-like ground plane of lidar points beneath, but no cars or extra animals. Make this feel like an original science magazine cover, optically rich yet restrained, no cyberpunk, no neon green, no stock double-exposure collage, no diagram boxes. Palette from a quiet personal notebook website: midnight slate, luminous pale blue, indigo, with the amber eye as the single warm accent. Simple strong silhouette, generous atmospheric negative space, beautiful lighting, deliberate balanced composition. This is an editorial illustration, not a simulation screenshot.
