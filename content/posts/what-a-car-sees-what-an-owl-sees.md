@@ -1,50 +1,46 @@
 ---
-title: "What a Car Sees. What an Owl Sees."
+title: "The World We Miss"
 date: "2026-10-18T12:00:00Z"
 tags: ["experiments", "learning-log"]
-summary: "I wanted to pull apart what a Waymo sees. Then I thought about owls. An interactive experiment in the information different observers can detect, and the limits of showing it on a screen."
-kicker: "Experiment Log"
+summary: "A street becomes a cloud of distances. A flower carries a pattern we can't see. I built an interactive essay about what changes when you change the observer."
+kicker: "Interactive Essay"
+heroImage: "/images/the-world-we-miss.png"
+heroAlt: "Editorial illustration of a great horned owl dissolving into a blue point cloud."
+heroCaption: "An illustration of the idea, not a view from the simulation."
 status: "published"
 featured: false
 ---
 
-I started with a question about Waymo: what does the car actually see? I wanted to pull apart the camera image, the lidar point cloud and the radar returns, then put them back together.
+I wanted to understand what a self-driving car has to work with before it decides what to do. A street looks obvious in a photograph. Take away the photograph and keep only distances or motion, and it becomes a much stranger problem.
 
-Then I thought about a great horned owl. Same question, very different equipment. What information is available to it that I miss?
+Waymo was the starting point. I wanted to separate its sensor types, look at each one, and put them back together. Then I wanted to try the same question with animals. An owl hunting at night. An eagle picking out a small detail. A bee finding a flower.
 
-That became this experiment: two scenes where you can change the observer and see which information survives. I called it Umwelt, a term for an organism’s perceptual world. The car is a useful comparison, though sensors and animal experience are different things.
+What would I notice if I had different equipment?
+
+## Take away the image
+
+The city below is a model built for this experiment. Start with the camera, then switch to lidar. The familiar street becomes a set of measured surfaces.
 
 ===UMWELT_CITY===
 
+Rotate the point cloud and look behind a building. There are gaps where the sensor couldn't see. You can move your viewpoint, but you can't recover a measurement that was never taken. An empty patch of the display doesn't tell you that the street behind it is empty.
 
-## Start with the missing information
+Radar adds a different wrinkle. Change the cyclist from crossing the street to approaching the sensor. The readout measures motion toward or away from the sensor, so movement across its view can register very differently. Speed depends on which direction you're measuring.
 
-Choose lidar and rotate the city. The backs of objects are missing because the rays come from one sensor position. Moving your view around the point cloud does not create measurements from the other side. That gap is easier to understand when you can look into it.
+Combining the views helps explain why a car carries several kinds of sensor. Colour, distance and motion answer different questions about the same encounter.
 
-Now choose radar and change the cyclist’s direction. The speed readout measures motion toward or away from the sensor. Someone can move quickly across its line of sight while having little radial speed. “Radar sees motion” leaves out the part that makes this interesting.
+## Better vision for what?
 
-The camera keeps colour and texture. The combined view lays those different signals together. Its boxes are labels I put in the scene, not objects a driving system has learned to recognize.
+With animals, I kept coming back to that question. Seeing a faint shape at night and separating two tiny details in daylight are different abilities. So is detecting a wavelength that human eyes miss altogether.
 
-This is a simplified browser model inspired by autonomous-vehicle sensors. It uses a generated city, ray intersections and synthetic motion. It is not Waymo footage or a replica of its perception software.
-
-
-## Then change the observer
-
-The animal question is harder. An owl’s low-light sensitivity, an eagle’s fine detail and a bee’s ultraviolet sensitivity are different capabilities. A pit viper adds another complication: its heat-sensitive facial pits are separate from its eyes.
-
-In the woodland below, drag the divider and adjust the control for each animal. Look for the small animal in owl mode, the distant stripes for the eagle, the flower patterns for the bee, and the warm body for the viper.
+The woodland lets you explore those differences. Start with the great horned owl and lower the available light. Then try the eagle's distant stripes, the bee's flower patterns, and the pit viper's warm-body signal. The viper senses that heat through facial pits, separate from its eyes.
 
 ===UMWELT_ANIMALS===
 
+There's a word for an animal's perceptual world: *umwelt*. I liked it as a name for this project because it shifts the question from how much of the world you see to which parts are available to you.
 
-## Where the picture stops being evidence
+That's also why I wanted this to be interactive. A point cloud is easy to glance at. Turning it around and finding the missing side of a building gives you something to figure out. You change one thing, look again, and ask why the result is different.
 
-I can make a screen brighter. That does not mean I have reproduced owl vision. I can colour a flower purple, but that is a display choice for an ultraviolet signal I authored. These comparisons illustrate particular capabilities; they do not reconstruct what it feels like to be another animal.
+I'd like to use more visuals this way in my writing: give the reader something small to investigate, then use the explanation to help them make sense of it.
 
-That distinction matters after [my water-balloon experiment](https://joshagarwal.com/posts/gpt-6-astra-balloon-test). A polished interface can make a rough model look more convincing than it deserves. Here, the useful question is whether changing a control helps explain a specific idea.
-
-For me, the lidar gaps and the cyclist’s radial speed are the clearest examples. A paragraph can describe both. The interaction lets you change something, make a prediction and check it.
-
-That is what I wanted to explore with visuals. A picture that looks impressive gets attention. A model you can question gives you somewhere to go with it. The next version should earn more realism with measured sensor data and calibrated animal comparisons, rather than just more detail in the scene.
-
-**Methods and sources:** [open the research notebook](/experiments/umwelt/index.html#method). Built with [Three.js](https://threejs.org/) and a [CC0 forest environment from Poly Haven](https://polyhaven.com/a/nature_reserve_forest). The sensor model draws on [CARLA’s sensor reference](https://carla.readthedocs.io/en/latest/ref_sensors/); the animal comparisons link to primary research in each view.
+**About the models:** The city uses simplified sensor geometry, not Waymo recordings or software. The animal views illustrate selected capabilities using authored colours and signals; they aren't calibrated reconstructions of animal vision. The [methods and research notes](/experiments/umwelt/index.html#method) explain the choices. Built with [Three.js](https://threejs.org/) and a [CC0 forest environment from Poly Haven](https://polyhaven.com/a/nature_reserve_forest).
