@@ -4,40 +4,20 @@ import { getAllPosts } from "@/lib/posts";
 import { getProfileMarkdown } from "@/lib/profile";
 import fs from "fs";
 import path from "path";
+import { ChatRequestError, chatClientKey, createChatLimiter, readChatBody, validateChatHeaders, chatTextStream } from "@/lib/chat-security";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
-// Per-instance sliding-window rate limit, protects the API key from abuse.
-const hits = new Map<string, number[]>();
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const arr = (hits.get(ip) || []).filter((t) => now - t < 60_000);
-  arr.push(now);
-  if (hits.size > 5000) hits.clear();
-  hits.set(ip, arr);
-  return arr.length > 10;
-}
+const rateLimited = createChatLimiter();
+let activeRequests = 0;
 
-// Plain-text streaming response. The client appends chunks as they arrive.
-function textStream(chunks: AsyncIterable<string>) {
-  const encoder = new TextEncoder();
-  const body = new ReadableStream<Uint8Array>({
-    async start(controller) {
-      try {
-        for await (const chunk of chunks) controller.enqueue(encoder.encode(chunk));
-      } catch (err) {
-        console.error("Chat stream error", err);
-        controller.enqueue(encoder.encode("\n\n[The answer was cut short. Ask again.]"));
-      } finally {
-        controller.close();
-      }
-    },
-  });
-  return new Response(body, {
+function json(body: object, status = 200) {
+  return NextResponse.json(body, {
+    status,
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
-      "X-Accel-Buffering": "no",
+      ...(status === 429 ? { "Retry-After": "60" } : {}),
     },
   });
 }
@@ -120,49 +100,24 @@ function cannedAnswer(message: string) {
 }
 
 export async function POST(req: Request) {
+  let acquired = false;
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: "Missing ANTHROPIC_API_KEY" },
-        { status: 500 }
-      );
+    validateChatHeaders(req);
+    if (rateLimited(chatClientKey(req))) {
+      return json({ error: "Slow down a little — try again in a minute." }, 429);
     }
-
-    const body = await req.json();
-    const message = typeof body?.message === "string" ? body.message.trim() : "";
-
-    if (!message) {
-      return NextResponse.json(
-        { error: "Message is required" },
-        { status: 400 }
-      );
-    }
-    if (message.length > 600) {
-      return NextResponse.json(
-        { error: "Keep questions under 600 characters." },
-        { status: 400 }
-      );
-    }
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
-    if (rateLimited(ip)) {
-      return NextResponse.json(
-        { error: "Slow down a little. Try again in a minute." },
-        { status: 429 }
-      );
-    }
-    const audience =
-      typeof body?.audience === "string" &&
-      ["recruiter", "classmate", "builder"].includes(body.audience)
-        ? body.audience
-        : null;
+    const { message, audience } = await readChatBody(req);
 
     const direct = cannedAnswer(message);
     if (direct) {
-      return textStream((async function* () {
-        yield direct;
-      })());
+      return chatTextStream((async function* () { yield direct; })());
     }
+
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) return json({ error: "Chat is temporarily unavailable. Please try again later." }, 503);
+    if (activeRequests >= 4) return json({ error: "Chat is busy. Please try again in a minute." }, 429);
+    activeRequests++;
+    acquired = true;
 
     const context = buildContext();
     const quickFacts = extractQuickFacts(context);
@@ -175,30 +130,31 @@ Hard boundaries: do not answer or speculate about Josh's personal life, relation
       ? `\n\nThe visitor self-identified as a ${audience}. Emphasize accordingly. Recruiter: judgment, quantified impact, leadership; classmate: Wharton, the second brain, ideas worth discussing; builder: architecture and how things were built. Every boundary above still applies unchanged.`
       : "";
 
-    const client = new Anthropic({ apiKey });
+    const client = new Anthropic({ apiKey, timeout: 20_000, maxRetries: 0 });
 
     const stream = client.messages.stream({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 320,
       system: systemPrompt + audienceNote,
       messages: [{ role: "user", content: message }],
-    });
+    }, { signal: req.signal });
 
-    return textStream((async function* () {
+    const response = chatTextStream((async function* () {
       for await (const event of stream) {
-        if (
-          event.type === "content_block_delta" &&
-          event.delta.type === "text_delta"
-        ) {
+        if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
           yield event.delta.text;
         }
       }
-    })());
-  } catch (error: any) {
-    console.error("Chat error", error);
-    return NextResponse.json(
-      { error: error?.message ?? "Unexpected server error" },
-      { status: 500 }
-    );
+    })(), () => { activeRequests--; }, () => stream.abort());
+    // The stream owns the concurrency slot until completion or cancellation.
+    acquired = false;
+    return response;
+  } catch (error: unknown) {
+    if (error instanceof ChatRequestError) return json({ error: error.message }, error.status);
+    // Provider errors can include request content and infrastructure details.
+    console.error("Chat request failed", { category: error instanceof Anthropic.APIError ? "provider" : "internal" });
+    return json({ error: "Chat is temporarily unavailable. Please try again later." }, 503);
+  } finally {
+    if (acquired) activeRequests--;
   }
 }
