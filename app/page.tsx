@@ -8,17 +8,22 @@ import { TiltCard } from "@/components/TiltCard";
 import { MagneticButton } from "@/components/MagneticButton";
 import { FlowLine } from "@/components/FlowLine";
 import { DailyThread } from "@/components/DailyThread";
+import { LightFigure } from "@/components/LightFigure";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
+    <>
+      {/* Opening act: a figure of light that dissolves into the vault,
+          then hands the stage to the chat below. */}
+      <LightFigure ctaHref="#ask" />
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <FlowLine />
       <ChatLauncher />
 
       {/* Hero: the chat is the headline. */}
-      <section className="scroll-hero relative mb-8 min-h-[70vh] flex flex-col justify-center">
+      <section id="ask" className="scroll-hero relative mb-8 min-h-[70vh] flex flex-col justify-center">
         <div className="aurora aurora-1" aria-hidden="true" />
         <div className="aurora aurora-2" aria-hidden="true" />
         <ParticleField />
@@ -181,5 +186,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }
