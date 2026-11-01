@@ -814,7 +814,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
             >
               <p className="font-display text-5xl leading-[1.05] md:text-7xl">I work on the part where it does.</p>
               <p className="mt-6 max-w-md text-base leading-relaxed text-slate-300">
-                Pipelines at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
+                Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
                 gets used in energy. These lights are my real notes: every star is something I have learned.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
