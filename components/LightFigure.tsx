@@ -17,17 +17,18 @@ type GraphData = { nodes: GNode[]; edges: [number, number][] };
 
 const DIR = "/experiments/light/";
 const BG = new THREE.Color("#020910");
-const PLAYBACK = 0.6; // atlas cells per second = meta.fps * PLAYBACK
+const PLAYBACK = 0.5; // atlas cells per second = meta.fps * PLAYBACK
 // The pre-rendered film layer returns when there is slow-motion footage of
 // Josh himself; the current stand-in moves too fast for a long exposure.
 const HAS_FILM = false;
 
+// one family of blues, ice for the hubs: reads as night sky, not confetti
 const CLUSTER_COLORS: Record<string, string> = {
-  learnings: "#60a5fa",
-  self: "#f59e0b",
-  school: "#34d399",
-  moc: "#c084fc",
-  theme: "#f472b6",
+  learnings: "#6fb2f8",
+  self: "#a8d0fb",
+  school: "#4596f0",
+  moc: "#dbeafe",
+  theme: "#3b7fe6",
 };
 
 // deterministic rng so the constellation is the same on every visit
@@ -143,12 +144,18 @@ const grainVert = /* glsl */ `
   void main() {
     float f0 = floor(uFrame);
     float f1 = mod(f0 + 1.0, uFrames);
-    vec3 s = mix(cellSample(uAtlas, uGrid, f0, aUv), cellSample(uAtlas, uGrid, f1, aUv), fract(uFrame));
+    float ff = fract(uFrame);
+    vec3 s = mix(cellSample(uAtlas, uGrid, f0, aUv), cellSample(uAtlas, uGrid, f1, aUv), ff);
     float mask = smoothstep(0.3, 0.6, s.b);
-    vec2 flow = flowAt(uFlow, uGrid, f0, aUv, uFlowScale);
+    vec2 flow = mix(
+      flowAt(uFlow, uGrid, f0, aUv, uFlowScale),
+      flowAt(uFlow, uGrid, f1, aUv, uFlowScale), ff);
     float mag = length(flow);
 
     vec3 figure = vec3((aUv.x - 0.5) * uHeight * uAspect, (aUv.y - 0.5) * uHeight, (s.g - 0.5) * uHeight * 0.3);
+    // glide between poses: ride the local motion for the fraction of a frame,
+    // so the body moves continuously instead of stepping cell to cell
+    figure.xy += flow * ff * uHeight * uAspect;
     figure += (aSeed - 0.5) * uHeight * 0.004;
 
     // the vault constellation, turning slowly
