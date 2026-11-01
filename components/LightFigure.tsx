@@ -145,17 +145,18 @@ const grainVert = /* glsl */ `
     float f0 = floor(uFrame);
     float f1 = mod(f0 + 1.0, uFrames);
     float ff = fract(uFrame);
-    vec3 s = mix(cellSample(uAtlas, uGrid, f0, aUv), cellSample(uAtlas, uGrid, f1, aUv), ff);
+    // optical-flow frame interpolation: warp pose A forward and pose B back
+    // to the intermediate time, then blend. The grain stays on its grid cell;
+    // the lit body moves through the grid continuously instead of stepping.
+    vec2 flow = flowAt(uFlow, uGrid, f0, aUv, uFlowScale);
+    vec2 warp = vec2(flow.x, flow.y * uAspect);
+    vec3 s = mix(
+      cellSample(uAtlas, uGrid, f0, aUv - warp * ff),
+      cellSample(uAtlas, uGrid, f1, aUv + warp * (1.0 - ff)), ff);
     float mask = smoothstep(0.3, 0.6, s.b);
-    vec2 flow = mix(
-      flowAt(uFlow, uGrid, f0, aUv, uFlowScale),
-      flowAt(uFlow, uGrid, f1, aUv, uFlowScale), ff);
     float mag = length(flow);
 
     vec3 figure = vec3((aUv.x - 0.5) * uHeight * uAspect, (aUv.y - 0.5) * uHeight, (s.g - 0.5) * uHeight * 0.3);
-    // glide between poses: ride the local motion for the fraction of a frame,
-    // so the body moves continuously instead of stepping cell to cell
-    figure.xy += flow * ff * uHeight * uAspect;
     figure += (aSeed - 0.5) * uHeight * 0.004;
 
     // the vault constellation, turning slowly
