@@ -12,10 +12,92 @@ type AtlasMeta = {
   fps: number;
   flowScale: number;
 };
+type GNode = { id: number; label: string; cluster: string };
+type GraphData = { nodes: GNode[]; edges: [number, number][] };
 
 const DIR = "/experiments/light/";
 const BG = new THREE.Color("#020910");
 const PLAYBACK = 0.6; // atlas cells per second = meta.fps * PLAYBACK
+// The pre-rendered film layer returns when there is slow-motion footage of
+// Josh himself; the current stand-in moves too fast for a long exposure.
+const HAS_FILM = false;
+
+const CLUSTER_COLORS: Record<string, string> = {
+  learnings: "#60a5fa",
+  self: "#f59e0b",
+  school: "#34d399",
+  moc: "#c084fc",
+  theme: "#f472b6",
+};
+
+// deterministic rng so the constellation is the same on every visit
+function mulberry32(seed: number) {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// small 3D force layout of the vault graph, normalized to a unit ball
+function layoutGraph(g: GraphData) {
+  const rnd = mulberry32(22);
+  const anchors: Record<string, [number, number, number]> = {
+    learnings: [-12, 4, 0],
+    self: [13, -2, 4],
+    school: [5, 12, -9],
+    theme: [-5, -11, 7],
+    moc: [0, 0, 0],
+  };
+  const pos = g.nodes.map((n) => {
+    const a = anchors[n.cluster] ?? [0, 0, 0];
+    return [a[0] + (rnd() - 0.5) * 14, a[1] + (rnd() - 0.5) * 14, a[2] + (rnd() - 0.5) * 14];
+  });
+  const deg = new Array(g.nodes.length).fill(0);
+  g.edges.forEach(([a, b]) => {
+    deg[a]++;
+    deg[b]++;
+  });
+  for (let it = 0; it < 140; it++) {
+    const f = pos.map(() => [0, 0, 0]);
+    for (let i = 0; i < pos.length; i++)
+      for (let j = i + 1; j < pos.length; j++) {
+        const dx = pos[i][0] - pos[j][0];
+        const dy = pos[i][1] - pos[j][1];
+        const dz = pos[i][2] - pos[j][2];
+        const d2 = dx * dx + dy * dy + dz * dz + 0.1;
+        const k = 24 / d2;
+        f[i][0] += dx * k; f[i][1] += dy * k; f[i][2] += dz * k;
+        f[j][0] -= dx * k; f[j][1] -= dy * k; f[j][2] -= dz * k;
+      }
+    g.edges.forEach(([a, b]) => {
+      const dx = pos[b][0] - pos[a][0];
+      const dy = pos[b][1] - pos[a][1];
+      const dz = pos[b][2] - pos[a][2];
+      const k = 0.02;
+      f[a][0] += dx * k; f[a][1] += dy * k; f[a][2] += dz * k;
+      f[b][0] -= dx * k; f[b][1] -= dy * k; f[b][2] -= dz * k;
+    });
+    pos.forEach((p, i) => {
+      p[0] += Math.max(-0.5, Math.min(0.5, f[i][0] * 0.02));
+      p[1] += Math.max(-0.5, Math.min(0.5, f[i][1] * 0.02));
+      p[2] += Math.max(-0.5, Math.min(0.5, f[i][2] * 0.02));
+    });
+  }
+  const c = [0, 1, 2].map((k) => pos.reduce((s, p) => s + p[k], 0) / pos.length);
+  let r = 0;
+  pos.forEach((p) => {
+    p[0] -= c[0]; p[1] -= c[1]; p[2] -= c[2];
+    r = Math.max(r, Math.hypot(p[0], p[1], p[2]));
+  });
+  pos.forEach((p) => {
+    p[0] /= r; p[1] /= r; p[2] /= r;
+  });
+  return { pos, deg, rnd };
+}
 
 const cellSampleGLSL = /* glsl */ `
   vec3 cellSample(sampler2D tex, vec2 grid, float f, vec2 uv) {
@@ -33,14 +115,12 @@ const cellSampleGLSL = /* glsl */ `
   }
 `;
 
-// The body: instanced grains pinned to the figure grid, lightly stretched
-// along the local motion. Dense, short, keeps the dancer legible.
+// The body: instanced grains pinned to the figure grid, stretched along the
+// local motion. On scroll they let go and fly to their star in the vault.
 const grainVert = /* glsl */ `
   uniform sampler2D uAtlas;
   uniform sampler2D uFlow;
-  uniform sampler2D uPortrait;
   uniform vec2 uGrid;
-  uniform vec2 uPGrid;
   uniform float uFrame;
   uniform float uFrames;
   uniform float uTime;
@@ -52,10 +132,13 @@ const grainVert = /* glsl */ `
   uniform float uFlowScale;
   attribute vec2 aUv;
   attribute vec3 aSeed;
+  attribute vec3 aTarget;
+  attribute vec3 aTint;
+  attribute float aTLum;
   varying float vLight;
-  varying float vSeed;
+  varying vec3 vColor;
   varying vec2 vQuad;
-  ${"CELL_SAMPLE"}
+  CELL_SAMPLE
 
   void main() {
     float f0 = floor(uFrame);
@@ -68,29 +151,42 @@ const grainVert = /* glsl */ `
     vec3 figure = vec3((aUv.x - 0.5) * uHeight * uAspect, (aUv.y - 0.5) * uHeight, (s.g - 0.5) * uHeight * 0.3);
     figure += (aSeed - 0.5) * uHeight * 0.004;
 
-    vec3 p = cellSample(uPortrait, uPGrid, 0.0, aUv);
-    float pMask = smoothstep(0.3, 0.6, p.b);
-    vec3 face = vec3((aUv.x - 0.5) * uHeight * 0.52, (aUv.y - 0.5) * uHeight * 0.52 + uHeight * 0.04, (p.g - 0.5) * uHeight * 0.16);
+    // the vault constellation, turning slowly
+    float ang = uTime * 0.07;
+    vec2 rc = vec2(cos(ang), sin(ang));
+    vec3 star = aTarget * uHeight * 0.55;
+    star = vec3(star.x * rc.x + star.z * rc.y, star.y, -star.x * rc.y + star.z * rc.x);
 
     vec3 dir = normalize(aSeed - 0.5 + vec3(0.0, 0.3, 0.0));
-    vec3 loose = figure + dir * uScatter * uHeight * (0.25 + aSeed.y * 1.1);
-    float lost = (1.0 - pMask) * uMorph;
-    vec3 target = mix(face, face + dir * uHeight * (0.8 + aSeed.x), lost);
-    vec3 pos = mix(loose, target, uMorph);
+    vec3 loose = figure + dir * uScatter * uHeight * (0.12 + aSeed.y * 0.45);
+    vec3 pos = mix(loose, star, uMorph);
+
+    // slow wisps off the body
+    float wisp = pow(aSeed.x, 7.0) * (1.0 - uMorph);
+    float t = uTime * (0.3 + aSeed.y * 0.5) + aSeed.z * 6.283;
+    pos.x += wisp * uHeight * 0.14 * (0.5 + 0.5 * sin(t));
+    pos.y += wisp * uHeight * 0.05 * sin(t * 1.6);
 
     vec2 axis2 = mag > 0.0008 ? normalize(flow) : vec2(0.25, 1.0 - 2.0 * aSeed.y);
     float len = clamp(mag * 6.0, 0.004, 0.045) * uHeight * (0.7 + aSeed.y * 0.8);
-    len *= (1.0 - uMorph * 0.85) * (1.0 + uScatter * 0.8);
-    float wid = uSize * (0.55 + aSeed.z * 0.9);
+    len *= (1.0 - uMorph * 0.95) * (1.0 + uScatter * 0.3);
+    float wid = uSize * (0.55 + aSeed.z * 0.9) * (1.0 + uMorph * 0.7);
 
     vec3 axis = normalize(vec3(axis2 * vec2(uHeight * uAspect, uHeight), 0.0));
     vec3 perp = normalize(vec3(-axis.y, axis.x, 0.0));
     pos += axis * position.x * len + perp * position.y * wid;
 
-    float lum = mix(s.r * mask, p.r * pMask, uMorph) * (1.0 - lost);
-    lum *= 0.25 + 0.75 * fract(aSeed.x * 13.7 + aSeed.z * 5.3);
-    vLight = lum * (1.0 - uScatter * 0.4);
-    vSeed = aSeed.z;
+    float figLum = s.r * mask * (0.25 + 0.75 * fract(aSeed.x * 13.7 + aSeed.z * 5.3));
+    float twinkle = 0.78 + 0.22 * sin(uTime * (1.5 + aSeed.y * 2.0) + aSeed.z * 6.283);
+    float starLum = aTLum * twinkle;
+    float lum = mix(figLum * (1.0 - uScatter * 0.75), starLum, uMorph);
+
+    vec3 deep = vec3(0.04, 0.22, 0.95);
+    vec3 ice = vec3(0.72, 0.9, 1.0);
+    vec3 figCol = mix(deep, ice, pow(figLum, 1.6) * (0.55 + 0.45 * aSeed.z));
+    vColor = mix(figCol, aTint * (0.6 + 0.4 * twinkle), uMorph);
+
+    vLight = lum;
     vQuad = position.xy;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     if (lum < 0.01) gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
@@ -99,22 +195,18 @@ const grainVert = /* glsl */ `
 
 const grainFrag = /* glsl */ `
   varying float vLight;
-  varying float vSeed;
+  varying vec3 vColor;
   varying vec2 vQuad;
   void main() {
     float across = exp(-vQuad.y * vQuad.y * 7.0);
     float along = smoothstep(-0.5, 0.1, vQuad.x) * (1.0 - smoothstep(0.35, 0.5, vQuad.x));
     float a = across * along * vLight;
-    vec3 deep = vec3(0.04, 0.22, 0.95);
-    vec3 ice = vec3(0.72, 0.9, 1.0);
-    vec3 col = mix(deep, ice, pow(vLight, 1.6) * (0.55 + 0.45 * vSeed));
-    gl_FragColor = vec4(col * a * 0.1, 1.0);
+    gl_FragColor = vec4(vColor * a * 0.15, 1.0);
   }
 `;
 
-// The silk: free tracer particles advected by the flow field. Each one is a
-// bright moving point; the feedback buffer turns its path into a long curved
-// light trail, the way a long exposure would.
+// The silk: free tracers advected by the flow field; the feedback buffer
+// turns their paths into long light trails.
 const simFrag = /* glsl */ `
   uniform sampler2D uState;
   uniform sampler2D uAtlas;
@@ -127,19 +219,18 @@ const simFrag = /* glsl */ `
   uniform float uTime;
   uniform float uGain;
   varying vec2 vUv;
-  ${"CELL_SAMPLE"}
+  CELL_SAMPLE
 
   float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
   void main() {
-    vec4 st = texture2D(uState, vUv); // xy = pos in figure uv, z = age, w = life
+    vec4 st = texture2D(uState, vUv);
     vec2 pos = st.xy;
     float age = st.z + uDt;
     float life = st.w;
 
     float f0 = floor(uFrame);
     vec2 flow = flowAt(uFlow, uGrid, f0, pos, uFlowScale);
-    // ride the motion, with a whisper of swirl so trails curve
     pos += flow * uGain * uDt;
     pos += 0.012 * uDt * vec2(sin(pos.y * 31.0 + uTime * 0.8), cos(pos.x * 27.0 - uTime * 0.6));
 
@@ -151,10 +242,8 @@ const simFrag = /* glsl */ `
       vec2 fl2 = flowAt(uFlow, uGrid, f0, cand, uFlowScale);
       pos = cand;
       age = 0.0;
-      // live longer where the body moves: trails bloom off the gesture
       life = m > 0.5 ? (0.6 + hash(vUv * 3.1 + uTime) * 1.2 + length(fl2) * 40.0) : 0.0;
     } else if (mask < 0.25) {
-      // drifted off the body: let it finish its arc but die soon
       life = min(life, age + 0.5);
     }
     gl_FragColor = vec4(pos, age, life);
@@ -174,7 +263,7 @@ const tracerVert = /* glsl */ `
   uniform float uPx;
   attribute vec2 aIndex;
   varying float vA;
-  ${"CELL_SAMPLE"}
+  CELL_SAMPLE
 
   void main() {
     vec4 st = texture2D(uState, aIndex);
@@ -211,8 +300,6 @@ const quadVert = /* glsl */ `
   void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
 `;
 
-// Feedback: last frame slightly blurred, zoomed a breath, dimmed. Moving
-// tracers paint their history into this buffer as silky trails.
 const fadeFrag = /* glsl */ `
   uniform sampler2D uPrev;
   uniform float uDecay;
@@ -244,7 +331,12 @@ const showFrag = /* glsl */ `
 
 const withSample = (src: string) => src.replace("CELL_SAMPLE", cellSampleGLSL);
 
-export function LightFigure() {
+type Props = {
+  ctaHref?: string;
+  ctaLabel?: string;
+};
+
+export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -296,7 +388,6 @@ export function LightFigure() {
     let rtA = new THREE.WebGLRenderTarget(1, 1, rtOpts);
     let rtB = new THREE.WebGLRenderTarget(1, 1, rtOpts);
 
-    // tracer sim state
     const simN = small ? 96 : 160;
     const simOpts: THREE.RenderTargetOptions = {
       type: THREE.FloatType,
@@ -371,39 +462,86 @@ export function LightFigure() {
       fetch(DIR + "figure-atlas.json").then((r) => r.json() as Promise<AtlasMeta>),
       load("figure-atlas.webp"),
       load("figure-flow.webp"),
-      load("portrait-atlas.webp"),
+      fetch("/vault-graph.json").then((r) => r.json() as Promise<GraphData>),
     ])
-      .then(([m, atlas, flow, portrait]) => {
+      .then(([m, atlas, flow, graph]) => {
         if (disposed) return;
         meta = m;
 
-        // body grains
+        const { pos: nodePos, deg, rnd } = layoutGraph(graph);
+        const nodeColors = graph.nodes.map((nd) => new THREE.Color(CLUSTER_COLORS[nd.cluster] ?? "#94a3b8"));
+        const cum: number[] = [];
+        let acc = 0;
+        for (let i = 0; i < deg.length; i++) {
+          acc += 1 + deg[i];
+          cum.push(acc);
+        }
+        const pickNode = () => {
+          const r = rnd() * acc;
+          let lo = 0;
+          let hi = cum.length - 1;
+          while (lo < hi) {
+            const mid = (lo + hi) >> 1;
+            if (cum[mid] < r) lo = mid + 1;
+            else hi = mid;
+          }
+          return lo;
+        };
+
         const gw = small ? 120 : 210;
         const gh = Math.round((gw * m.cellH) / m.cellW);
         const n = gw * gh;
         const uvs = new Float32Array(n * 2);
         const seeds = new Float32Array(n * 3);
+        const targets = new Float32Array(n * 3);
+        const tints = new Float32Array(n * 3);
+        const tlums = new Float32Array(n);
         for (let i = 0; i < n; i++) {
           uvs[i * 2] = ((i % gw) + Math.random()) / gw;
           uvs[i * 2 + 1] = (Math.floor(i / gw) + Math.random()) / gh;
           seeds[i * 3] = Math.random();
           seeds[i * 3 + 1] = Math.random();
           seeds[i * 3 + 2] = Math.random();
+          if (rnd() < 0.62) {
+            // a star in a node's glow
+            const j = pickNode();
+            const sigma = 0.02 + 0.055 * rnd() * rnd();
+            targets[i * 3] = nodePos[j][0] + (rnd() + rnd() - 1) * sigma;
+            targets[i * 3 + 1] = nodePos[j][1] + (rnd() + rnd() - 1) * sigma;
+            targets[i * 3 + 2] = nodePos[j][2] + (rnd() + rnd() - 1) * sigma;
+            const c = nodeColors[j];
+            tints[i * 3] = c.r;
+            tints[i * 3 + 1] = c.g;
+            tints[i * 3 + 2] = c.b;
+            tlums[i] = 0.5 + 0.5 * rnd();
+          } else {
+            // dust along a link between two notes
+            const [a, b] = graph.edges[Math.floor(rnd() * graph.edges.length)];
+            const t = rnd();
+            for (let k = 0; k < 3; k++)
+              targets[i * 3 + k] = nodePos[a][k] + (nodePos[b][k] - nodePos[a][k]) * t + (rnd() - 0.5) * 0.012;
+            const c = nodeColors[a].clone().lerp(nodeColors[b], t);
+            tints[i * 3] = c.r * 0.55;
+            tints[i * 3 + 1] = c.g * 0.55;
+            tints[i * 3 + 2] = c.b * 0.55;
+            tlums[i] = 0.1 + 0.12 * rnd();
+          }
         }
         const geo = new THREE.InstancedBufferGeometry();
         geo.copy(new THREE.PlaneGeometry(1, 1) as never);
         geo.instanceCount = n;
         geo.setAttribute("aUv", new THREE.InstancedBufferAttribute(uvs, 2));
         geo.setAttribute("aSeed", new THREE.InstancedBufferAttribute(seeds, 3));
+        geo.setAttribute("aTarget", new THREE.InstancedBufferAttribute(targets, 3));
+        geo.setAttribute("aTint", new THREE.InstancedBufferAttribute(tints, 3));
+        geo.setAttribute("aTLum", new THREE.InstancedBufferAttribute(tlums, 1));
         mat = new THREE.ShaderMaterial({
           vertexShader: withSample(grainVert),
           fragmentShader: grainFrag,
           uniforms: {
             uAtlas: { value: atlas },
             uFlow: { value: flow },
-            uPortrait: { value: portrait },
             uGrid: { value: new THREE.Vector2(m.cols, m.rows) },
-            uPGrid: { value: new THREE.Vector2(4, 1) },
             uFrame: { value: 0 },
             uFrames: { value: m.frames },
             uTime: { value: 0 },
@@ -424,7 +562,6 @@ export function LightFigure() {
         mesh.frustumCulled = false;
         group.add(mesh);
 
-        // tracer sim
         simMat = new THREE.ShaderMaterial({
           vertexShader: quadVert,
           fragmentShader: withSample(simFrag),
@@ -444,7 +581,6 @@ export function LightFigure() {
           depthWrite: false,
         });
 
-        // seed initial state
         const init = new Float32Array(simN * simN * 4);
         for (let i = 0; i < simN * simN; i++) {
           init[i * 4] = Math.random();
@@ -461,7 +597,6 @@ export function LightFigure() {
         copyMat.dispose();
         initTex.dispose();
 
-        // tracer points
         const idx = new Float32Array(simN * simN * 2);
         const pts = new Float32Array(simN * simN * 3);
         for (let i = 0; i < simN * simN; i++) {
@@ -514,8 +649,6 @@ export function LightFigure() {
       const span = r.height - window.innerHeight;
       scroll = span > 0 ? Math.min(Math.max(-r.top / span, 0), 1) : 0;
       setPhase(scroll > 0.55 ? 1 : 0);
-      // the cinematic video owns the top of the page; the live sim takes
-      // over as the scroll starts pulling the figure apart
       const video = videoRef.current;
       const t = Math.min(Math.max((scroll - 0.04) / 0.1, 0), 1);
       const live = t * t * (3 - 2 * t);
@@ -555,9 +688,8 @@ export function LightFigure() {
       mat.uniforms.uTime.value = time;
       mat.uniforms.uScatter.value = scatter;
       mat.uniforms.uMorph.value = morph;
-      fadeMat.uniforms.uDecay.value = 0.915 - morph * 0.3;
+      fadeMat.uniforms.uDecay.value = 0.915 - morph * 0.3 - scatter * 0.2;
 
-      // advance the tracer sim
       simMat.uniforms.uState.value = simA.texture;
       simMat.uniforms.uFrame.value = frame;
       simMat.uniforms.uDt.value = still ? 0.016 : dt;
@@ -635,7 +767,7 @@ export function LightFigure() {
   return (
     <section ref={sectionRef} className="relative h-[300vh] bg-[#020910] text-white">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        {videoOk && !stillMode && (
+        {HAS_FILM && videoOk && !stillMode && (
           <video
             ref={videoRef}
             src={DIR + "hero-loop.mp4"}
@@ -675,14 +807,22 @@ export function LightFigure() {
               <p className="font-display text-5xl leading-[1.05] md:text-7xl">I work on the part where it does.</p>
               <p className="mt-6 max-w-md text-base leading-relaxed text-slate-300">
                 Pipelines at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
-                gets used in energy.
+                gets used in energy. These lights are my real notes: every star is something I have learned.
               </p>
-              <a
-                href="/"
-                className="mt-8 inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#020910] transition hover:bg-sky-400"
-              >
-                Ask my site anything <span aria-hidden="true">&rarr;</span>
-              </a>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={ctaHref}
+                  className="inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#020910] transition hover:bg-sky-400"
+                >
+                  {ctaLabel} <span aria-hidden="true">&rarr;</span>
+                </a>
+                <a
+                  href="/brain"
+                  className="inline-flex items-center gap-2 border border-slate-500 px-6 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-300"
+                >
+                  Fly through the vault <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
