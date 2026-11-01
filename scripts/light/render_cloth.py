@@ -8,6 +8,7 @@ Pass 2: flow-interpolated time stretch, a short silk trail, glow, cyan-blue LUT.
 
 usage: python render_cloth.py <video> <out_dir> <crop=x,y,w,h> <first,last> [stretch] [bg=r,g,b]
 """
+import os
 import sys
 from pathlib import Path
 
@@ -21,7 +22,9 @@ video, out_dir = Path(sys.argv[1]), Path(sys.argv[2])
 cx, cy, cw, ch = (int(v) for v in sys.argv[3].split(","))
 first, last = (int(v) for v in sys.argv[4].split(","))
 STRETCH = float(sys.argv[5]) if len(sys.argv) > 5 else 1.25
-BG = tuple(int(v) for v in sys.argv[6].split(",")) if len(sys.argv) > 6 else (8, 29, 43)
+BG = tuple(int(v) for v in sys.argv[6].split(",")) if len(sys.argv) > 6 and sys.argv[6] != "-" else (8, 29, 43)
+# "periodic": the source already loops (last frame ~ first), so wrap time instead of hunting a loop
+PERIODIC = len(sys.argv) > 7 and sys.argv[7] == "periodic"
 out_dir.mkdir(parents=True, exist_ok=True)
 
 WORK_H = 960
@@ -106,22 +109,32 @@ lut = np.stack([np.interp(xl, stops[:, 0], stops[:, i + 1]) for i in range(3)], 
 # loop between the two most alike poses at least ~7s apart, so the seam
 # crossfade blends near-identical frames instead of ghosting two bodies
 small = np.stack([cv2.resize(l, (W // 8, H // 8), interpolation=cv2.INTER_AREA) for l in lights])
-MIN_SPAN = int(7.0 * fps)
-best = (1e9, 0, n - 1)
-for a0 in range(0, n - MIN_SPAN, 2):
-    d = np.abs(small[a0 + MIN_SPAN:] - small[a0]).mean(axis=(1, 2))
-    j = int(d.argmin())
-    if d[j] < best[0]:
-        best = (float(d[j]), a0, a0 + MIN_SPAN + j)
-_, L0, L1 = best
-print(f"loop source frames {L0}..{L1} (pose diff {best[0]:.4f})", flush=True)
+if PERIODIC:
+    L0, L1 = 0, n - 1
+    print(f"periodic source, loop 0..{L1} (end-to-start diff {np.abs(small[-1] - small[0]).mean():.4f})", flush=True)
+else:
+    MIN_SPAN = int(7.0 * fps)
+    best = (1e9, 0, n - 1)
+    for a0 in range(0, n - MIN_SPAN, 2):
+        d = np.abs(small[a0 + MIN_SPAN:] - small[a0]).mean(axis=(1, 2))
+        j = int(d.argmin())
+        if d[j] < best[0]:
+            best = (float(d[j]), a0, a0 + MIN_SPAN + j)
+    _, L0, L1 = best
+    print(f"loop source frames {L0}..{L1} (pose diff {best[0]:.4f})", flush=True)
 
-TRAIL_DECAY = 0.9
-WARM = 30  # pre-roll so the trail is already full on the first kept frame
+TRAIL_DECAY = float(os.environ.get("SILK_DECAY", "0.9"))  # longer = longer silk ribbons
+TRAIL_MIX = float(os.environ.get("SILK_MIX", "0.6"))
+# how far the trail rides the motion: high = smoke thrown ahead, low = a wake left behind
+TRAIL_PUSH = float(os.environ.get("SILK_PUSH", "1.6"))
 n_out = int((L1 - L0) * STRETCH)
 trail = np.zeros((H, W), np.float32)
 frames = []
+
+
 def light_at(s):
+    if PERIODIC:
+        s = s % (n - 1)
     s = min(max(s, 0), n - 1.001)
     i = min(int(s), n - 2)
     f = s - i
@@ -141,16 +154,16 @@ for k in range(-n_out, n_out):
     # the tail morphs into the frames just before L0, so the last frame of the
     # loop is one ordinary step away from the first
     w = (s - (L1 - BLEND)) / BLEND
-    if w > 0:
+    if w > 0 and not PERIODIC:
         w = min(w, 1.0)
         w = w * w * (3 - 2 * w)
         light = light * (1 - w) + light_at(s - SPAN)[0] * w
 
     v = fl / STRETCH
-    trail = warp(trail, -v[..., 0] * 1.6, -v[..., 1] * 1.6 + 0.2) * TRAIL_DECAY
+    trail = warp(trail, -v[..., 0] * TRAIL_PUSH, -v[..., 1] * TRAIL_PUSH + 0.2) * TRAIL_DECAY
     trail = cv2.GaussianBlur(trail, (0, 0), 1.0)
     trail = np.maximum(trail, light * 0.7)
-    c = np.maximum(light, trail * 0.6)
+    c = np.maximum(light, trail * TRAIL_MIX)
     c = np.clip(c - 0.015, 0, None)
     glow = cv2.GaussianBlur(c, (0, 0), 5) * 0.32 + cv2.GaussianBlur(c, (0, 0), 22) * 0.2
     vdisp = 1 - np.exp(-(c + glow) * 1.95)

@@ -440,12 +440,12 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
       fadeMat.uniforms.uTexel.value.set(1 / (w * dpr), 1 / (h * dpr));
       const viewH = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
       const wide = w / h > 1.1;
-      group.position.x = wide ? viewH * camera.aspect * 0.16 : 0;
+      group.position.x = wide ? viewH * camera.aspect * 0.18 : 0;
       group.position.y = wide ? viewH * 0.02 : viewH * 0.05;
       if (mat && meta) {
         const cellAspect = meta.cellW / meta.cellH;
         const fitWidth = (viewH * camera.aspect * 0.96) / cellAspect;
-        const height = Math.min(viewH * (wide ? 0.86 : 0.8), wide ? Infinity : fitWidth);
+        const height = Math.min(viewH * (wide ? 0.7 : 0.8), wide ? Infinity : fitWidth);
         mat.uniforms.uHeight.value = height;
         mat.uniforms.uSize.value = viewH * (small ? 0.0062 : 0.0042);
         if (tracerMat) {
@@ -793,7 +793,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
               maskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
               WebkitMaskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
             }}
-            className="pointer-events-none absolute left-1/2 top-[45%] h-[min(80svh,160vw)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain md:left-[66%] md:top-[48%] md:h-[86svh]"
+            className="pointer-events-none absolute left-1/2 top-[45%] h-[min(80svh,75vw)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain md:left-[68%] md:top-[48%] md:h-[70svh]"
           />
         )}
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
