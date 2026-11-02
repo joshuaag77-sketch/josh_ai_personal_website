@@ -16,11 +16,12 @@ type GNode = { id: number; label: string; cluster: string };
 type GraphData = { nodes: GNode[]; edges: [number, number][] };
 
 const DIR = "/experiments/light/";
-const BG = new THREE.Color("#020910");
+// raw sRGB triplet: the shader writes it straight out, so it must not be linearized
+const BG = new THREE.Vector3(6 / 255, 27 / 255, 43 / 255);
 const PLAYBACK = 0.5; // atlas cells per second = meta.fps * PLAYBACK
 // The pre-rendered film layer returns when there is slow-motion footage of
 // Josh himself; the current stand-in moves too fast for a long exposure.
-const HAS_FILM = false;
+const HAS_FILM = true;
 
 // one family of blues, ice for the hubs: reads as night sky, not confetti
 const CLUSTER_COLORS: Record<string, string> = {
@@ -332,8 +333,7 @@ const showFrag = /* glsl */ `
     vec3 c = texture2D(uTrail, vUv).rgb;
     c = 1.0 - exp(-c * 2.6);
     c = pow(c, vec3(1.1));
-    float vig = smoothstep(1.3, 0.3, length(vUv - 0.5) * 1.5);
-    gl_FragColor = vec4(uBg * (0.6 + 0.4 * vig) + c, 1.0);
+    gl_FragColor = vec4(uBg + c, 1.0);
   }
 `;
 
@@ -440,12 +440,12 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
       fadeMat.uniforms.uTexel.value.set(1 / (w * dpr), 1 / (h * dpr));
       const viewH = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
       const wide = w / h > 1.1;
-      group.position.x = wide ? viewH * camera.aspect * 0.16 : 0;
-      group.position.y = wide ? -viewH * 0.02 : viewH * 0.05;
+      group.position.x = wide ? viewH * camera.aspect * 0.18 : 0;
+      group.position.y = wide ? viewH * 0.02 : viewH * 0.05;
       if (mat && meta) {
         const cellAspect = meta.cellW / meta.cellH;
         const fitWidth = (viewH * camera.aspect * 0.96) / cellAspect;
-        const height = Math.min(viewH * (wide ? 0.88 : 0.8), wide ? Infinity : fitWidth);
+        const height = Math.min(viewH * (wide ? 0.7 : 0.8), wide ? Infinity : fitWidth);
         mat.uniforms.uHeight.value = height;
         mat.uniforms.uSize.value = viewH * (small ? 0.0062 : 0.0042);
         if (tracerMat) {
@@ -593,8 +593,8 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
         for (let i = 0; i < simN * simN; i++) {
           init[i * 4] = Math.random();
           init[i * 4 + 1] = Math.random();
-          init[i * 4 + 2] = Math.random() * 2;
-          init[i * 4 + 3] = 0.6 + Math.random() * 1.6;
+          init[i * 4 + 2] = 1;
+          init[i * 4 + 3] = 0; // born dead: the sim respawns each one on the body, never across the cell
         }
         const initTex = new THREE.DataTexture(init, simN, simN, THREE.RGBAFormat, THREE.FloatType);
         initTex.needsUpdate = true;
@@ -773,7 +773,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
   };
 
   return (
-    <section ref={sectionRef} className="relative h-[300vh] bg-[#020910] text-white">
+    <section ref={sectionRef} className="relative h-[300vh] bg-[#061b2b] text-white">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {HAS_FILM && videoOk && !stillMode && (
           <video
@@ -789,7 +789,11 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
               if (canvasRef.current) canvasRef.current.style.opacity = "1";
             }}
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-[51%] h-[80svh] w-auto max-w-[96vw] -translate-x-1/2 -translate-y-1/2 object-contain md:left-[66%] md:h-[88svh]"
+            style={{
+              maskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
+              WebkitMaskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
+            }}
+            className="pointer-events-none absolute left-1/2 top-[45%] h-[min(80svh,75vw)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain md:left-[68%] md:top-[48%] md:h-[70svh]"
           />
         )}
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
@@ -814,13 +818,13 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
             >
               <p className="font-display text-5xl leading-[1.05] md:text-7xl">I work on the part where it does.</p>
               <p className="mt-6 max-w-md text-base leading-relaxed text-slate-300">
-                Pipelines at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
+                Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
                 gets used in energy. These lights are my real notes: every star is something I have learned.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href={ctaHref}
-                  className="inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#020910] transition hover:bg-sky-400"
+                  className="inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#061b2b] transition hover:bg-sky-400"
                 >
                   {ctaLabel} <span aria-hidden="true">&rarr;</span>
                 </a>
@@ -837,7 +841,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
         <button
           type="button"
           onClick={togglePause}
-          className="absolute bottom-6 right-6 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#020910]"
+          className="absolute bottom-6 right-6 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#061b2b]"
           aria-label={paused ? "Play animation" : "Pause animation"}
         >
           {paused ? (

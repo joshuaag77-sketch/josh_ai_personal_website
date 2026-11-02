@@ -2,8 +2,8 @@
   "frames": 96,
   "cols": 10,
   "rows": 10,
-  "cellW": 180,
-  "cellH": 300,
-  "fps": 15.286624203821656,
+  "cellW": 220,
+  "cellH": 172,
+  "fps": 16.0,
   "flowScale": 640.0
 }
