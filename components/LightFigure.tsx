@@ -348,6 +348,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
   const pausedRef = useRef(false);
   const [paused, setPaused] = useState(false);
   const [phase, setPhase] = useState(0);
@@ -440,12 +441,43 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
       fadeMat.uniforms.uTexel.value.set(1 / (w * dpr), 1 / (h * dpr));
       const viewH = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
       const wide = w / h > 1.1;
-      group.position.x = wide ? viewH * camera.aspect * 0.18 : 0;
-      group.position.y = wide ? viewH * 0.02 : viewH * 0.05;
+
+      // One layout in pixels for both the film and the particles, so the scroll
+      // handoff never jumps. Side by side, the figure fills the room right of
+      // the headline's actual text; the wingtips fade, so they may reach into
+      // the gap a little.
+      const cellAspect = meta ? meta.cellW / meta.cellH : 1.28;
+      let figH: number;
+      let cx: number;
+      let cy: number;
+      if (wide) {
+        let textRight = w * 0.45;
+        const hl = headlineRef.current;
+        if (hl) {
+          const range = document.createRange();
+          range.selectNodeContents(hl);
+          textRight = range.getBoundingClientRect().right - canvas.getBoundingClientRect().left;
+        }
+        const gap = 32;
+        const room = Math.max(w - textRight - gap - 24, w * 0.3);
+        figH = Math.max(Math.min(h * 0.7, (room * 1.15) / cellAspect), h * 0.38);
+        cx = Math.min(textRight + gap + room / 2, w - (figH * cellAspect) / 2 - 8);
+        cy = h * 0.48;
+      } else {
+        figH = Math.min(h * 0.8, (w * 0.96) / cellAspect);
+        cx = w / 2;
+        cy = h * 0.45;
+      }
+      group.position.x = (cx / w - 0.5) * viewH * camera.aspect;
+      group.position.y = (0.5 - cy / h) * viewH;
+      const video = videoRef.current;
+      if (video) {
+        video.style.height = `${figH}px`;
+        video.style.left = `${cx}px`;
+        video.style.top = `${cy}px`;
+      }
       if (mat && meta) {
-        const cellAspect = meta.cellW / meta.cellH;
-        const fitWidth = (viewH * camera.aspect * 0.96) / cellAspect;
-        const height = Math.min(viewH * (wide ? 0.7 : 0.8), wide ? Infinity : fitWidth);
+        const height = (figH / h) * viewH;
         mat.uniforms.uHeight.value = height;
         mat.uniforms.uSize.value = viewH * (small ? 0.0062 : 0.0042);
         if (tracerMat) {
@@ -670,6 +702,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", resize);
+    document.fonts?.ready.then(() => !disposed && resize());
 
     let visible = true;
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
@@ -800,10 +833,12 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
         {failed && (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_45%,rgba(37,99,235,0.3),transparent_45%)]" />
         )}
-        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 md:justify-center md:pb-0">
+        {/* side by side exactly when the canvas layout is (w / h > 1.1), else stacked under the figure */}
+        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 [@media(min-aspect-ratio:11/10)]:justify-center [@media(min-aspect-ratio:11/10)]:pb-0">
           <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-sky-300/80">Josh Agarwal</p>
           <div className="relative max-w-xl">
             <h1
+              ref={headlineRef}
               className={`font-display text-5xl leading-[1.05] transition-all duration-700 md:text-7xl ${
                 phase === 0 ? "opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
               }`}
