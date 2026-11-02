@@ -11,6 +11,7 @@ import { MhsFactory } from "@/components/MhsFactory";
 import { RuptureExperiment } from "@/components/RuptureExperiment";
 import { RuptureResults } from "@/components/RuptureResults";
 import { UmweltExperiment } from "@/components/UmweltExperiment";
+import { VideoEmbed } from "@/components/VideoEmbed";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -146,6 +147,7 @@ export default async function PostPage({ params }: Props) {
             "<p>===RUPTURE_RESULTS===</p>": <RuptureResults />,
             "<p>===UMWELT_CITY===</p>": <UmweltExperiment view="city" />,
             "<p>===UMWELT_ANIMALS===</p>": <UmweltExperiment view="animals" />,
+            "<p>===THROUGH_THE_WALL_VIDEO===</p>": <VideoEmbed src="/videos/through-the-wall.mp4" poster="/images/through-the-wall.jpg" caption="Through the Wall. Song by Google Lyria, visuals written as code with Claude." />,
           };
 
           // Split html on every marker and rebuild as interleaved html+components
