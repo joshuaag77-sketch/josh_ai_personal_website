@@ -5,6 +5,7 @@ import { getProfileMarkdown } from "@/lib/profile";
 import fs from "fs";
 import path from "path";
 import { ChatRequestError, chatClientKey, createChatLimiter, readChatBody, validateChatHeaders, chatTextStream } from "@/lib/chat-security";
+import { displayGraph } from "@/lib/vault-display";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -28,7 +29,7 @@ function buildVaultContext(): string {
       path.join(process.cwd(), "public", "vault-graph.json"),
       "utf-8"
     );
-    const g = JSON.parse(raw) as { nodes: { label: string; cluster: string }[] };
+    const g = displayGraph(JSON.parse(raw));
     const byCluster: Record<string, string[]> = {};
     for (const n of g.nodes) {
       (byCluster[n.cluster] ??= []).push(n.label);

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { slugify } from "@/lib/slug";
+import { displayGraph } from "@/lib/vault-display";
 import {
   COLD_OPEN,
   ROTATING_QUESTIONS,
@@ -100,7 +101,7 @@ export function HeroChat() {
       .then((g) => {
         if (!g?.nodes) return;
         const m = new Map<string, string>();
-        for (const n of g.nodes) m.set(String(n.label).toLowerCase(), slugify(n.label));
+        for (const n of displayGraph(g).nodes) m.set(String(n.label).toLowerCase(), slugify(n.label));
         setKnownSlugs(m);
       })
       .catch(() => {});

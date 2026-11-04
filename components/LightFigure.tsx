@@ -18,7 +18,7 @@ type GraphData = { nodes: GNode[]; edges: [number, number][] };
 const DIR = "/experiments/light/";
 // raw sRGB triplet: the shader writes it straight out, so it must not be linearized
 const BG = new THREE.Vector3(6 / 255, 27 / 255, 43 / 255);
-const PLAYBACK = 0.5; // atlas cells per second = meta.fps * PLAYBACK
+const PLAYBACK = 1.0; // atlas cells per second = meta.fps * PLAYBACK
 // The pre-rendered film layer returns when there is slow-motion footage of
 // Josh himself; the current stand-in moves too fast for a long exposure.
 const HAS_FILM = true;
@@ -843,7 +843,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
                 phase === 0 ? "opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
               }`}
             >
-              Most AI never leaves the pilot.
+              I write down what I&apos;m trying to understand.
             </h1>
             <div
               className={`absolute left-0 top-0 transition-all duration-700 ${
@@ -851,10 +851,10 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
               }`}
               aria-hidden={phase !== 1}
             >
-              <p className="font-display text-5xl leading-[1.05] md:text-7xl">I work on the part where it does.</p>
+              <p className="font-display text-5xl leading-[1.05] md:text-7xl">These lights are my real notes.</p>
               <p className="mt-6 max-w-md text-base leading-relaxed text-slate-300">
                 Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
-                gets used in energy. These lights are my real notes: every star is something I have learned.
+                gets used in energy. Every star is something I have learned.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -867,7 +867,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
                   href="/brain"
                   className="inline-flex items-center gap-2 border border-slate-500 px-6 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-300"
                 >
-                  Fly through the vault <span aria-hidden="true">&rarr;</span>
+                  Fly through my notes <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </div>
