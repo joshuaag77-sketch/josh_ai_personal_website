@@ -7,25 +7,29 @@ export type VaultNode = { id: number; label: string; cluster: string; summary: s
 export type VaultGraphData = { generated: string; nodes: VaultNode[]; edges: [number, number][] };
 
 // Tags become the questions behind them. A tag not listed here is not shown.
+// The order here is the order visitors see, so AI does not lead.
 const QUESTION_BY_TAG: Record<string, string> = {
-  ai: "What is AI actually changing?",
-  agents: "Why does so much AI never get used?",
-  thesis: "Why does so much AI never get used?",
+  leadership: "What makes people follow someone?",
+  energy: "How does energy really get built?",
+  career: "What do I do with my working life?",
+  consulting: "What do I do with my working life?",
+  strategy: "How do you win when everyone is smart?",
   attention: "What is worth paying attention to?",
   meaning: "What is worth paying attention to?",
   neuroscience: "How does a brain actually learn?",
   focus: "How does a brain actually learn?",
-  leadership: "What makes people follow someone?",
-  career: "What do I do with my working life?",
-  consulting: "What do I do with my working life?",
-  energy: "How does energy really get built?",
-  strategy: "How do you win when everyone is smart?",
+  ai: "What is AI actually changing?",
+  agents: "Why does so much AI never get used?",
+  thesis: "Why does so much AI never get used?",
   finance: "What is anything actually worth?",
   valuation: "What is anything actually worth?",
   marketing: "Why do people pay what they pay?",
   economics: "Why do people pay what they pay?",
   pricing: "Why do people pay what they pay?",
 };
+
+export const QUESTIONS = [...new Set(Object.values(QUESTION_BY_TAG))];
+export const OPENING_QUESTION = QUESTIONS[0];
 
 // Notes carrying these tags are coursework, so they recede. "frameworks" is
 // only a signal here; it never becomes a question.

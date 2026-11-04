@@ -123,7 +123,7 @@ export default function AboutPage() {
                 },
                 {
                   q: "What are you working on?",
-                  a: "A second brain that runs itself: scheduled agents that tend my knowledge graph, write me a weekly brief, score my case practice and keep this site alive. The posts are the running log and /brain is the live window. In parallel, recruiting for management consulting with an energy focus.",
+                  a: "A note system that runs itself: scheduled agents that tend my knowledge graph, write me a weekly brief, score my case practice and keep this site alive. The posts are the running log and /brain is the live window. In parallel, recruiting for management consulting with an energy focus.",
                 },
                 {
                   q: "How can I get in touch?",

@@ -7,7 +7,13 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { slugify } from "@/lib/slug";
-import { displayGraph, type VaultGraphData, type VaultNode as GNode } from "@/lib/vault-display";
+import {
+  displayGraph,
+  OPENING_QUESTION,
+  QUESTIONS,
+  type VaultGraphData,
+  type VaultNode as GNode,
+} from "@/lib/vault-display";
 
 // night-sky family: hues stay readable in the legend without going carnival
 const CLUSTER_COLORS: Record<string, string> = {
@@ -163,48 +169,14 @@ function makeSpaceBackdrop(): THREE.Texture {
   return tex;
 }
 
-function makeLabelSprite(text: string, color: string, question = false): THREE.Sprite {
-  const c = document.createElement("canvas");
-  const ctx = c.getContext("2d")!;
-  const font = question ? "500 38px Georgia, 'Times New Roman', serif" : "600 34px ui-monospace, monospace";
-  ctx.font = font;
-  const w = Math.ceil(ctx.measureText(text).width) + 28;
-  c.width = w;
-  c.height = 56;
-  const ctx2 = c.getContext("2d")!;
-  ctx2.font = font;
-  ctx2.shadowColor = "rgba(2,9,16,0.9)";
-  ctx2.shadowBlur = 8;
-  ctx2.fillStyle = color;
-  ctx2.globalAlpha = 0.95;
-  ctx2.fillText(text, 14, 40);
-  const tex = new THREE.CanvasTexture(c);
-  // constant screen size: a label never balloons when its star drifts near the camera
-  const mat = new THREE.SpriteMaterial({
-    map: tex,
-    transparent: true,
-    depthWrite: false,
-    sizeAttenuation: false,
-    toneMapped: false,
-    opacity: 0.85,
-  });
-  const s = new THREE.Sprite(mat);
-  const k = 0.045;
-  s.scale.set((w / 56) * k, k, 1);
-  return s;
-}
-
 export function VaultGraph() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<GNode | null>(null);
   const [graph, setGraph] = useState<VaultGraphData | null>(null);
+  const [question, setQuestion] = useState<GNode | null>(null);
   const flyToRef = useRef<(n: GNode) => void>(() => {});
   const [hovered, setHovered] = useState<string | null>(null);
-  const [stats, setStats] = useState<{ n: number; e: number; date: string } | null>(null);
-  const [heartbeat, setHeartbeat] = useState<{
-    gardener?: { lastRun: string };
-    brief?: { lastIssue: string; date: string };
-  } | null>(null);
+  const [stats, setStats] = useState<{ n: number; date: string } | null>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -303,21 +275,16 @@ export function VaultGraph() {
       phase: number;
       speed: number;
       spike?: THREE.SpriteMaterial;
+      em: number; // how lit this star is: the open question's notes glow, the rest step back
+      target: number;
     }[] = [];
     const spikes: THREE.Sprite[] = [];
-    const labels: { mat: THREE.SpriteMaterial; obj: THREE.Object3D; question: boolean }[] = [];
+    let activeEdges: [number, number][] = [];
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2(-10, -10);
 
     // edge pulses: filled in once the graph arrives
     let pulseUpdate: ((dt: number) => void) | null = null;
-
-    fetch("/heartbeat.json")
-      .then((r) => r.json())
-      .then((h) => {
-        if (!disposed) setHeartbeat(h);
-      })
-      .catch(() => {});
 
     fetch("/vault-graph.json")
       .then((r) => r.json())
@@ -327,7 +294,6 @@ export function VaultGraph() {
         setGraph(data);
         setStats({
           n: data.nodes.filter((n) => n.cluster !== "theme").length,
-          e: data.edges.length,
           date: data.generated,
         });
         const positions = layout(data.nodes, data.edges);
@@ -367,9 +333,21 @@ export function VaultGraph() {
             )
           );
         };
-        buildEdges(ideaEdges, 0x3b82f6, 0.16);
-        buildEdges(classEdges, 0x3b82f6, 0.04);
-        buildEdges(themeEdges, 0xffe9b0, 0.09);
+        buildEdges(ideaEdges, 0x3b82f6, 0.1);
+        buildEdges(classEdges, 0x3b82f6, 0.03);
+        buildEdges(themeEdges, 0xffe9b0, 0.04);
+        const activeLine = new THREE.LineSegments(
+          new THREE.BufferGeometry(),
+          new THREE.LineBasicMaterial({
+            color: 0xffe9b0,
+            transparent: true,
+            opacity: 0.55,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+          })
+        );
+        activeLine.frustumCulled = false;
+        group.add(activeLine);
 
         // stars
         data.nodes.forEach((n, i) => {
@@ -408,6 +386,8 @@ export function VaultGraph() {
             base: halo.opacity,
             phase: Math.random() * Math.PI * 2,
             speed: 0.6 + Math.random() * 1.1,
+            em: 1,
+            target: 1,
           } as (typeof stars)[number];
           stars.push(entry);
 
@@ -429,12 +409,6 @@ export function VaultGraph() {
             entry.spike = sm;
           }
 
-          if (theme || (!cls && deg[i] >= 7)) {
-            const label = makeLabelSprite(n.label, CLUSTER_COLORS[n.cluster] ?? "#e2e8f0", theme);
-            label.position.copy(positions[i]).add(new THREE.Vector3(0, r + 1.4, 0));
-            group.add(label);
-            labels.push({ mat: label.material as THREE.SpriteMaterial, obj: label, question: theme });
-          }
         });
 
         // pulses of light running along the links: the vault thinking
@@ -474,7 +448,7 @@ export function VaultGraph() {
           group.add(pts);
 
           const prnd = mulberry32(5);
-          const edge = new Array(count).fill(0).map(() => Math.floor(prnd() * edges.length));
+          const edge = new Array(count).fill(0).map(() => edges[Math.floor(prnd() * edges.length)]);
           const t = new Array(count).fill(0).map(() => prnd());
           const speed = new Array(count).fill(0).map(() => 0.12 + prnd() * 0.25);
           const va = new THREE.Vector3();
@@ -483,9 +457,11 @@ export function VaultGraph() {
               t[i] += speed[i] * dt;
               if (t[i] > 1) {
                 t[i] = 0;
-                edge[i] = Math.floor(Math.random() * edges.length);
+                // most of the light runs along the open question
+                const pool = activeEdges.length && Math.random() < 0.6 ? activeEdges : edges;
+                edge[i] = pool[Math.floor(Math.random() * pool.length)];
               }
-              const [a, b] = edges[edge[i]];
+              const [a, b] = edge[i];
               for (let k = 0; k < TRAIL; k++) {
                 const tt = Math.max(t[i] - k * 0.035, 0);
                 va.copy(positions[a]).lerp(positions[b], tt);
@@ -500,13 +476,34 @@ export function VaultGraph() {
           };
         }
 
-        flyToRef.current = (n: GNode) => {
-          setSelected(n);
+        const faceStar = (n: GNode, back: number) => {
           const dir = positions[n.id].clone().normalize();
           focus.q = new THREE.Quaternion().setFromUnitVectors(dir, new THREE.Vector3(0, 0, 1));
-          targetZoom = Math.min(90, Math.max(14, positions[n.id].length() + 13));
-          intro = 1; // skip the flight, go straight to the star
+          // a phone is narrow, so stand further back to keep the question's stars in frame
+          const fit = camera.aspect < 1 ? 1.7 : 1;
+          targetZoom = Math.min(130, Math.max(14, (positions[n.id].length() + back) * fit));
         };
+        const openQuestion = (q: GNode) => {
+          activeEdges = data.edges.filter(([a, b]) => a === q.id || b === q.id);
+          const lit = new Set(activeEdges.flat());
+          stars.forEach((st, i) => (st.target = i === q.id || lit.has(i) ? 1.5 : 0.3));
+          activeLine.geometry.setFromPoints(activeEdges.flatMap(([a, b]) => [positions[a], positions[b]]));
+          setQuestion(q);
+          setSelected(null);
+          faceStar(q, 26);
+        };
+        flyToRef.current = (n: GNode) => {
+          intro = 1; // skip the flight, go straight to the star
+          if (n.cluster === "theme") return openQuestion(n);
+          const home = connections(data, n).find((c) => c.cluster === "theme");
+          const inOpenQuestion = activeEdges.some(([a, b]) => a === n.id || b === n.id);
+          if (home && !inOpenQuestion) openQuestion(home);
+          setSelected(n);
+          faceStar(n, 16);
+        };
+        // the page opens on one question, so the first thing a visitor reads is an idea
+        const opening = data.nodes.find((n) => n.label === OPENING_QUESTION);
+        if (opening) openQuestion(opening);
         const focusSlug = new URLSearchParams(window.location.search).get("focus");
         if (focusSlug) {
           const hit = data.nodes.find((n) => slugify(n.label) === focusSlug);
@@ -524,18 +521,24 @@ export function VaultGraph() {
     // cinematic fly-in: eased 0 -> 1 over the first seconds
     let intro = reduceMotion ? 1 : 0;
 
-    const onDown = (e: PointerEvent) => {
-      dragging = true;
-      intro = 1;
-      focus.q = null;
-      px = e.clientX;
-      py = e.clientY;
-    };
-    const onUp = () => (dragging = false);
-    const onMove = (e: PointerEvent) => {
+    const setPointer = (e: PointerEvent) => {
       const rect = mount.getBoundingClientRect();
       pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    };
+    let downX = 0,
+      downY = 0;
+    const onDown = (e: PointerEvent) => {
+      setPointer(e); // a tap has no hover before it, so the pointer must be set here
+      dragging = true;
+      intro = 1;
+      focus.q = null;
+      px = downX = e.clientX;
+      py = downY = e.clientY;
+    };
+    const onUp = () => (dragging = false);
+    const onMove = (e: PointerEvent) => {
+      setPointer(e);
       if (dragging) {
         velY = (e.clientX - px) * 0.00022;
         velX = (e.clientY - py) * 0.00022;
@@ -550,10 +553,11 @@ export function VaultGraph() {
       intro = 1;
       targetZoom = Math.min(90, Math.max(14, targetZoom + e.deltaY * 0.04));
     };
-    const onClick = () => {
+    const onClick = (e: MouseEvent) => {
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return; // that was a drag
       raycaster.setFromCamera(pointer, camera);
       const hits = raycaster.intersectObjects(nodeMeshes, false);
-      if (hits.length > 0) setSelected(hits[0].object.userData.node as GNode);
+      if (hits.length > 0) flyToRef.current(hits[0].object.userData.node as GNode);
       else setSelected(null);
     };
 
@@ -566,6 +570,9 @@ export function VaultGraph() {
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = mount;
       camera.aspect = w / h;
+      // on a phone the reading panel covers the lower half, so centre the map in the top half
+      if (w / h < 1) camera.setViewOffset(w, h, 0, h * 0.2, w, h);
+      else camera.clearViewOffset();
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
       composer.setSize(w, h);
@@ -618,20 +625,10 @@ export function VaultGraph() {
         const d = wp.distanceTo(camera.position);
         const fade = THREE.MathUtils.smoothstep(d, 11, 22);
         const tw = reduceMotion ? 1 : 0.82 + 0.18 * Math.sin(t * st.speed + st.phase);
-        st.halo.opacity = st.base * tw * fade;
-        st.core.opacity = fade;
-        if (st.spike) st.spike.opacity = 0.32 * fade;
-      }
-      // questions stay readable from anywhere, they are how you find your way;
-      // note titles only name the stars you are near
-      for (const lb of labels) {
-        lb.obj.getWorldPosition(wp);
-        const d = wp.distanceTo(camera.position);
-        const near = THREE.MathUtils.smoothstep(d, 12, 20);
-        // questions on the far side of the map step back so the near ones read
-        lb.mat.opacity = lb.question
-          ? 0.9 * near * (1 - 0.65 * THREE.MathUtils.smoothstep(d, 52, 74))
-          : 0.8 * near * (1 - THREE.MathUtils.smoothstep(d, 34, 50));
+        st.em += (st.target - st.em) * 0.06;
+        st.halo.opacity = st.base * tw * fade * st.em;
+        st.core.opacity = fade * Math.min(1, st.em + 0.1);
+        if (st.spike) st.spike.opacity = 0.32 * fade * st.em;
       }
       if (!reduceMotion) {
         for (const sp of spikes) {
@@ -661,97 +658,119 @@ export function VaultGraph() {
     };
   }, []);
 
+  const questions = graph
+    ? graph.nodes
+        .filter((n) => n.cluster === "theme")
+        .sort((a, b) => QUESTIONS.indexOf(a.label) - QUESTIONS.indexOf(b.label))
+    : [];
+  const questionNotes =
+    graph && question ? connections(graph, question).filter((n) => n.cluster !== "theme") : [];
+
   return (
     <div className="fixed inset-0 bg-[#030711]">
-      <div ref={mountRef} className="absolute inset-0" />
+      <div ref={mountRef} className="absolute inset-0 touch-none" />
 
-      {/* top overlay */}
-      <div className="pointer-events-none absolute top-20 left-6 sm:left-10 max-w-md">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-blue-400/80 mb-2">
-          The Vault · live export
-        </p>
-        <h1 className="display-font text-3xl sm:text-4xl font-semibold text-slate-100 leading-tight">
-          Fly through what I&apos;m trying to understand
+      {/* the questions: words live here, not floating in space */}
+      <div className="pointer-events-none absolute inset-x-0 top-16 px-4 sm:top-20 sm:right-auto sm:w-80 sm:px-0 sm:left-10">
+        <h1 className="display-font text-2xl font-semibold leading-tight text-slate-100 sm:text-3xl">
+          The questions I keep asking
         </h1>
-        <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-          These are {stats?.n ?? "…"} real notes, filed under the questions I keep coming back to.
-          Drag to look around, scroll to dive, click a star to see what it connects to.
+        <p className="mt-2 hidden text-sm leading-relaxed text-slate-400 sm:block">
+          Every star is a real note. Drag to look around, scroll to dive, click one to read it.
         </p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {Object.keys(CLUSTER_NAMES).map((k) => [k, CLUSTER_COLORS[k]]).map(([k, c]) => (
-            <span key={k} className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">
-              <span className="w-2 h-2 rounded-full" style={{ background: c }} />
-              {CLUSTER_NAMES[k]}
-            </span>
+        <ul className="pointer-events-auto mt-3 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] sm:mt-5 sm:flex-col sm:gap-0.5 sm:overflow-visible sm:pb-0">
+          {questions.map((q) => (
+            <li key={q.id} className="shrink-0">
+              <button
+                onClick={() => flyToRef.current(q)}
+                className={`rounded-full border px-3 py-1.5 text-left text-sm transition sm:rounded-none sm:border-0 sm:border-l-2 sm:bg-transparent sm:py-1 ${
+                  question?.id === q.id
+                    ? "border-amber-200 bg-amber-200/10 text-amber-100"
+                    : "border-slate-700 bg-slate-950/50 text-slate-400 hover:text-slate-100 sm:border-transparent"
+                }`}
+              >
+                {q.label}
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* hover tooltip */}
-      {hovered && !selected && (
-        <div className="pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 font-mono text-xs text-slate-200 backdrop-blur">
+      {hovered && (
+        <div className="pointer-events-none absolute bottom-10 left-1/2 hidden -translate-x-1/2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 font-mono text-xs text-slate-200 backdrop-blur sm:block">
           {hovered}
         </div>
       )}
 
-      {/* selected node panel */}
-      {selected && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[min(92vw,28rem)] rounded-2xl border border-slate-700/80 bg-slate-900/85 p-5 backdrop-blur-md shadow-2xl">
-          <p
-            className="font-mono text-[10px] uppercase tracking-[0.2em] mb-1"
-            style={{ color: CLUSTER_COLORS[selected.cluster] }}
-          >
-            {selected.cluster === "theme"
-              ? "A question I keep asking"
-              : (CLUSTER_NAMES[selected.cluster] ?? selected.cluster)}
-          </p>
-          <h2 className="display-font text-xl text-slate-100">{selected.label}</h2>
-          {selected.summary && (
-            <p className="mt-2 text-sm text-slate-400 leading-relaxed">{selected.summary}</p>
+      {/* the reading: an open question's ideas, or one star */}
+      {(selected || question) && (
+        <div className="absolute inset-x-3 bottom-9 max-h-[42vh] overflow-y-auto rounded-2xl border border-slate-700/70 bg-slate-950/80 p-5 shadow-2xl backdrop-blur-md sm:inset-x-auto sm:top-20 sm:right-6 sm:bottom-auto sm:max-h-[calc(100vh-8rem)] sm:w-[25rem]">
+          {selected ? (
+            <>
+              <p
+                className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em]"
+                style={{ color: CLUSTER_COLORS[selected.cluster] }}
+              >
+                {CLUSTER_NAMES[selected.cluster] ?? selected.cluster}
+              </p>
+              <h2 className="display-font text-lg text-slate-300">{selected.label}</h2>
+              {selected.summary && (
+                <p className="mt-3 font-display text-xl leading-snug text-slate-100">{selected.summary}</p>
+              )}
+              {graph && (
+                <>
+                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">Connects to</p>
+                  <ul className="mt-2 flex flex-wrap gap-1.5">
+                    {connections(graph, selected).map((n) => (
+                      <li key={n.id}>
+                        <button
+                          onClick={() => flyToRef.current(n)}
+                          className={`rounded-full border px-2.5 py-1 text-left text-xs transition hover:border-slate-400 hover:text-slate-100 ${
+                            n.cluster === "theme" ? "border-amber-200/40 text-amber-100" : "border-slate-700 text-slate-300"
+                          }`}
+                        >
+                          {n.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              <button
+                onClick={() => setSelected(null)}
+                className="mt-4 font-mono text-[11px] uppercase tracking-wider text-blue-400 hover:text-blue-300"
+              >
+                Back to the question
+              </button>
+            </>
+          ) : (
+            question && (
+              <>
+                <h2 className="font-display text-2xl leading-tight text-amber-100">{question.label}</h2>
+                <ul className="mt-4 space-y-4">
+                  {questionNotes.map((n) => (
+                    <li key={n.id}>
+                      <button onClick={() => flyToRef.current(n)} className="group block text-left">
+                        <span className="block font-display text-base leading-snug text-slate-100 group-hover:text-white">
+                          {n.summary || n.label}
+                        </span>
+                        <span className="mt-1 block font-mono text-[10px] uppercase tracking-wider text-slate-500 group-hover:text-slate-300">
+                          {n.label}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
           )}
-          {graph && (
-            <ul className="mt-3 flex max-h-44 flex-wrap gap-1.5 overflow-y-auto">
-              {connections(graph, selected).map((n) => (
-                <li key={n.id}>
-                  <button
-                    onClick={() => flyToRef.current(n)}
-                    className={`rounded-full border px-2.5 py-1 text-left text-xs transition hover:border-slate-400 hover:text-slate-100 ${
-                      n.cluster === "theme" ? "border-amber-200/40 text-amber-100" : "border-slate-700 text-slate-300"
-                    }`}
-                  >
-                    {n.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-          <button
-            onClick={() => setSelected(null)}
-            className="mt-3 font-mono text-[11px] uppercase tracking-wider text-blue-400 hover:text-blue-300"
-          >
-            close ×
-          </button>
         </div>
       )}
 
-      {/* heartbeat strip */}
-      <div className="absolute bottom-0 inset-x-0 border-t border-slate-800/80 bg-slate-950/70 backdrop-blur">
-        <div className="max-w-5xl mx-auto px-4 py-2.5 flex flex-wrap items-center gap-x-6 gap-y-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-500">
-          <span className="flex items-center gap-2 text-emerald-400">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
-            system live
-          </span>
-          <span>gardener last tended · {heartbeat?.gardener?.lastRun ?? "…"}</span>
-          <span>brief {heartbeat?.brief?.lastIssue?.toLowerCase() ?? "…"} issued · {heartbeat?.brief?.date ?? "…"}</span>
-          <span>
-            {stats ? `${stats.n} notes · ${stats.e} links` : "loading graph…"}
-          </span>
-          <span>exported · {stats?.date ?? "…"}</span>
-        </div>
-      </div>
+      <p className="pointer-events-none absolute bottom-2.5 left-4 font-mono text-[10px] uppercase tracking-wider text-slate-500 sm:left-10">
+        {stats ? `${stats.n} notes · updated ${stats.date}` : "loading…"}
+      </p>
     </div>
   );
 }

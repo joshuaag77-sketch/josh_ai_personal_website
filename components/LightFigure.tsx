@@ -843,7 +843,7 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
                 phase === 0 ? "opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
               }`}
             >
-              I write down what I&apos;m trying to understand.
+              I&apos;m an engineer. I want to know how things really work.
             </h1>
             <div
               className={`absolute left-0 top-0 transition-all duration-700 ${
