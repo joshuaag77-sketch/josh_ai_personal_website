@@ -19,6 +19,18 @@ const DIR = "/experiments/light/";
 // raw sRGB triplet: the shader writes it straight out, so it must not be linearized
 const BG = new THREE.Vector3(6 / 255, 27 / 255, 43 / 255);
 const PLAYBACK = 1.0; // atlas cells per second = meta.fps * PLAYBACK
+// hero-loop.mp4 is one 8.4s wingbeat with a slow downstroke (0 to 4.7s) and a quicker
+// upstroke (4.7 to 7.7s). A real bird pushes down hard and recovers slowly, so the clip
+// plays the push fast and the recovery near normal speed: about 1.3s down, 2.5s up.
+function flapRate(t: number): number {
+  const DOWN = 3.6;
+  const UP = 1.15;
+  if (t < 0.25) return UP + (DOWN - UP) * (t / 0.25);
+  if (t < 4.4) return DOWN;
+  if (t < 4.8) return DOWN + (UP - DOWN) * ((t - 4.4) / 0.4);
+  return UP;
+}
+
 // The pre-rendered film layer returns when there is slow-motion footage of
 // Josh himself; the current stand-in moves too fast for a long exposure.
 const HAS_FILM = true;
@@ -348,7 +360,6 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
   const pausedRef = useRef(false);
   const [paused, setPaused] = useState(false);
   const [phase, setPhase] = useState(0);
@@ -440,34 +451,12 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
       rtB.setSize(Math.round(w * dpr), Math.round(h * dpr));
       fadeMat.uniforms.uTexel.value.set(1 / (w * dpr), 1 / (h * dpr));
       const viewH = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
-      const wide = w / h > 1.1;
-
       // One layout in pixels for both the film and the particles, so the scroll
-      // handoff never jumps. Side by side, the figure fills the room right of
-      // the headline's actual text; the wingtips fade, so they may reach into
-      // the gap a little.
+      // handoff never jumps. The bird owns the screen, centred above the name.
       const cellAspect = meta ? meta.cellW / meta.cellH : 1.28;
-      let figH: number;
-      let cx: number;
-      let cy: number;
-      if (wide) {
-        let textRight = w * 0.45;
-        const hl = headlineRef.current;
-        if (hl) {
-          const range = document.createRange();
-          range.selectNodeContents(hl);
-          textRight = range.getBoundingClientRect().right - canvas.getBoundingClientRect().left;
-        }
-        const gap = 32;
-        const room = Math.max(w - textRight - gap - 24, w * 0.3);
-        figH = Math.max(Math.min(h * 0.7, (room * 1.15) / cellAspect), h * 0.38);
-        cx = Math.min(textRight + gap + room / 2, w - (figH * cellAspect) / 2 - 8);
-        cy = h * 0.48;
-      } else {
-        figH = Math.min(h * 0.8, (w * 0.96) / cellAspect);
-        cx = w / 2;
-        cy = h * 0.45;
-      }
+      const figH = Math.min(h * 0.7, (w * 0.96) / cellAspect);
+      const cx = w / 2;
+      const cy = h * 0.4;
       group.position.x = (cx / w - 0.5) * viewH * camera.aspect;
       group.position.y = (0.5 - cy / h) * viewH;
       const video = videoRef.current;
@@ -795,6 +784,20 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
     };
   }, []);
 
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const video = videoRef.current;
+      if (video && !video.paused) {
+        const rate = flapRate(video.currentTime);
+        if (Math.abs(video.playbackRate - rate) > 0.05) video.playbackRate = rate;
+      }
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   const togglePause = () => {
     pausedRef.current = !pausedRef.current;
     setPaused(pausedRef.current);
@@ -826,37 +829,42 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
               maskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
               WebkitMaskImage: "radial-gradient(ellipse 62% 58% at 50% 50%, #000 78%, transparent 100%)",
             }}
-            className="pointer-events-none absolute left-1/2 top-[45%] h-[min(80svh,75vw)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain md:left-[68%] md:top-[48%] md:h-[70svh]"
+            className="pointer-events-none absolute left-1/2 top-[45%] h-[min(80svh,75vw)] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
           />
         )}
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
         {failed && (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_45%,rgba(37,99,235,0.3),transparent_45%)]" />
         )}
-        {/* side by side exactly when the canvas layout is (w / h > 1.1), else stacked under the figure */}
-        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-16 [@media(min-aspect-ratio:11/10)]:justify-center [@media(min-aspect-ratio:11/10)]:pb-0">
-          <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-sky-300/80">Josh Agarwal</p>
-          <div className="relative max-w-xl">
-            <h1
-              ref={headlineRef}
-              className={`font-display text-5xl leading-[1.05] transition-all duration-700 md:text-7xl ${
+        <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center px-6 pb-24 text-center">
+          <div className="relative w-full max-w-xl">
+            <div
+              className={`transition-all duration-700 ${
                 phase === 0 ? "opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
               }`}
             >
-              I&apos;m an engineer. I want to know how things really work.
-            </h1>
+              <h1 className="font-display text-4xl leading-none md:text-6xl">Josh Agarwal</h1>
+              <svg
+                className="mx-auto mt-5 animate-bounce text-sky-300/70"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path d="M4 7l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
             <div
-              className={`absolute left-0 top-0 transition-all duration-700 ${
+              className={`absolute inset-x-0 bottom-0 transition-all duration-700 ${
                 phase === 1 ? "opacity-100" : "pointer-events-none translate-y-4 opacity-0"
               }`}
               aria-hidden={phase !== 1}
             >
-              <p className="font-display text-5xl leading-[1.05] md:text-7xl">These lights are my real notes.</p>
-              <p className="mt-6 max-w-md text-base leading-relaxed text-slate-300">
-                Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now Wharton, working on how AI actually
-                gets used in energy. Every star is something I have learned.
+              <p className="text-base leading-relaxed text-slate-300 md:text-lg">
+                Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now at Wharton.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <a
                   href={ctaHref}
                   className="inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#061b2b] transition hover:bg-sky-400"
