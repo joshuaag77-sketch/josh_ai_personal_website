@@ -375,3 +375,9 @@ body {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* the hero video and aurora run past the edge on phones; without this the page side-scrolls */
+html,
+body {
+  overflow-x: clip;
+}
