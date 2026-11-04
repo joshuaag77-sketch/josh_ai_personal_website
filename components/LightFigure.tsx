@@ -19,6 +19,18 @@ const DIR = "/experiments/light/";
 // raw sRGB triplet: the shader writes it straight out, so it must not be linearized
 const BG = new THREE.Vector3(6 / 255, 27 / 255, 43 / 255);
 const PLAYBACK = 1.0; // atlas cells per second = meta.fps * PLAYBACK
+// hero-loop.mp4 is one 8.4s wingbeat with a slow downstroke (0 to 4.7s) and a quicker
+// upstroke (4.7 to 7.7s). A real bird pushes down hard and recovers slowly, so the clip
+// plays the push fast and the recovery near normal speed: about 1.3s down, 2.5s up.
+function flapRate(t: number): number {
+  const DOWN = 3.6;
+  const UP = 1.15;
+  if (t < 0.25) return UP + (DOWN - UP) * (t / 0.25);
+  if (t < 4.4) return DOWN;
+  if (t < 4.8) return DOWN + (UP - DOWN) * ((t - 4.4) / 0.4);
+  return UP;
+}
+
 // The pre-rendered film layer returns when there is slow-motion footage of
 // Josh himself; the current stand-in moves too fast for a long exposure.
 const HAS_FILM = true;
@@ -793,6 +805,20 @@ export function LightFigure({ ctaHref = "/", ctaLabel = "Ask my site anything" }
       simB.dispose();
       renderer.dispose();
     };
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const video = videoRef.current;
+      if (video && !video.paused) {
+        const rate = flapRate(video.currentTime);
+        if (Math.abs(video.playbackRate - rate) > 0.05) video.playbackRate = rate;
+      }
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const togglePause = () => {
