@@ -48,7 +48,7 @@ export default function Home() {
                 href="/brain"
                 className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/80 dark:border-slate-700 px-4 py-2 hover:bg-white/70 dark:hover:bg-slate-900 transition-colors"
               >
-                Fly through the vault <span aria-hidden>-&gt;</span>
+                Fly through my notes <span aria-hidden>-&gt;</span>
               </Link>
             </MagneticButton>
             <MagneticButton>

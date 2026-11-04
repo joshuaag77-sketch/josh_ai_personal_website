@@ -7,27 +7,22 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { slugify } from "@/lib/slug";
-
-type GNode = {
-  id: number;
-  label: string;
-  cluster: string;
-  summary: string;
-};
-type GraphData = { generated: string; nodes: GNode[]; edges: [number, number][] };
+import { displayGraph, type VaultGraphData, type VaultNode as GNode } from "@/lib/vault-display";
 
 // night-sky family: hues stay readable in the legend without going carnival
 const CLUSTER_COLORS: Record<string, string> = {
   learnings: "#5ea8f7",
   self: "#e8b36a",
   school: "#6fe3e0",
-  moc: "#c9b8ff",
+  theme: "#ffe9b0",
+  class: "#56657c",
 };
 const CLUSTER_NAMES: Record<string, string> = {
-  learnings: "Learnings",
-  self: "Self",
-  school: "School",
-  moc: "Map of Content",
+  theme: "Questions I keep asking",
+  school: "Ideas I use",
+  learnings: "Things I read and wrote",
+  self: "Me",
+  class: "From class",
 };
 
 // deterministic rng so the galaxy looks the same on every visit
@@ -48,9 +43,19 @@ function layout(nodes: GNode[], edges: [number, number][]): THREE.Vector3[] {
     learnings: new THREE.Vector3(-14, 4, 0),
     self: new THREE.Vector3(14, -2, 4),
     school: new THREE.Vector3(4, 14, -10),
-    moc: new THREE.Vector3(0, 0, 0),
+    class: new THREE.Vector3(10, -14, -10),
   };
+  const questions = nodes.filter((n) => n.cluster === "theme");
+  const pinned = new Map<number, THREE.Vector3>();
+  questions.forEach((q, i) => {
+    const y = 1 - ((i + 0.5) / questions.length) * 2;
+    const ring = Math.sqrt(1 - y * y);
+    const th = i * Math.PI * (3 - Math.sqrt(5));
+    pinned.set(q.id, new THREE.Vector3(Math.cos(th) * ring * 34, y * 20, Math.sin(th) * ring * 20));
+  });
   const pos = nodes.map((n) => {
+    const pin = pinned.get(n.id);
+    if (pin) return pin.clone();
     const a = anchors[n.cluster] ?? new THREE.Vector3();
     return new THREE.Vector3(
       a.x + (rnd() - 0.5) * 16,
@@ -78,11 +83,22 @@ function layout(nodes: GNode[], edges: [number, number][]): THREE.Vector3[] {
       f[b].sub(d);
     }
     for (let i = 0; i < pos.length; i++) {
+      if (pinned.has(nodes[i].id)) continue;
       f[i].add(pos[i].clone().multiplyScalar(-0.008));
       pos[i].add(f[i].clampLength(0, 1.6));
+      pos[i].clampLength(0, 34); // an unlinked note must not drift out of the map
     }
   }
   return pos;
+}
+
+// what a star links to: questions first, then ideas, then coursework
+function connections(g: VaultGraphData, n: GNode): GNode[] {
+  const order: Record<string, number> = { theme: 0, class: 2 };
+  return g.edges
+    .flatMap(([a, b]) => (a === n.id ? [b] : b === n.id ? [a] : []))
+    .map((i) => g.nodes[i])
+    .sort((a, b) => (order[a.cluster] ?? 1) - (order[b.cluster] ?? 1));
 }
 
 function makeGlowTexture(): THREE.Texture {
@@ -147,10 +163,10 @@ function makeSpaceBackdrop(): THREE.Texture {
   return tex;
 }
 
-function makeLabelSprite(text: string, color: string): THREE.Sprite {
+function makeLabelSprite(text: string, color: string, question = false): THREE.Sprite {
   const c = document.createElement("canvas");
   const ctx = c.getContext("2d")!;
-  const font = "600 34px ui-monospace, monospace";
+  const font = question ? "500 38px Georgia, 'Times New Roman', serif" : "600 34px ui-monospace, monospace";
   ctx.font = font;
   const w = Math.ceil(ctx.measureText(text).width) + 28;
   c.width = w;
@@ -169,6 +185,7 @@ function makeLabelSprite(text: string, color: string): THREE.Sprite {
     transparent: true,
     depthWrite: false,
     sizeAttenuation: false,
+    toneMapped: false,
     opacity: 0.85,
   });
   const s = new THREE.Sprite(mat);
@@ -180,6 +197,8 @@ function makeLabelSprite(text: string, color: string): THREE.Sprite {
 export function VaultGraph() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<GNode | null>(null);
+  const [graph, setGraph] = useState<VaultGraphData | null>(null);
+  const flyToRef = useRef<(n: GNode) => void>(() => {});
   const [hovered, setHovered] = useState<string | null>(null);
   const [stats, setStats] = useState<{ n: number; e: number; date: string } | null>(null);
   const [heartbeat, setHeartbeat] = useState<{
@@ -286,7 +305,7 @@ export function VaultGraph() {
       spike?: THREE.SpriteMaterial;
     }[] = [];
     const spikes: THREE.Sprite[] = [];
-    const labels: { mat: THREE.SpriteMaterial; obj: THREE.Object3D }[] = [];
+    const labels: { mat: THREE.SpriteMaterial; obj: THREE.Object3D; question: boolean }[] = [];
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2(-10, -10);
 
@@ -302,9 +321,15 @@ export function VaultGraph() {
 
     fetch("/vault-graph.json")
       .then((r) => r.json())
-      .then((data: GraphData) => {
+      .then((rawGraph: VaultGraphData) => {
         if (disposed) return;
-        setStats({ n: data.nodes.length, e: data.edges.length, date: data.generated });
+        const data = displayGraph(rawGraph);
+        setGraph(data);
+        setStats({
+          n: data.nodes.filter((n) => n.cluster !== "theme").length,
+          e: data.edges.length,
+          date: data.generated,
+        });
         const positions = layout(data.nodes, data.edges);
         const deg = new Array(data.nodes.length).fill(0);
         data.edges.forEach(([a, b]) => {
@@ -313,7 +338,13 @@ export function VaultGraph() {
         });
 
         const isTheme = (i: number) => data.nodes[i].cluster === "theme";
-        const ideaEdges = data.edges.filter(([a, b]) => !isTheme(a) && !isTheme(b));
+        const isClass = (i: number) => data.nodes[i].cluster === "class";
+        const ideaEdges = data.edges.filter(
+          ([a, b]) => !isTheme(a) && !isTheme(b) && !isClass(a) && !isClass(b)
+        );
+        const classEdges = data.edges.filter(
+          ([a, b]) => !isTheme(a) && !isTheme(b) && (isClass(a) || isClass(b))
+        );
         const themeEdges = data.edges.filter(([a, b]) => isTheme(a) || isTheme(b));
         const buildEdges = (list: [number, number][], color: number, opacity: number) => {
           const arr = new Float32Array(list.length * 6);
@@ -337,13 +368,15 @@ export function VaultGraph() {
           );
         };
         buildEdges(ideaEdges, 0x3b82f6, 0.16);
-        buildEdges(themeEdges, 0x64748b, 0.05);
+        buildEdges(classEdges, 0x3b82f6, 0.04);
+        buildEdges(themeEdges, 0xffe9b0, 0.09);
 
         // stars
         data.nodes.forEach((n, i) => {
           const color = new THREE.Color(CLUSTER_COLORS[n.cluster] ?? "#94a3b8");
           const theme = n.cluster === "theme";
-          const r = theme ? 0.24 : 0.3 + Math.sqrt(Math.min(deg[i], 16)) * 0.14;
+          const cls = n.cluster === "class";
+          const r = theme ? 0.3 : cls ? 0.2 : 0.3 + Math.sqrt(Math.min(deg[i], 16)) * 0.14;
           // hot core, pushed past 1.0 so bloom catches it
           const coreMat = new THREE.MeshBasicMaterial({
             color: color.clone().lerp(new THREE.Color("#ffffff"), 0.3).multiplyScalar(1.35),
@@ -360,12 +393,12 @@ export function VaultGraph() {
             map: glow,
             color,
             transparent: true,
-            opacity: theme ? 0.16 : 0.34,
+            opacity: cls ? 0.12 : theme ? 0.22 : 0.34,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
           });
           const sprite = new THREE.Sprite(halo);
-          sprite.scale.setScalar(r * (theme ? 3.5 : 5));
+          sprite.scale.setScalar(r * (theme ? 4 : 5));
           sprite.position.copy(positions[i]);
           group.add(sprite);
           const entry = {
@@ -379,7 +412,7 @@ export function VaultGraph() {
           stars.push(entry);
 
           // diffraction spikes on the hubs
-          if (!theme && deg[i] >= 8) {
+          if (!theme && !cls && deg[i] >= 8) {
             const sm = new THREE.SpriteMaterial({
               map: spike,
               color: color.clone().lerp(new THREE.Color("#ffffff"), 0.6),
@@ -396,11 +429,11 @@ export function VaultGraph() {
             entry.spike = sm;
           }
 
-          if ((!theme && deg[i] >= 9) || n.cluster === "moc" || (theme && deg[i] >= 5)) {
-            const label = makeLabelSprite(n.label, CLUSTER_COLORS[n.cluster] ?? "#e2e8f0");
+          if (theme || (!cls && deg[i] >= 7)) {
+            const label = makeLabelSprite(n.label, CLUSTER_COLORS[n.cluster] ?? "#e2e8f0", theme);
             label.position.copy(positions[i]).add(new THREE.Vector3(0, r + 1.4, 0));
             group.add(label);
-            labels.push({ mat: label.material as THREE.SpriteMaterial, obj: label });
+            labels.push({ mat: label.material as THREE.SpriteMaterial, obj: label, question: theme });
           }
         });
 
@@ -467,19 +500,17 @@ export function VaultGraph() {
           };
         }
 
+        flyToRef.current = (n: GNode) => {
+          setSelected(n);
+          const dir = positions[n.id].clone().normalize();
+          focus.q = new THREE.Quaternion().setFromUnitVectors(dir, new THREE.Vector3(0, 0, 1));
+          targetZoom = Math.min(90, Math.max(14, positions[n.id].length() + 13));
+          intro = 1; // skip the flight, go straight to the star
+        };
         const focusSlug = new URLSearchParams(window.location.search).get("focus");
         if (focusSlug) {
-          const idx = data.nodes.findIndex((n) => slugify(n.label) === focusSlug);
-          if (idx >= 0) {
-            setSelected(data.nodes[idx]);
-            const dir = positions[idx].clone().normalize();
-            focus.q = new THREE.Quaternion().setFromUnitVectors(
-              dir,
-              new THREE.Vector3(0, 0, 1)
-            );
-            targetZoom = Math.min(90, Math.max(14, positions[idx].length() + 13));
-            intro = 1; // skip the flight, go straight to the star
-          }
+          const hit = data.nodes.find((n) => slugify(n.label) === focusSlug);
+          if (hit) flyToRef.current(hit);
         }
       });
 
@@ -591,12 +622,16 @@ export function VaultGraph() {
         st.core.opacity = fade;
         if (st.spike) st.spike.opacity = 0.32 * fade;
       }
-      // labels only name the stars you are near; far away they stay quiet
+      // questions stay readable from anywhere, they are how you find your way;
+      // note titles only name the stars you are near
       for (const lb of labels) {
         lb.obj.getWorldPosition(wp);
         const d = wp.distanceTo(camera.position);
-        lb.mat.opacity =
-          0.85 * THREE.MathUtils.smoothstep(d, 12, 20) * (1 - THREE.MathUtils.smoothstep(d, 60, 95));
+        const near = THREE.MathUtils.smoothstep(d, 12, 20);
+        // questions on the far side of the map step back so the near ones read
+        lb.mat.opacity = lb.question
+          ? 0.9 * near * (1 - 0.65 * THREE.MathUtils.smoothstep(d, 52, 74))
+          : 0.8 * near * (1 - THREE.MathUtils.smoothstep(d, 34, 50));
       }
       if (!reduceMotion) {
         for (const sp of spikes) {
@@ -636,14 +671,14 @@ export function VaultGraph() {
           The Vault · live export
         </p>
         <h1 className="display-font text-3xl sm:text-4xl font-semibold text-slate-100 leading-tight">
-          Fly through my second brain
+          Fly through what I&apos;m trying to understand
         </h1>
         <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-          These are {stats?.n ?? "…"} real notes from my Obsidian knowledge graph, the system my
-          posts come from. Drag to look around, scroll to dive, click a star to read it.
+          These are {stats?.n ?? "…"} real notes, filed under the questions I keep coming back to.
+          Drag to look around, scroll to dive, click a star to see what it connects to.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          {Object.entries(CLUSTER_COLORS).map(([k, c]) => (
+          {Object.keys(CLUSTER_NAMES).map((k) => [k, CLUSTER_COLORS[k]]).map(([k, c]) => (
             <span key={k} className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">
               <span className="w-2 h-2 rounded-full" style={{ background: c }} />
               {CLUSTER_NAMES[k]}
@@ -666,15 +701,29 @@ export function VaultGraph() {
             className="font-mono text-[10px] uppercase tracking-[0.2em] mb-1"
             style={{ color: CLUSTER_COLORS[selected.cluster] }}
           >
-            {CLUSTER_NAMES[selected.cluster] ?? selected.cluster}
+            {selected.cluster === "theme"
+              ? "A question I keep asking"
+              : (CLUSTER_NAMES[selected.cluster] ?? selected.cluster)}
           </p>
           <h2 className="display-font text-xl text-slate-100">{selected.label}</h2>
-          {selected.summary ? (
+          {selected.summary && (
             <p className="mt-2 text-sm text-slate-400 leading-relaxed">{selected.summary}</p>
-          ) : (
-            <p className="mt-2 text-sm text-slate-500 italic">
-              This one stays in the vault, title only.
-            </p>
+          )}
+          {graph && (
+            <ul className="mt-3 flex max-h-44 flex-wrap gap-1.5 overflow-y-auto">
+              {connections(graph, selected).map((n) => (
+                <li key={n.id}>
+                  <button
+                    onClick={() => flyToRef.current(n)}
+                    className={`rounded-full border px-2.5 py-1 text-left text-xs transition hover:border-slate-400 hover:text-slate-100 ${
+                      n.cluster === "theme" ? "border-amber-200/40 text-amber-100" : "border-slate-700 text-slate-300"
+                    }`}
+                  >
+                    {n.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
           )}
           <button
             onClick={() => setSelected(null)}

@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import fs from "fs";
 import path from "path";
 import { slugify } from "@/lib/slug";
+import { displayGraph } from "@/lib/vault-display";
 
 // One generation per day, cached by Next's data cache.
 export const revalidate = 86400;
@@ -23,7 +24,7 @@ export async function GET() {
       path.join(process.cwd(), "public", "vault-graph.json"),
       "utf-8"
     );
-    const g: Graph = JSON.parse(raw);
+    const g: Graph = displayGraph(JSON.parse(raw));
     const isNote = (i: number) => g.nodes[i].cluster !== "theme";
     // prefer note-to-note edges across different galaxies, the interesting threads
     const cross = g.edges.filter(

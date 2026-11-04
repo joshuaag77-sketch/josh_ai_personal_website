@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { slugify } from "@/lib/slug";
+import { displayGraph } from "@/lib/vault-display";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -64,7 +65,7 @@ export function ChatWidget() {
       .then((g) => {
         if (!g?.nodes) return;
         const m = new Map<string, string>();
-        for (const n of g.nodes) m.set(n.label.toLowerCase(), slugify(n.label));
+        for (const n of displayGraph(g).nodes) m.set(n.label.toLowerCase(), slugify(n.label));
         setKnownSlugs(m);
       })
       .catch(() => {});
