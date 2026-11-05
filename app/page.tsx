@@ -8,16 +8,36 @@ import { TiltCard } from "@/components/TiltCard";
 import { MagneticButton } from "@/components/MagneticButton";
 import { FlowLine } from "@/components/FlowLine";
 import { DailyThread } from "@/components/DailyThread";
-import { LightFigure } from "@/components/LightFigure";
+import { HeroBird } from "@/components/HeroBird";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
     <>
-      {/* Opening act: a figure of light that dissolves into the vault,
-          then hands the stage to the chat below. */}
-      <LightFigure ctaHref="#ask" />
+      <section className="relative overflow-hidden bg-[#061b2b] text-white">
+        <HeroBird />
+        <div className="relative mx-auto flex min-h-[62svh] max-w-5xl flex-col justify-end px-6 pb-12 pt-32 sm:px-8 sm:pb-16">
+          <h1 className="font-display text-5xl leading-none md:text-7xl">Josh Agarwal</h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-300 md:text-lg">
+            Mega projects at Kiewit. Hydrogen and carbon capture at Enbridge. Now at Wharton.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a
+              href="#ask"
+              className="inline-flex items-center gap-2 bg-sky-500 px-6 py-3 text-sm font-medium text-[#061b2b] transition hover:bg-sky-400"
+            >
+              Ask my site anything <span aria-hidden="true">&rarr;</span>
+            </a>
+            <Link
+              href="/brain"
+              className="inline-flex items-center gap-2 border border-slate-500 px-6 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-300"
+            >
+              Fly through my notes <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <FlowLine />
       <ChatLauncher />
