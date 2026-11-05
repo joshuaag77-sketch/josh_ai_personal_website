@@ -64,7 +64,7 @@ export function HeroBird() {
           maskImage: "radial-gradient(ellipse 50% 50% at 50% 50%, #000 60%, transparent 100%)",
           WebkitMaskImage: "radial-gradient(ellipse 50% 50% at 50% 50%, #000 60%, transparent 100%)",
         }}
-        className="pointer-events-none absolute -top-24 -right-20 w-[22rem] max-w-none opacity-40 sm:-top-36 sm:right-[-2rem] sm:w-[34rem]"
+        className="pointer-events-none absolute -top-16 -right-20 w-[22rem] max-w-none opacity-50 sm:-top-24 sm:right-[-2rem] sm:w-[34rem]"
       />
       <button
         type="button"
