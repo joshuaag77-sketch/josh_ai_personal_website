@@ -6,10 +6,10 @@ import s from "./AgentCrew.module.css";
 // Lane 1 passes a gate I open (card). Lane 2 talks back and forth with the other side's bot.
 // Lane 3 stops at a wall until I push it, then passes a gate I open (bank).
 
-const W = 900, H = 360;
+const W = 930, H = 360;
 const SRC = { x: 80, y: 180 };
 const AG = [
-  { y: 70, label: "Orders", out: "16 pizzas, $137 saved" },
+  { y: 70, label: "Orders", out: "16 pizzas, $137 off" },
   { y: 180, label: "Negotiates", out: "$52.92 waived" },
   { y: 290, label: "Files", out: "Reimbursed" },
 ];
