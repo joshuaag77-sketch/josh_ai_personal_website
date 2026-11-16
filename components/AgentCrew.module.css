@@ -17,20 +17,20 @@
 
 .lane { fill: none; stroke: var(--line); stroke-width: 2; }
 .me { fill: var(--panel); stroke: var(--ink2); stroke-width: 2; }
-.meT { fill: var(--ink); font-size: 15px; font-weight: 700; }
+.meT { fill: var(--ink); font-size: 19px; font-weight: 700; }
 .agent { fill: var(--blue2); stroke: var(--blue); stroke-width: 2; }
-.label { fill: var(--ink); font-size: 15px; font-weight: 700; }
-.small { fill: var(--muted); font-size: 12.5px; }
+.label { fill: var(--ink); font-size: 19px; font-weight: 700; }
+.small { fill: var(--muted); font-size: 16px; }
 .gate { fill: var(--amber2); stroke: var(--amber); stroke-width: 1.8; }
 .lock { fill: none; stroke: var(--amber); stroke-width: 1.8; stroke-linejoin: round; }
 .bot { fill: var(--violet2); stroke: var(--violet); stroke-width: 1.8; }
-.botT { fill: var(--violet); font-size: 12.5px; font-weight: 600; }
+.botT { fill: var(--violet); font-size: 15px; font-weight: 600; }
 .talk { fill: none; stroke: var(--violet); stroke-width: 1.6; stroke-dasharray: 5 6; animation: flow 1.2s linear infinite; }
 .talkBack { animation-direction: reverse; }
 .wall { stroke: var(--red); stroke-width: 4; stroke-linecap: round; }
-.wallT { fill: var(--red); font-size: 12.5px; font-style: italic; }
+.wallT { fill: var(--red); font-size: 16px; font-style: italic; }
 .done { fill: var(--green); }
-.out { fill: var(--ink); font-size: 15px; font-weight: 600; }
+.out { fill: var(--ink); font-size: 20px; font-weight: 600; }
 .dot { fill: var(--blue); }
 .caption { font-size: 14px; color: var(--ink2); line-height: 1.55; margin: 10px 4px 0; }
 

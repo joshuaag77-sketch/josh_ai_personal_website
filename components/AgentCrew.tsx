@@ -38,7 +38,7 @@ export function AgentCrew() {
           {AG.map((a, i) => (
             <g key={i}>
               <circle cx={AX} cy={a.y} r={24} className={s.agent} />
-              <text x={AX} y={a.y + 44} className={s.label} textAnchor="middle">{a.label}</text>
+              <text x={AX} y={a.y + 48} className={s.label} textAnchor="middle">{a.label}</text>
             </g>
           ))}
 
@@ -46,12 +46,12 @@ export function AgentCrew() {
           <g transform={`translate(${MX} ${AG[0].y})`}>
             <rect x={-14} y={-14} width={28} height={28} rx={6} className={s.gate} />
             <path d="M-5 -1 v-4 a5 5 0 0 1 10 0 v4 M-7 -1 h14 v9 h-14 z" className={s.lock} />
-            <text y={34} className={s.small} textAnchor="middle">I enter card</text>
+            <text y={38} className={s.small} textAnchor="middle">I enter card</text>
           </g>
 
           {/* lane 2: their bot, two-way */}
           <g transform={`translate(${MX} ${AG[1].y})`}>
-            <rect x={-30} y={-16} width={60} height={32} rx={8} className={s.bot} />
+            <rect x={-42} y={-18} width={84} height={36} rx={8} className={s.bot} />
             <text y={5} className={s.botT} textAnchor="middle">their bot</text>
           </g>
           <path d={`M ${AX + 30} ${AG[1].y - 8} L ${MX - 36} ${AG[1].y - 8}`} className={s.talk} />
@@ -64,7 +64,7 @@ export function AgentCrew() {
           <g transform={`translate(${MX + 60} ${AG[2].y})`}>
             <rect x={-14} y={-14} width={28} height={28} rx={6} className={s.gate} />
             <path d="M-5 -1 v-4 a5 5 0 0 1 10 0 v4 M-7 -1 h14 v9 h-14 z" className={s.lock} />
-            <text y={34} className={s.small} textAnchor="middle">I enter bank</text>
+            <text y={38} className={s.small} textAnchor="middle">I enter bank</text>
           </g>
 
           {/* outcomes */}
