@@ -12,6 +12,7 @@ import { RuptureExperiment } from "@/components/RuptureExperiment";
 import { RuptureResults } from "@/components/RuptureResults";
 import { UmweltExperiment } from "@/components/UmweltExperiment";
 import { VideoEmbed } from "@/components/VideoEmbed";
+import { AgentCrew } from "@/components/AgentCrew";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -143,6 +144,7 @@ export default async function PostPage({ params }: Props) {
             "<p>===WORKFLOW_DEMO===</p>": <WorkflowDemo />,
             "<p>===PIPELINE_SECTION===</p>": <PipelineSection />,
             "<p>===MHS_FACTORY===</p>": <MhsFactory />,
+            "<p>===AGENT_CREW===</p>": <AgentCrew />,
             "<p>===RUPTURE_EXPERIMENT===</p>": <RuptureExperiment />,
             "<p>===RUPTURE_RESULTS===</p>": <RuptureResults />,
             "<p>===UMWELT_CITY===</p>": <UmweltExperiment view="city" />,
