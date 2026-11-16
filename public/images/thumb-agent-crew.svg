@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="bga" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1733"/>
+      <stop offset="100%" stop-color="#101c33"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#bga)"/>
+  <!-- the request -->
+  <circle cx="52" cy="112" r="14" fill="#0b1733" stroke="#e2e8f0" stroke-width="1.5"/>
+  <circle cx="52" cy="112" r="5" fill="#e2e8f0"/>
+  <!-- three lanes -->
+  <path d="M66 112 C110 112 110 62 150 62 H360" fill="none" stroke="#60a5fa" stroke-width="1.6"/>
+  <path d="M66 112 H360" fill="none" stroke="#a78bfa" stroke-width="1.6"/>
+  <path d="M66 112 C110 112 110 162 150 162 H360" fill="none" stroke="#60a5fa" stroke-width="1.6"/>
+  <!-- steps -->
+  <g fill="#60a5fa"><circle cx="180" cy="62" r="4"/><circle cx="230" cy="62" r="4"/><circle cx="180" cy="162" r="4"/><circle cx="230" cy="162" r="4"/></g>
+  <g fill="#a78bfa"><circle cx="190" cy="112" r="4"/><circle cx="250" cy="112" r="4"/></g>
+  <!-- gates -->
+  <rect x="270" y="54" width="16" height="16" rx="3" fill="#3b2a0a" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="300" y="154" width="16" height="16" rx="3" fill="#3b2a0a" stroke="#f59e0b" stroke-width="1.5"/>
+  <!-- the wall -->
+  <line x1="262" y1="148" x2="262" y2="176" stroke="#f87171" stroke-width="3"/>
+  <!-- done -->
+  <g fill="#34d399"><circle cx="350" cy="62" r="6"/><circle cx="350" cy="112" r="6"/><circle cx="350" cy="162" r="6"/></g>
+  <text x="24" y="214" font-family="monospace" font-size="11" fill="#8aa0c8" opacity="0.8">three agents, one wall, two gates</text>
+</svg>
