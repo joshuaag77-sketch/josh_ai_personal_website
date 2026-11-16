@@ -1,118 +1,104 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import s from "./AgentCrew.module.css";
 
-// One night of errands, replayed. Three agent lanes plus the human.
-// kind: "step" = agent work, "talk" = agent talking to another system's agent,
-// "gate" = only the human can do it, "wall" = agent got stuck, "human" = Josh steps in, "done" = outcome.
-type Kind = "step" | "talk" | "gate" | "wall" | "human" | "done";
-type Ev = { lane: 0 | 1 | 2; kind: Kind; text: string; time?: string };
+// One sentence in, three agents out. Dots travel each lane on a loop.
+// Lane 1 passes a gate I open (card). Lane 2 talks back and forth with the other side's bot.
+// Lane 3 stops at a wall until I push it, then passes a gate I open (bank).
 
-const LANES = [
-  { name: "Ordering agent", sub: "drives the browser" },
-  { name: "Support agent", sub: "runs on a schedule" },
-  { name: "Paperwork agent", sub: "reads the manual" },
+const W = 900, H = 360;
+const SRC = { x: 80, y: 180 };
+const AG = [
+  { y: 70, label: "Orders", out: "16 pizzas, $137 saved" },
+  { y: 180, label: "Negotiates", out: "$52.92 waived" },
+  { y: 290, label: "Files", out: "Reimbursed" },
 ];
+const AX = 300, MX = 520, OX = 700;
 
-const EVENTS: Ev[] = [
-  { lane: 0, kind: "human", time: "12:33 AM", text: "Me: pizza for 60, Huntsman, 11:30" },
-  { lane: 0, kind: "step", text: "Opens Papa John's, confirms store and address" },
-  { lane: 0, kind: "human", text: "Me: 20 pizzas feels like a lot. Rebuilds as 16" },
-  { lane: 0, kind: "step", text: "Finds a bundle deal: about $137 under menu" },
-  { lane: 0, kind: "gate", text: "I type the card and tip" },
-  { lane: 0, kind: "done", text: "Ordered: $221.68, delivery at lunch" },
-  { lane: 1, kind: "step", time: "9:00 AM", text: "Opens BILL's support chat" },
-  { lane: 1, kind: "talk", text: "Explains the accidental trial to BILL's bot" },
-  { lane: 1, kind: "talk", text: "Asks for a human, never agrees to pay" },
-  { lane: 1, kind: "done", time: "9:25 AM", text: "$52.92 waived" },
-  { lane: 2, kind: "step", text: "Reads the club's reimbursement manual" },
-  { lane: 2, kind: "step", text: "Pulls the receipt, fills the form, one PDF" },
-  { lane: 2, kind: "step", text: "Checks against October's filing: 3 fixes" },
-  { lane: 2, kind: "wall", text: "BILL wants an SSN. Agent: no legit way around it" },
-  { lane: 2, kind: "human", text: "Me: there has to be a way. Keep digging" },
-  { lane: 2, kind: "step", text: "Finds it in a finance slide deck: use the WGA EIN" },
-  { lane: 2, kind: "gate", text: "I type the EIN and my bank details" },
-  { lane: 2, kind: "done", text: "Expense filed, set up to get paid" },
-];
-
-const KIND_LABEL: Record<Kind, string> = {
-  step: "agent", talk: "agent ↔ their bot", gate: "only me", wall: "stuck", human: "me", done: "done",
-};
+function lanePath(y: number) {
+  return `M${SRC.x + 26} ${SRC.y} C ${SRC.x + 120} ${SRC.y}, ${AX - 120} ${y}, ${AX - 26} ${y} L ${OX - 10} ${y}`;
+}
 
 export function AgentCrew() {
-  const [i, setI] = useState(0);
-  const [playing, setPlaying] = useState(true);
-
-  useEffect(() => {
-    if (!playing) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setI(EVENTS.length - 1); return; }
-    const t = setInterval(() => setI((v) => (v + 1) % (EVENTS.length + 2)), 1500);
-    return () => clearInterval(t);
-  }, [playing]);
-
-  const cur = Math.min(i, EVENTS.length - 1);
-  const ev = EVENTS[cur];
-  const root = useRef<HTMLDivElement>(null);
-
-  // Keep the active step visible inside its lane without moving the page.
-  useEffect(() => {
-    const chip = root.current?.querySelector<HTMLElement>(`[data-idx="${cur}"]`);
-    const track = chip?.parentElement;
-    if (!chip || !track) return;
-    const left = chip.offsetLeft - track.offsetLeft - (track.clientWidth - chip.clientWidth) / 2;
-    track.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
-  }, [cur]);
-
   return (
-    <div className={s.wrap} ref={root}>
-      <div className={s.top}>
-        <div className={s.eyebrow}>One request. Three agents. Two gates only I could open.</div>
-        <button type="button" className={s.btn} onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"}>
-          {playing ? "Pause" : "Play"}
-        </button>
-      </div>
-
+    <figure className={s.wrap}>
       <div className={s.frame}>
-        {LANES.map((lane, li) => {
-          const evs = EVENTS.map((e, idx) => ({ e, idx })).filter((x) => x.e.lane === li);
-          return (
-            <div key={lane.name} className={`${s.lane} ${ev.lane === li ? s.laneOn : ""}`}>
-              <div className={s.head}>
-                <span className={s.dot} />
-                <div>
-                  <div className={s.name}>{lane.name}</div>
-                  <div className={s.sub}>{lane.sub}</div>
-                </div>
-              </div>
-              <div className={s.track}>
-                {evs.map(({ e, idx }) => (
-                  <button
-                    type="button"
-                    key={idx}
-                    data-idx={idx}
-                    onClick={() => { setPlaying(false); setI(idx); }}
-                    className={`${s.chip} ${s[e.kind]} ${idx <= cur ? s.seen : ""} ${idx === cur ? s.now : ""}`}
-                    title={e.text}
-                  >
-                    <span className={s.kind}>{e.time ? `${e.time} · ` : ""}{KIND_LABEL[e.kind]}</span>
-                    <span className={s.txt}>{e.text}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+        <svg viewBox={`0 0 ${W} ${H}`} className={s.svg} role="img"
+          aria-label="One request splits into three agents. One orders pizza and passes a card gate I open. One negotiates with the other company's bot and gets a charge waived. One files the expense, stops at a wall until I push it, then passes a bank gate I open.">
+          {AG.map((a, i) => (
+            <path key={i} id={`lane${i}`} d={lanePath(a.y)} className={s.lane} />
+          ))}
 
-      <div className={s.log} aria-live="polite">
-        <span className={`${s.badge} ${s[ev.kind]}`}>{KIND_LABEL[ev.kind]}</span>
-        <span>{ev.time ? <b>{ev.time} </b> : null}{ev.text}</span>
+          {/* source */}
+          <circle cx={SRC.x} cy={SRC.y} r={26} className={s.me} />
+          <text x={SRC.x} y={SRC.y + 5} className={s.meT} textAnchor="middle">me</text>
+          <text x={SRC.x} y={SRC.y + 50} className={s.small} textAnchor="middle">one sentence</text>
+
+          {/* agents */}
+          {AG.map((a, i) => (
+            <g key={i}>
+              <circle cx={AX} cy={a.y} r={24} className={s.agent} />
+              <text x={AX} y={a.y + 44} className={s.label} textAnchor="middle">{a.label}</text>
+            </g>
+          ))}
+
+          {/* lane 1: gate */}
+          <g transform={`translate(${MX} ${AG[0].y})`}>
+            <rect x={-14} y={-14} width={28} height={28} rx={6} className={s.gate} />
+            <path d="M-5 -1 v-4 a5 5 0 0 1 10 0 v4 M-7 -1 h14 v9 h-14 z" className={s.lock} />
+            <text y={34} className={s.small} textAnchor="middle">I enter card</text>
+          </g>
+
+          {/* lane 2: their bot, two-way */}
+          <g transform={`translate(${MX} ${AG[1].y})`}>
+            <rect x={-30} y={-16} width={60} height={32} rx={8} className={s.bot} />
+            <text y={5} className={s.botT} textAnchor="middle">their bot</text>
+          </g>
+          <path d={`M ${AX + 30} ${AG[1].y - 8} L ${MX - 36} ${AG[1].y - 8}`} className={s.talk} />
+          <path d={`M ${MX - 36} ${AG[1].y + 8} L ${AX + 30} ${AG[1].y + 8}`} className={`${s.talk} ${s.talkBack}`} />
+
+          {/* lane 3: wall then gate */}
+          <line x1={450} y1={AG[2].y - 22} x2={450} y2={AG[2].y + 22} className={s.wall} />
+          <text x={450} y={AG[2].y - 30} className={s.wallT} textAnchor="middle">"no way around it"</text>
+          <text x={450} y={AG[2].y + 40} className={s.small} textAnchor="middle">I push back</text>
+          <g transform={`translate(${MX + 60} ${AG[2].y})`}>
+            <rect x={-14} y={-14} width={28} height={28} rx={6} className={s.gate} />
+            <path d="M-5 -1 v-4 a5 5 0 0 1 10 0 v4 M-7 -1 h14 v9 h-14 z" className={s.lock} />
+            <text y={34} className={s.small} textAnchor="middle">I enter bank</text>
+          </g>
+
+          {/* outcomes */}
+          {AG.map((a, i) => (
+            <g key={i}>
+              <circle cx={OX} cy={a.y} r={7} className={s.done} />
+              <text x={OX + 16} y={a.y + 5} className={s.out}>{a.out}</text>
+            </g>
+          ))}
+
+          {/* moving dots */}
+          <circle r={6} className={s.dot}>
+            <animateMotion dur="6s" repeatCount="indefinite" calcMode="linear"
+              keyPoints="0;0.72;0.72;1;1" keyTimes="0;0.4;0.6;0.85;1">
+              <mpath href="#lane0" />
+            </animateMotion>
+          </circle>
+          <circle r={6} className={s.dot}>
+            <animateMotion dur="6s" begin="0.4s" repeatCount="indefinite" calcMode="linear"
+              keyPoints="0;0.6;0.6;1;1" keyTimes="0;0.3;0.7;0.85;1">
+              <mpath href="#lane1" />
+            </animateMotion>
+          </circle>
+          <circle r={6} className={s.dot}>
+            <animateMotion dur="6s" begin="0.8s" repeatCount="indefinite" calcMode="linear"
+              keyPoints="0;0.61;0.61;0.82;0.82;1;1" keyTimes="0;0.3;0.55;0.65;0.72;0.85;1">
+              <mpath href="#lane2" />
+            </animateMotion>
+          </circle>
+        </svg>
       </div>
-      <p className={s.caption}>
-        Blue is an agent working. Purple is my agent talking to <b>their</b> support bot. Amber is a gate only I could open.
-        Red is where the agent quit, until I told it to keep going. Click any step to stop on it.
-      </p>
-    </div>
+      <figcaption className={s.caption}>
+        One sentence, three agents. Amber locks are the only steps I did by hand. The red line is where the agent gave up, until I told it to keep looking.
+      </figcaption>
+    </figure>
   );
 }
